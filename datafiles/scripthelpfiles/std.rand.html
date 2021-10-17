@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>rand</h1>
+    
+<p>
+      Generates a uniformly distributed random numbers. Uses <i>std.runif</i> as its backend. <br>
+      If both <i>m</i> and <i>n</i> are provided returns a Matrix, otherwise returns a Vector.
+</p>
+    
+<h3>Syntax:</h3> 
+<p>rand(m,[n=])</p>
+<p>where both <i>m</i> and <i>n</i> must be of type integer.</p>
+
+<p>&nbsp;</p>
+
+<h3>Example:</h3>
+
+<div>
+      &gt;&gt;m=std.rand(2,2) <br>
+      &gt;&gt;m  <br>
+
+      <table cellpadding="10">
+            <tr>
+                  <td>0.68600</td>
+                  <td>0.73003</td>
+                  
+            </tr>
+            <tr>
+                  <td>0.54965</td>
+                  <td>0.59908</td>
+                 
+            </tr>
+      </table>
+      
+      <br>
+
+
+      &gt;&gt;v=std.rand(3) <br>
+      &gt;&gt;v <br>
+      0.515041 &nbsp;&nbsp;  0.802075 &nbsp;&nbsp;   0.272456 &nbsp;&nbsp;   COL
+</div>
+
+</body>
+
+</html>

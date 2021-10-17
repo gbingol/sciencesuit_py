@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+  
+<body>
+
+<h2>eval</h2>
+
+
+<p>Evaluates the polynomial.</p>
+
+<h3>Syntax</h3> 
+
+<p>
+    eval (param=) &rarr; type(param)
+</p>
+
+
+<p>
+    where parameter <em>param</em> can be real or complex number, 
+    Lua table (all entries must be valid real numbers) or Vector.
+</p>
+
+
+<p>&nbsp;</p>
+
+
+
+<p>    
+    &gt;&gt;p=std.Polynomial.new{1, 0, 2} <br>
+    &gt;&gt;p <br>
+    x^2 + 2 <br>
+
+    <br>
+
+    &gt;&gt;p:eval(3) <br>
+    11 <br>
+
+    <br>
+
+    &gt;&gt;p:eval{1, 2, 3} <br>
+    3 &emsp; 6 &emsp; 11 <br>
+
+    <br>
+
+    &gt;&gt;p:eval(std.util.tovector{1, 2, 3}) <br>
+    3 &emsp; 6 &emsp; 11 &emsp; COL <br>
+
+    <br>
+
+    &gt;&gt;p:eval(std.Complex.new(1,1)) <br>
+    2 + 2i
+</p>
+
+
+<p>&nbsp;</p>
+
+<p>
+    Please note that instead of p:eval(param), it is also possible to use p(param).
+</p>
+
+<p>
+    &gt;&gt;p(3) <br>
+    11 <br>
+
+    <br>
+
+    &gt;&gt;p{1, 2, 3} <br>
+    3 &emsp; 6 &emsp; 11 <br>
+
+    <br>
+
+    &gt;&gt;p(std.util.tovector{1, 2, 3}) <br>
+    3 &emsp; 6 &emsp; 11 &emsp; COL <br>
+
+    <br>
+
+    &gt;&gt;p(std.Complex.new(1,1)) <br>
+    2 + 2i
+</p>
+
+
+
+</body>
+
+</html>

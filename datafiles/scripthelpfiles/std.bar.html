@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+    <h1>bar</h1>
+
+    <p>
+    Plots a column chart.
+</p>
+
+<p>
+        bar{ 
+        <br />
+        
+        [x=],   <br />
+
+        <br />
+        
+        height=,   <br />
+
+        <br />
+        
+        [label=DefaultLabel],   <br />
+
+        <br />
+        
+        [type= "c"],   <br />
+
+        <br />
+
+
+        [title=""], <br />
+
+        <br />
+
+        [fill={color=DefaultColor, style=DefaultStyle}], <br />
+        <br />
+
+        [line={ color=DefaultColor, width=1, style=DefaultStyle}], <br />
+        <br />
+        
+        [hwnd=nil, <br />
+        <br />
+
+        } &rarr; window handle (light userdata)
+</p>
+
+<p>&nbsp;</p>
+
+
+
+<h3>Arguments:</h3>
+    
+    
+    
+<table border="1">
+    <tr>
+        <td>x :</td>
+        <td>
+            Category labels &larr; <em>Array</em>
+        </td>
+    </tr>
+    
+    <tr>
+        <td>height :</td>
+        <td>Numeric data &larr; <em>Array/Vector</em></td>
+    </tr>
+
+    <tr>
+        <td>label:</td>
+        <td>Name of the series &larr; <em>string</em></td>
+    </tr>
+    
+    <tr>
+        <td>type:</td>
+        <td>
+            Type of the series &larr; <em>string</em> <br>
+            "c", "s" and "%" for clustered, stacked and percent-stacked, respectively.
+        </td>
+    </tr>
+
+    <tr>
+        <td>title:</td>
+        <td>Title of the chart &larr; <em>string</em></td>
+    </tr>
+
+    <tr>
+        <td colspan="2">&nbsp;</td>
+    </tr>
+
+    
+    
+    <tr>
+        <td colspan="2">Fill Properties</td>
+    </tr>
+
+    <tr>
+        <td>color:</td>
+        <td>In the form of “R G B”  &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>style:</td>
+        <td>By default it is solid. &larr; integer</td>
+    </tr>
+
+
+    <tr>
+        <td  colspan="2">&nbsp;</td>
+    </tr>
+
+    <tr>
+        <td  colspan="2">Line Properties</td>
+    </tr>
+
+    <tr>
+        <td>width:</td>
+        <td>width of the line &larr; integer</td>
+    </tr>
+
+    <tr>
+        <td>color:</td>
+        <td>color of the line, in the form of "R G B" &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>style:</td>
+        <td>By default it is solid . &larr; integer</td>
+    </tr>
+    
+        <tr>
+        <td  colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+        <td>hwnd:</td>
+        <td>
+            The handle of a window. If nil 
+            then the chart is displayed on a new plot window &larr; Light userdata
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+    
+    
+
+
+
+
+
+
+<h3 >Clustered</h3> 
+
+<p>
+    Let's start with plotting only the variables <em>categories</em> and <em>A</em>.
+</p>
+
+<p>
+    &gt;&gt;std.bar{x=categories, height=A}
+</p>
+
+
+
+<p>&nbsp;</p>
+
+
+<p>
+    Now let's add two series using two commands.
+</p>
+
+<p>
+    &gt;&gt; hwnd = std.bar{x=categories, height=A} <br>
+    &gt;&gt; std.bar{height=B, hwnd=hwnd}
+</p>
+      
+</body>
+
+</html>

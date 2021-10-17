@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>pairs</h1>
+    
+<p>
+      If t has a metamethod <strong>__pairs</strong>, calls it with <i>t</i> as argument and returns the first three results from the call.<br>
+
+      Otherwise, returns three values: <br>
+      1) the <i>next</i> function, <br>
+      2) the table <i>t</i>, <br>
+      3) <font color="blue">nil</font>, <br>
+
+      <br>
+      
+      so that the construction: for i,v in ipairs(t) do body end <br>
+
+      will iterate over all key–value pairs of table <i>t</i>.
+</p>
+
+
+    
+<h2>Syntax:</h2> 
+<p>pairs(t)</p>
+
+<p>&nbsp;</p>
+
+<h2>Example:</h2>
+<p>
+      &gt;&gt;t={10, 20, 30} <br>
+
+      <br>
+
+      &gt;&gt;for k,v in pairs(t) do print(k,v) end <br>
+      1 &nbsp;&nbsp;	10	<br>
+      2 &nbsp;&nbsp;	20	<br>
+      3 &nbsp;&nbsp;	30	<br>
+
+      <br>
+
+      &gt;&gt;t={10, 20, <font color="red">nil</font>, 30} <br>
+
+      <br>
+
+      &gt;&gt;for k,v in pairs(t) do print(k,v) end <br>
+      1 &nbsp;&nbsp;	10	<br>
+      2 &nbsp;&nbsp;	20	<br>
+      4 &nbsp;&nbsp;	30	
+
+</p>
+
+</body>
+
+</html>

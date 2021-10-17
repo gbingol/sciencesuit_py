@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Food:k</h2>
+    
+<p>Calculates the thermal conductivity (W/mK) of the food material.</p>
+    
+<p><b>Syntax:</b></p> 
+<p>k(arg) &rarr; number</p>
+
+<h3>Notes:</h3>
+<ol>
+      <li>If arg is not provided, then predictive equations will be used.</li>
+      <li>If arg is a number, then k=num regardless of composition.</li>
+      <li>If arg is a function, then k=func(food)</li>
+</ol>
+
+
+
+
+<h3>Example:</h3>
+<p>
+      &gt;&gt;myfood=Food.new{Water=30, CHO=70} <br>
+      &gt;&gt;myfood:k() <br>
+      0.306101	<br>
+      
+      <br>
+      
+      &gt;&gt;myfood:k(0.20) <br>
+      &gt;&gt;myfood:k() <br>
+      0.2	
+</p>
+</body>
+
+</html>

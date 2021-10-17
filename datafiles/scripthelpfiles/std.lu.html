@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>lu</h1>
+    
+<p>
+      Finds LU decomposition of a given matrix.
+</p>
+    
+<h3>Syntax:</h3> 
+<p>lu(A, method=&quot;lu&quot;)</p>
+
+<p><strong>Arguments:</strong></p>
+
+<table border="1" cellspacing="0" cellpadding="5">
+      <tr>
+            <td>A:</td>  
+            <td>Square or rectangular matrix</td>
+      </tr>
+      <tr>
+            <td>method:</td> 
+            <td>
+                  &quot;<em>lup</em>&quot; returns l, u and permutation matrix. <br>
+                  &quot;<em>lupq</em>&quot; returns l, u and two permutation matrices.
+      </td>
+      </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Example:</h3>
+
+<div>
+      &gt;&gt;m=std.util.tomatrix{{10,	-7,	0}, {-3, 2, 6} , {5, -1, 5} } <br>
+      &gt;&gt;m  <br>
+
+      <table cellpadding="10">
+            <tr>
+                  <td>10</td>
+                  <td>-7</td>
+                  <td>0</td>
+            </tr>
+            <tr>
+                  <td>-3</td>
+                  <td>2</td>
+                  <td>6</td>
+            </tr>
+            <tr>
+                  <td>5</td>
+                  <td>-1</td>
+                  <td>5</td>
+            </tr>
+      </table>
+      
+      <br>
+
+
+      &gt;&gt;l,u=std.lu(m) <br>
+      &gt;&gt;l <br>
+      <table cellpadding="10">
+      <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+      </tr>
+      <tr>
+            <td>-0.3</td>
+            <td>-0.04</td>
+            <td>1</td>
+      </tr>
+      <tr>
+            <td>0.5</td>
+            <td>1</td>
+            <td>0</td>
+      </tr>
+      </table>
+
+      <br>
+
+      &gt;&gt;u  <br>
+      <table cellpadding="10">
+      <tr>
+            <td>10</td>
+            <td>-7&nbsp;</td>
+            <td>0</td>
+      </tr>
+      <tr>
+            <td>0</td>
+            <td>2.5</td>
+            <td>5</td>
+      </tr>
+      <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>6.2</td>
+      </tr>
+      </table>
+      
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>activeworksheet</h1>
+<p >Finds the currently active worksheet. </p>
+
+
+<h3> Syntax:</h3> 
+<p>activeworksheet()</p>
+
+<p>The active worksheet will change if the user switches to another worksheet or when a new worksheet is added.</p>
+
+<p>&nbsp;</p>
+
+
+<h3>Example:</h3>
+
+<p>
+      &gt;&gt;ws=std.activeworksheet() <br>
+      &gt;&gt;ws:name() <br>
+      Sheet 1 <br>
+
+      <br />
+
+      &gt;&gt;std.appendworksheet() <br>
+      &gt;&gt;std.activeworksheet():name() <br>
+      Sheet 2
+</p>
+
+
+
+</body>
+
+</html>

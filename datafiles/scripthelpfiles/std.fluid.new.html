@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+
+
+<h1>fluid.new</h1>
+<p>
+    Creates a new abstract fluid which can then be passed to other functions as parameter in the fluid library.
+</p>
+
+
+<h3>Syntax</h3>
+<p>
+      new(Name=, Type=) &rarr; table
+</p>
+
+<p>
+      where parameter <em>Name</em> must be the name of a fluid that exists in the datafiles/Fluids.db database, 
+      and parameter <em>Type</em> must be either "R" for refrigerants, or "H" for heat transfer.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+      &gt;&gt;fl = std.fluid.new("water", "R") <br>
+
+      <br>
+
+      &gt;&gt;type(fl) <br>
+      table <br>
+
+      <br>
+
+      &gt;&gt;fl <br>
+      SuperHeatedTable = SH_R718  <br>
+      OrderedTable = S_R718  <br>
+      Database = Database <br>
+      FluidName = water   <br>
+      Type = Fluid  <br>
+
+      <br>
+
+
+      &gt;&gt;fl.Database <br>
+      Connected to: C:\...\sciencesuit\64Bit\datafiles\Fluids.db
+</p>
+
+
+</body>
+
+</html>

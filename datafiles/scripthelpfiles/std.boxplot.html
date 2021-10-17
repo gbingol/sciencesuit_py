@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+      <h1>boxplot</h1>
+
+      <p>Used for plotting Box and Whisker Chart.</p>
+
+      <h3>Syntax:</h3>
+      <p>
+          
+          
+              boxplot{ 
+              <br />
+                ...  ,   <br />
+      
+              <br />
+      
+              [name=DefaultName], <br />
+      
+              <br />
+      
+              [title=""], <br />
+      
+              <br />
+      
+              [fill={color=DefaultColor, style=DefaultStyle}], <br />
+              <br />
+      
+              [line={ color=DefaultColor, width=1, style=DefaultStyle}], <br />
+              <br />
+              
+              [hwnd=nil, <br />
+              <br />
+      
+              } &rarr; window handle (light userdata)
+         
+      </p>
+      
+          <p>&nbsp;</p>
+          
+          
+          <p>
+              The functions returns the window handle of the plot window.
+          </p>
+      
+      
+          <p>&nbsp;</p>
+      
+          <p> 
+              <em>Note on Terminology:</em> 
+              The word Default in the arguments is used to denote that the so-called value is assigned/computed by the system until a new value is assigned.
+          </p>
+          
+      
+          <p>
+              &nbsp;</p>
+          <p>
+              
+              <strong>Arguments:</strong>
+          </p>
+          
+          
+          
+      <table>
+          <tr>
+              <td>... :</td>
+              <td>Any number of variable &larr; <em>Vector</em></td>
+          </tr>
+      
+          <tr>
+              <td>name:</td>
+              <td>Name of the series &larr; <em>string</em></td>
+          </tr>
+      
+          <tr>
+              <td>title:</td>
+              <td>Title of the chart &larr; <em>string</em></td>
+          </tr>
+      
+          <tr>
+              <td colspan="2">&nbsp;</td>
+          </tr>
+      
+          
+          
+          <tr>
+              <td colspan="2">Fill Properties</td>
+          </tr>
+      
+          <tr>
+              <td>color:</td>
+              <td>In the form of “R G B”  &larr; string</td>
+          </tr>
+      
+          <tr>
+              <td>style:</td>
+              <td>By default it is solid (=100) &larr; integer</td>
+          </tr>
+      
+      
+          <tr>
+              <td  colspan="2">&nbsp;</td>
+          </tr>
+      
+          <tr>
+              <td  colspan="2">Line Properties</td>
+          </tr>
+      
+          <tr>
+              <td>width:</td>
+              <td>width of the line &larr; integer</td>
+          </tr>
+      
+          <tr>
+              <td>color:</td>
+              <td>color of the line, in the form of "R G B" &larr; string</td>
+          </tr>
+      
+          <tr>
+              <td>style:</td>
+              <td>By default it is solid (=100). &larr; integer</td>
+          </tr>
+          
+           <tr>
+              <td  colspan="2">&nbsp;</td>
+          </tr>
+          <tr>
+              <td>hwnd:</td>
+              <td>The handle of a window. If nil then the chart is displayed on a new plot window &larr; Light userdata</td>
+          </tr>
+      </table>
+      
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Food:aw</h2>
+    
+<p>Calculates the water activity of the food material.</p>
+    
+<h3>Syntax:</h3> 
+<p>aw(arg) &rarr; number</p>
+<ol>
+      <li>If arg is not provided, then predictive equations will be used.</li>
+      <li>If arg is a number (0,1], then aw=num regardless of composition.</li>
+      <li>If arg is a function, then aw=func(food)</li>
+</ol>
+
+<p>
+      The following assumptions were made: <br>
+
+      1) %Water &lt; 0.00001 &rarr; aw=0.01 <br>
+      2) %Solute &lt;1 &rarr; aw=0.99 <br>
+
+      <br> <br>
+      For non-electrolyte solutions (% salt &lt; 0.00001): <br>
+      1) %water &gt; 99.0 &rarr; aw=0.98 <br>
+      2) %CHO>98 and all others &lt;1% &rarr; aw=0.70 <br>
+      3) %water (1,5) and %CHO &gt; 5 &rarr; aw=MoneyBorn equation <br>
+      4) %water &gt;5 and %CHO&gt;5 &rarr; aw=Norrish equation
+</p>
+
+<ol>
+      <li>MoneyBorn and Norrish equation: Fructose<sub>amount</sub> = CHO<sub>amount</sub>.</li>>
+      <li>Norrish equation: Glycerol<sub>amount</sub>=lipid<sub>amount</sub> and alanine<sub>amount</sub>=protein<sub>amount</sub></li>
+</ol>
+
+<h3>Example:</h3>
+<p>
+      &gt;&gt;milk=Food.new{water=88.13, protein=3.15, CHO=4.80, lipid=3.25, ash=0.67} <br>
+
+      <br>
+
+      &gt;&gt;milk:aw() <br>
+      0.92	
+</p>
+</body>
+
+</html>

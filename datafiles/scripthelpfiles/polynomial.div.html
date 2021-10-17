@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+  
+<body>
+
+<h2>div</h2>
+
+
+<p>Returns quotient and remainder.</p>
+
+<h3>Syntax</h3> 
+
+<p>
+    div(p=) &rarr; Polynomial , Polynomial
+</p>
+
+
+<p>
+    where parameter <em>p</em> is the divisor and returns quotient and remainder in the respective order.
+</p>
+
+
+<p>&nbsp;</p>
+
+
+
+<p>    
+    &gt;&gt;p1=std.Polynomial.new{1, 0, 2} <br>
+    &gt;&gt;p2=std.Polynomial.new{1, 2} <br>
+
+    <br>
+
+    &gt;&gt;p1 <br>
+    x^2 + 2 <br>
+
+    <br>
+
+    &gt;&gt;p2 <br>
+    x + 2 <br>
+
+    <br>
+    <br>
+
+    &gt;&gt;p1/p2 <br>
+    x - 2 <br>
+
+    <br>
+    <br>
+
+    &gt;&gt;p1:div(p2) <br>
+    x - 2 <br>
+    6
+</p>
+
+</body>
+
+</html>

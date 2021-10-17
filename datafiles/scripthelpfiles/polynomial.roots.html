@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+  
+<body>
+
+<h2>roots</h2>
+
+
+<p>Finds all the roots (real, complex).</p>
+
+<h3>Syntax</h3> 
+
+<p>
+    roots() &rarr; real number / Array
+</p>
+
+
+<p>&nbsp;</p>
+
+
+
+
+<h4 id="degree_1">n=1</h4>
+
+<p>
+    The return type will be a real number.
+</p>
+
+<p>
+    Working on the simple equation: 2x - 5 = 0
+</p>
+
+<p>
+    &gt;&gt;p=std.Polynom.new{2, -5} <br>
+    &gt;&gt;p:roots() <br>
+    2.5
+</p>
+
+
+
+
+<p>&nbsp;</p>
+
+
+
+
+
+<h4>n=2</h4>
+<p>
+    The return value will be an array containing real/complex numbers.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+    Polynom with real roots: 2x<sup>2</sup> - x - 10 = 0
+</p>
+
+<p>
+    &gt;&gt;p=std.Polynom.new{2, -1, -10} <br>
+    &gt;&gt;p:yroots() <br>
+    2.5 &emsp; -2
+</p>
+
+
+<p>&nbsp;</p>
+
+
+<p>
+    Polynom with complex roots: x<sup>2</sup> + 1 = 0
+</p>
+
+<p>
+    &gt;&gt;p=std.Polynom.new{1, 0, 1} <br>
+    &gt;&gt;p:roots() <br>
+    i &emsp;  -i   
+</p>
+
+
+
+
+
+<p>&nbsp;</p>
+
+
+
+
+
+
+<h4>n=3</h4>
+<p>
+    The return value will be an array containing real/complex numbers.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+    Polynom with real and complex roots: 2x<sup>3</sup> - 5x<sup>2</sup> + 2x - 5 = 0
+</p>
+
+<p>
+    &gt;&gt;p=std.Polynom.new{2, -5, 2, -5} <br>
+    &gt;&gt;p:roots() <br>
+    2.5 &emsp; i &emsp; -i
+</p>
+
+
+<p>&nbsp;</p>
+
+
+<p>
+    Polynom with only real roots: x<sup>3</sup> - 6x<sup>2</sup> + 11x - 6 = 0
+</p>
+
+<p>
+    &gt;&gt;p=std.Polynom.new{1, -6, 11, -6} <br>
+    &gt;&gt;p:roots() <br>
+    1 &emsp; 3 &emsp; 2   
+</p>
+
+
+
+
+
+
+<p>&nbsp;</p>
+
+
+
+
+
+<h4>n=4</h4>
+<p>
+    The return value will be an array containing complex numbers.
+</p>
+
+<p>&nbsp;</p>
+
+<p>
+    Polynom with only complex roots: x<sup>4</sup> + 1 = 0
+</p>
+
+<p>
+    &gt;&gt;p=std.Polynom.new{1, 0, 0, 0, 1} <br>
+    &gt;&gt;p:roots() <br>
+    -0.707107 + 0.707107i &emsp; -0.707107 - 0.707107i &emsp;  0.707107 + 0.707107i &emsp;  0.707107 - 0.707107i
+</p>
+
+
+<p>&nbsp;</p>
+
+<p>
+    Polynom with real and complex roots: 2x<sup>4</sup> + x<sup>2</sup> - 1 = 0
+</p>
+
+<p>
+    &gt;&gt;p=std.Polynom.new{2, 0, 1, 0, -1} <br>
+    &gt;&gt;p:roots() <br>
+    1.27202i &emsp;  - 1.27202i &emsp;  0.786151  &emsp; -0.786151  
+</p>
+
+
+
+
+</body>
+
+</html>

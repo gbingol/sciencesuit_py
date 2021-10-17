@@ -1,0 +1,78 @@
+
+<!DOCTYPE HTML>
+<html>
+
+
+<body>
+
+
+
+<h1>brentq</h1>
+
+<p>
+    Finds the root of an equation of form <em>f(x)=0</em>. 
+</p>
+
+
+
+<h3>Syntax</h3>
+<p>
+    
+    brentq{f=, a=, b=, tol=1E-5, maxiter=100} <br>
+    <br>
+    
+    brentq(f=, a=, b=)
+    
+</p>
+
+
+<p>
+    The function returns the <em>root,</em> and <em>number of iterations</em>.
+</p>
+
+
+<p>&nbsp;</p>
+
+
+
+<h3>Arguments</h3>
+<table border="1">
+    <tr>
+        <td>f:</td>
+        <td>A unary function  &larr; <em>function</em></td>
+    </tr>
+
+    <tr>
+        <td>a, b:</td>
+        <td>The interval where root lies in &larr; number</td>
+    </tr>
+    
+    <tr>
+        <td>tol:</td>
+        <td>tolerance for error &larr; <em>number</em></td>
+    </tr>
+    <tr>
+        <td>maxiter:</td>
+        <td>Maximum number of iterations &larr; <em>integer</em></td>
+    </tr>
+</table>
+
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+
+
+<p class="CodeCommand">
+    &gt;&gt;std.brentq{f=function(x) return x^2-5 end, a=0, b=4} <br>
+    2.23607 &emsp;  7	<br>	
+</p>
+
+
+
+
+</body>
+</html>

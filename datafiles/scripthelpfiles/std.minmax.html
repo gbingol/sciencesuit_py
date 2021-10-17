@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+ <h1 id="minmax">minmax</h1>
+    <p>Finds the minimum and maximum entries in an iteratable container.</p>
+    
+    <p class="funcsignature">
+        
+        minmax(container) &rarr; entry, entry <br>
+        
+        <br>
+        
+        minmax(Matrix, axes=) &rarr; Vector, Vector
+        
+    </p>
+    
+    
+    <p>&nbsp;</p>
+    
+    
+    
+    
+    <h3 id="vector_minmax">Vector</h3>
+    
+    
+    <p class="CodeCommand">
+        &gt;&gt;v=std.util.tovector{3, 5, 2, 1, 7, 4} <br />
+        &gt;&gt;v <br />
+        3&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; COL <br />
+        <br />
+        &gt;&gt;std.minmax(v) <br />
+        1 &nbsp;&nbsp;&nbsp;   7	
+    </p>
+    
+    
+    <p>&nbsp;</p>
+    
+    <h3 id="matrix_minmax">Matrix</h3>
+        
+    <p class="CodeCommand">
+        
+        
+        &gt;&gt;m  <br />
+        &nbsp;
+        2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; -1  <br />
+       -4&nbsp;&nbsp;&nbsp;&nbsp; -5&nbsp;&nbsp;&nbsp;&nbsp; 3 <br />
+        &nbsp;
+        2&nbsp;&nbsp;&nbsp; -5&nbsp;&nbsp;&nbsp; -4  <br />
+    
+        <br />
+    
+        &gt;&gt;std.minmax(m) <br />
+        -5	&nbsp;&nbsp;&nbsp;  4 <br>
+        
+        <br>
+        &gt;&gt;std.minmax(m, 0) <br />
+        -4  &nbsp;&nbsp;&nbsp; -5  &nbsp;&nbsp;&nbsp; -4  &nbsp;&nbsp;&nbsp; COL <br>
+        2  &nbsp;&nbsp;&nbsp; 4  &nbsp;&nbsp;&nbsp; 3  &nbsp;&nbsp;&nbsp; COL <br>
+        
+        <br>
+        
+        &gt;&gt;std.minmax(m, 1) <br>
+        -1  &nbsp;&nbsp;&nbsp; -5  &nbsp;&nbsp;&nbsp; -5 &nbsp;&nbsp;&nbsp;  COL <br>
+        4  &nbsp;&nbsp;&nbsp; 3  &nbsp;&nbsp;&nbsp; 2  &nbsp;&nbsp;&nbsp; COL <br>
+    
+    </p>
+    
+    
+    
+    <p>&nbsp;</p>
+    
+    <h3 id="container_minmax">General container</h3>
+    <p class="CodeCommand">
+        &gt;&gt;t={3, 5, 2, 1, 7, 4} <br />
+        &gt;&gt;std.minmax(t) <br />
+        1	<br />
+        7   <br />
+    
+        <br />
+        <br />
+    
+        &gt;&gt;t={a=3, b=5, c=2, d=1, e=7, f=4} <br />
+        &gt;&gt;std.minmax(t) <br />
+        1	<br />
+        7	
+    </p>
+
+</body>
+
+</html>

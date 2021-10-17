@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>sample</h1>
+
+<p>
+      Sampling from a set of numbers with or without replacement.
+</p>
+
+<h3>Syntax:</h3>
+<p>
+      sample(x=, size=, replace=false) &rarr; Vector <br>
+      sample{x=, size=, replace=false} &rarr; Vector
+</p>
+<h4>Arguments:</h4>
+<table border="1" cellspacing="3">
+      <tr>
+            <td>x:</td>
+            <td>Sample space &larr; Vector</td>
+      </tr>
+      <tr>
+            <td>size:</td>
+            <td>Number of samples to be drawn &larr;integer</td>
+      </tr>
+      <tr>
+            <td>replace:</td>
+            <td>Whether to allow to put the drawn samples back to sample space &larr; boolean</td>
+      </tr>
+</table>
+
+<p>&nbsp;</p>
+
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;SampleSpace=std.linspace{a=1, b=10, n=10} <br>
+    &gt;&gt;SampleSpace <br>
+    1 &nbsp;&nbsp;   2 &nbsp;&nbsp; 3 &nbsp;&nbsp; 4 &nbsp;&nbsp; 5 &nbsp;&nbsp; 6  &nbsp;&nbsp; 7  &nbsp;&nbsp; 8  &nbsp;&nbsp; 9 &nbsp;&nbsp; 10 &nbsp;&nbsp; COL <br>
+
+    <br>
+    
+    &gt;&gt;std.sample{x=SampleSpace, size=5, replace=false} <br>
+    8 &nbsp;&nbsp;  9 &nbsp;&nbsp;   10  &nbsp;&nbsp;  6 &nbsp;&nbsp;   4 &nbsp;&nbsp;   COL
+</p>
+
+</body>
+
+</html>

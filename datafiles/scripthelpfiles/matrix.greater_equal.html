@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+  
+<body>
+
+<h2>Matrix:greater_equal</h2>
+
+
+<p>
+    On each element, first performs an equality test and if it fails then checks whether the element is greater.  
+</p>
+
+<h3>Syntax</h3> 
+
+<p>greater_equal(arg, tol=1E-5)</p>
+
+<table border=1 cellspacing="0">
+
+    <tr>
+        <td><i>arg:</i></td>  
+        <td>A number or a matrix</td>
+    </tr>
+    <tr>
+        <td><i>tol:</i></td>  
+        <td>tolerance level. Default is 1E-5.</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;m=std.util.tomatrix{ {1, 2, 3} , {1.1, 2.1, 3.1} , {7, 8, 9} }<br>
+    &gt;&gt;m<br>
+    1&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 3<br>
+    1.1&nbsp;&nbsp;&nbsp; 2.1&nbsp;&nbsp;&nbsp; 3.1<br>
+    7&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp; 9<br>
+    
+    <br>
+    
+    &gt;&gt;m:greater_equal(2) <br>
+    0&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 1<br>
+    0&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 1<br>
+    1&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 1<br>
+    
+</p>
+
+</body>
+
+</html>

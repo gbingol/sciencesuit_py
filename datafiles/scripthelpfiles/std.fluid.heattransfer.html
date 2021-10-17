@@ -1,0 +1,169 @@
+
+<!DOCTYPE HTML>
+<html>
+
+
+<body>
+
+
+
+
+<h1>fluid.heattransfer</h1>
+<p>Computes <em>heat transfer</em> properties of fluids.</p>
+
+
+<h3>Syntax</h3>
+<p>
+    heattransfer(FluidName=, PropertyTable) &rarr; table<br>
+
+    <br>
+
+    heattransfer(fluid=, PropertyTable) &rarr; table
+</p>
+
+
+<h4>Parameters:</h4>
+<table border="1">
+    <tr>
+        <td>FluidName:</td>
+        <td>Name of the fluid either ASHRAE or IUPAC &larr; string</td>
+    </tr>
+    <tr>
+        <td>PropertyTable</td>
+        <td>Requested properties  &larr; Lua Table</td>
+    </tr>
+    
+    <tr>
+        <td>fluid:</td>
+        <td>
+            An abstract fluid object.
+        </td>
+    </tr> 
+</table>
+
+
+<p>&nbsp;</p>
+
+
+
+
+<h4>Properties table</h4>
+<table border="1">
+    <tr>
+        <td>Lua Table Key</td>
+        <td>Meaning</td>
+        <td>Units</td>
+    </tr>
+
+    <tr>
+        <td>T</td>
+        <td>Temperature</td>
+        <td>&deg;C</td>
+    </tr>
+    <tr>
+        <td>cp</td>
+        <td>Specific heat capacity</td>
+        <td>kJ/kgK</td>
+    </tr>
+    <tr>
+        <td>k</td>
+        <td>Thermal conductivity</td>
+        <td>W/mK</td>
+    </tr>
+    <tr>
+        <td>rho</td>
+        <td>Density</td>
+        <td>kg/m<sup>3</sup></td>
+    </tr>
+    <tr>
+        <td>mu</td>
+        <td>Viscosity</td>
+        <td>Pa &middot; s</td>
+    </tr>
+    <tr>
+        <td>Pr</td>
+        <td>Prandtl numbe</td>
+        <td>N/A</td>
+    </tr>
+</table>
+
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+<h2 id="Examples">Examples</h2>
+
+<h3 id="temperature">Temperature</h3>
+<p class="CodeCommand">
+    &gt;&gt;std.fluid.heattransfer("water", {T=20}) <br>
+    cp=4.182 &emsp;  Pr=7.01 &emsp;  mu=0.001002 &emsp;  rho=998.21 &emsp;  T=20  &emsp; k=0.598
+</p>
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+
+<h3 id="rho">Density</h3>
+<p class="CodeCommand">
+    &gt;&gt;std.fluid.heattransfer("water", {rho=995}) <br>
+    cp=4.178 &emsp;  Pr=5.18327 &emsp;  mu=0.000766704  &emsp; rho=995 &emsp;  T=32.0062 &emsp;  k=0.61821
+</p>
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+
+<h3 id="cp">Specific Heat Capacity</h3>
+<p class="CodeCommand">
+    &gt;&gt;std.fluid.heattransfer("air", {cp=1.2}) <br>
+    cp=1.2 &emsp;  Pr=0.705 &emsp;  mu=4.97235e-05 &emsp;  rho=0.267312 &emsp;  T=1044.5 &emsp;  k=0.0846529
+</p>
+
+
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+
+<h3 id="rho">Density</h3>
+<p class="CodeCommand">
+    &gt;&gt;std.fluid.heattransfer("water", {rho=995}) <br>
+    cp=4.178 &emsp;  Pr=5.18327 &emsp;  mu=0.000766704  &emsp; rho=995 &emsp;  T=32.0062 &emsp;  k=0.61821
+</p>
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+
+
+
+<h3 id="rangeerror">Possible Range Errors</h3>
+<p class="CodeCommand">
+    &gt;&gt;std.fluid.heattransfer("water", {k=5}) <br>
+    Valid range: [0.427, 0.684] <br>
+
+    <br>
+
+    &gt;&gt;std.fluid.heattransfer("air", {k=5}) <br>
+    Valid range: [0.009246, 0.175]
+</p>
+
+
+</body>
+
+</html>

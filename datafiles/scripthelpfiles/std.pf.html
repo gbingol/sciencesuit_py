@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>pf</h1>
+
+<p>
+    Computes the cumulative (left-tailed) probability . <br>
+    Returns number/Vector/Array.
+</p>
+
+<p><b> Syntax:</b></p> 
+<p><b>1)</b> pf{q=, df1=, df2=}</p>
+<p><b>2)</b> pf(q=, df1=, df2=)</p>
+
+
+<p>&nbsp;</p>
+
+<table border="1" cellspacing="0">
+    <tr>
+        <td><i>q:</i></td>  
+        <td>Quantile &larr; number/Vector/Array</td>
+    </tr>
+
+    <tr>
+        <td><i>df1, df2:</i></td>  
+        <td>Degrees of freedom &larr; integer</td>
+    </tr>
+    
+</table>
+    
+
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;std.pf{q=1, df1=3, df2=5} <br>
+    0.535145 <br>
+
+    <br>
+
+    &gt;&gt;std.pf{q=2, df1=3, df2=5} <br>
+    0.767376
+
+</p>
+
+</body>
+
+</html>

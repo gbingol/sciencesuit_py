@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>sum</h1>
+
+<p>
+      Sums up addable entries in an iteratable container.
+</p>
+
+
+<h3>Syntax:</h3>
+<p>sum(container=) &rarr; entry</p>
+
+<p>returns sum of elements of type <em>entry</em> in the <em>container.</em></p>
+<p>&nbsp;</p>
+
+
+<h3>Example:</h3>
+
+<p>
+      &gt;&gt;t={3, 5, 2, 1, 7, 4} <br />
+      
+      &nbsp;<br />
+      &gt;&gt;std.sum(t) <br />
+      22	<br />
+
+      <br />
+      <br />
+      
+      &gt;&gt;v=std.util.tovector(t) <br />
+      &gt;&gt;v <br />
+      3&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; COL <br />
+      <br />
+      &gt;&gt;std.sum(v) <br />
+      22	<br />
+
+      <br />
+      <br />
+
+      &gt;&gt;m=std.util.tomatrix{ {1, 2} , {3, 4} } <br />
+      &gt;&gt;m  <br />
+      1&nbsp;&nbsp;&nbsp; 2   <br />
+      3&nbsp;&nbsp;&nbsp; 4   <br />
+
+      <br />
+
+      &gt;&gt;std.sum(m) <br />
+      10	
+
+</p>
+
+      
+</body>
+
+</html>

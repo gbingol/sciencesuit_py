@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+    <h1 id="min">min</h1>
+    <p>Uses minmax to find the minimum of an iteratable container.</p>
+    <p>
+        
+        min(container) &rarr; entry <br>
+    
+        <br>
+    
+        min(Matrix, axes=) &rarr; Vector
+        
+    </p>
+    
+    <p class="CodeCommand">
+        &gt;&gt;v=std.util.tovector{3, 5, 2, 1, 7, 4} <br />
+        &gt;&gt;v <br />
+        3&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; COL <br />
+        <br />
+        &gt;&gt;std.min(v) <br />
+        1	<br />
+    
+        <br />
+        <br />
+    
+        &gt;&gt;m  <br />
+        &nbsp;
+        2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; -1  <br />
+       -4&nbsp;&nbsp;&nbsp;&nbsp; -5&nbsp;&nbsp;&nbsp;&nbsp; 3 <br />
+        &nbsp;
+        2&nbsp;&nbsp;&nbsp; -5&nbsp;&nbsp;&nbsp; -4  <br />
+    
+        <br />
+    
+        &gt;&gt;std.min(m) <br />
+        -5	<br>
+        
+        <br>
+        &gt;&gt;std.min(m, 0) <br />
+        -4  &nbsp;&nbsp;&nbsp; -5  &nbsp;&nbsp;&nbsp; -4  &nbsp;&nbsp;&nbsp; COL <br>
+        
+        <br>
+        
+        &gt;&gt;std.min(m, 1) <br>
+        -1  &nbsp;&nbsp;&nbsp; -5  &nbsp;&nbsp;&nbsp; -5 &nbsp;&nbsp;&nbsp;  COL <br>
+        
+    
+    </p>
+    
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>trapz</h1>
+<p>Integration of a 1D function or a set of discreet data using trapezoidal algorithm.</p>
+
+
+<h3>Syntax:</h3>
+<p>
+      <em>
+            trapz(vec_x=, vec_y=) &rarr; number<br>
+            <br />
+            trapz(f=, a=, b=) &rarr; number<br>
+            <br />
+            trapz{f= , a= , b= , inter=100 } &rarr; number
+      </em>
+</p>
+
+<p>&nbsp;</p>
+<h3>Arguments:</h3>
+<table>
+      <tr>
+      <td><em>f</em></td>
+      <td>A unary function, <em>f(x)</em></td>
+      </tr>
+      <tr>
+      <td><em>a,b:</em></td>
+      <td>Limits of the integral</td>
+      </tr>
+      <tr>
+      <td><em>inter:</em></td>
+      <td>Number of intervals in the limits [a,b]. Default value is 100</td>
+      </tr>
+      <tr>
+      <td><em>vec_x, vec_y:</em></td>
+      <td>Vectors</td>
+      </tr>
+</table>
+      
+
+<p>&nbsp;</p>
+
+
+<h3>Examples:</h3>
+
+
+<p>
+      &gt;&gt;x=std.linspace(0, 3) <br />
+      &gt;&gt;y=x^2 <br />
+      <br />
+      &gt;&gt;std.trapz(x, y) <br />
+      9.00046
+</p> 
+
+
+<p>&nbsp;</p>
+
+<p>Using a function:</p>
+<p>
+      &gt;&gt;std.trapz(function(x) return x^2 end, 0, 3) <br />
+      9.00045 
+</p>
+
+
+</body>
+
+</html>

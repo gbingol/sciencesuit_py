@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+
+<body>
+
+
+
+<h1>fluid.range</h1>
+<p>
+    Returns the [min, max] range of the particular property of a fluid.
+</p>
+
+
+<h3>Syntax</h3>
+
+<p>
+      range(Fluid=, TableName=, PropertyName=) &rarr; table
+</p>
+
+<p>
+      where parameter <em>Fluid</em> is the abstract fluid object, <em>TableName</em> is 
+      the name of the table where the property resides in and <em>PropertyName</em> is the 
+      name of the property that is being queried.
+</p>
+
+
+<p>&nbsp;</p>
+
+
+<p>
+      &gt;&gt;fl=std.fluid.new("water", "R") <br>
+
+      <br>
+
+      &gt;&gt;std.fluid.range(fl, fl.OrderedTable, "P") <br>
+      0.6113 &emsp; 22090 <br>
+
+      <br>
+
+      &gt;&gt;std.fluid.range(fl, fl.OrderedTable, "vg") <br>
+      0.003155 &emsp;   206.14 <br>
+
+      <br>
+
+      &gt;&gt;std.fluid.range(fl, fl.SuperHeatedTable, "P") <br>
+      10 &emsp;  60000
+</p>
+
+
+
+</body>
+
+</html>

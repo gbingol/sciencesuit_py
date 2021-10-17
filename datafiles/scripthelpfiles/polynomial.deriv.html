@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+  
+<body>
+
+<h2>deriv</h2>
+
+
+<p>  Returns the m<sup>th</sup> order derivative. </p>
+
+<h3>Syntax</h3> 
+
+<p>
+    deriv(m=1) &rarr; Polynomial
+</p>
+
+
+
+<p>&nbsp;</p>
+
+
+
+<p>    
+    &gt;&gt;p=std.Polynomial.new{1, 2, 3, 4} <br>
+    &gt;&gt;p <br>
+    x^3 + 2x^2 + 3x + 4 <br>
+
+    <br>
+
+    &gt;&gt;p:deriv() <br>
+    3x^2 + 4x + 3 <br>
+
+    <br>
+
+    &gt;&gt;p:deriv(2) <br>
+    6x + 4 <br>
+
+    <br>
+
+    &gt;&gt;p:deriv(3) <br>
+    6 <br>
+
+    <br>
+
+    &gt;&gt;p:deriv(4) <br>
+    0 <br>
+
+    <br>
+
+    &gt;&gt;p:deriv(5) <br>
+    0
+</p>
+
+</body>
+
+</html>

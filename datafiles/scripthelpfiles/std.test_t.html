@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>test_t</h1>
+
+<p>Performs 1-sample, 2-sample and paired t-test. Returns p-value and a Lua table.</p>
+
+
+<h3>Syntax:</h3>
+<p><em>test_t{x=, [y=], varequal=true, alternative="two.sided", mu=0, conflevel=0.95, paired=false}</em> </p>
+
+<p>&nbsp;</p>
+
+
+<h3>Arguments:</h3>
+<table>
+      <tr>
+            <td><em>x:</em></td>
+            <td>First sample &larr; <em>Vector/Array</em></td>
+      </tr>
+      <tr>
+            <td><em>y:</em></td>
+            <td>Second sample &larr; <em>Vector/Array</em></td>
+      </tr>
+      <tr>
+            <td><em>varequal:</em></td>
+            <td>Assuming equal variances &larr; <em>boolean</em></td>
+      </tr>
+      <tr>
+            <td><em>alternative:</em></td>
+            <td>"two.sided", "less", "greater", &larr; string</td>
+      </tr>
+      <tr>
+            <td><em>mu:</em></td>
+            <td>Assumed difference between samples or assumed mean &larr; <em>number</em></td>
+      </tr>
+      <tr>
+            <td><em>conflevel:</em></td>
+            <td>Confidence level, [0,1] &larr; <em>number</em></td>
+      </tr>
+      <tr>
+            <td><em>paired:</em></td>
+            <td>For paired t-test &larr; <em>boolean</em></td>
+      </tr>
+</table>
+
+
+<h3>Possible Usage:</h3>
+
+<p>
+     <em>1-sample t-test:</em> <br>
+     test_t{x=, mu=, alternative="two.sided", conflevel=0.95}
+</p>
+<p>
+      <em>2-sample t-test:</em> <br>
+      test_t{x=, y=, varequal=true, alternative="two.sided", mu=0, conflevel=0.95}
+</p>
+
+<p>
+      <em>paired t-test:</em> <br>
+      test_t{x=, y=, alternative="two.sided", mu=0, conflevel=0.95, paired=true}
+</p>
+
+  
+
+</body>
+
+</html>

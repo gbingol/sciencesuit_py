@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>polyfit</h1>
+
+<p>
+      Performs n<sup>th</sup> degree polynomial (a<sub>n</sub>x<sup>n</sup> + a<sub>n-1</sub>x<sup>n-1</sup> +..+ a<sub>0</sub>) <br>
+      curve fitting on a given dataset.
+</p>
+
+<h3>Syntax:</h3>
+<p>
+      polyfit(x=,y=,n=, [intercept=]) &rarr; Polynomial <br>
+      polyfit{x=,y=,n=, [intercept=]} &rarr; Polynomial
+</p>
+
+<p>
+      where <em>x</em> and <em>y</em> are Vectors and <em>n</em> is the degree of the polynomial.
+</p>
+
+<p>&nbsp;</p>
+
+<p><b>Examples:</b></p>
+<table border="1" cellspacing="0">
+<tr>
+      <td><b>x</b></td>
+      <td><b>y</b></td>
+</tr>
+<tr>
+      <td>0</td> <td>4</td>
+</tr>
+
+<tr>
+      <td>1</td> <td>10</td>
+</tr>
+<tr>
+      <td>2</td> <td>26</td>
+</tr>
+<tr>
+      <td>3</td> <td>58</td>
+</tr>
+<tr>
+      <td>4</td> <td>112</td>
+</tr>
+<tr>
+      <td>5</td> <td>194</td>
+</tr>
+</table>
+      
+          <p>&nbsp;</p>
+      
+      
+<p>
+      &gt;&gt;poly=std.polyfit(x, y, 3) <br>
+      &gt;&gt;coef <br>
+      x<sup>3</sup> + 2x<sup>2</sup> + 3x + 4
+</p>
+
+</body>
+
+</html>

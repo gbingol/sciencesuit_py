@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>newton</h1>
+
+<p>
+    Finds the root of an equation of form f(x)=0. <br>
+    Returns root, error and number of iterations.
+</p>
+
+<h3>Syntax:</h3>
+<p><b>1)</b> newton{f=, x0=, fprime=, x1=nil, tol=1E-5, maxiter=100}</p>
+
+<p><b>2)</b> newton(f=, x0=, fprime=)</p>
+
+<p><b>3)</b> newton(f=, x0=, x1=)</p>
+
+
+<p>&nbsp;</p>
+
+<table border="1" cellspacing="0">
+    <tr>
+        <td><i>f:</i></td>  <td>A unary function &larr; function</td>
+    </tr>
+
+    <tr>
+        <td><i>fprime:</i></td>  <td>A unary function (derivative of f) &larr; function</td>
+    </tr>
+
+    <tr>
+        <td><i>x0, x1:</i></td>  <td>Initial guesses &larr; number</td>
+    </tr>
+
+    <tr>
+        <td><i>tol:</i></td>  <td>Minimum tolerance for error &larr; number</td>
+    </tr>
+    
+    <tr>
+        <td><i>maxiter:</i></td>  <td>Maximum allowed number of iterations &larr; integer</td>
+    </tr>
+    
+</table>
+
+<h3>Notes:</h3>
+<ol>
+    <li>If the derivative of the function, fprime, is provided, then Newton-Raphson method is selected.</li>
+    <li>If fprime is not provided, then x1 must be provided and then the Secant method is selected.</li>
+</ol>
+    
+<h3>Example:</h3>
+<p>&gt;&gt;std.newton{f=function (x) return x^2-5 end, x0=1, fprime=function(x) return 2*x end} <br>
+    2.23607  &nbsp;&nbsp;&nbsp;  --root <br>
+    9.18143e-07 &nbsp;&nbsp;&nbsp; --error <br>
+    5 &nbsp;&nbsp;&nbsp;  --number of iterations <br>
+
+    <br> <br>
+
+    &gt;&gt;std.newton{f=function (x) return x^2-5 end, x0=1, x1=3} <br>
+    2.23607 &nbsp;&nbsp; 7.4651e-09  &nbsp;&nbsp;  7
+
+</p>
+
+
+</body>
+
+</html>

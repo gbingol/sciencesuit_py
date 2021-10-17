@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>simpson</h1>
+
+<p>
+    Computes the integration of a 1D function using Simpson's rule.
+</p>
+
+<h3>Syntax:</h3>
+<p>
+    simpson(f=, a=, b=) &rarr; number <br>
+    simpson{f= , a= , b= , inter= 100} &rarr; number
+</p>
+<h4>Arguments:</h4>
+<table border="1" cellspacing="3" collapse>
+    <tr>
+        <td><i>f:</i></td>  
+        <td>A unary function, f(x)</td>
+    </tr>
+
+    <tr>
+        <td><i>a, b:</i></td>  
+        <td>Limits of the integral</td>
+    </tr>
+    <tr>
+        <td>inter:</td>
+        <td>Number of intervals in the limits [a,b]</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;std.simpson(<font color="blue">function</font>(x) <font color="blue">return</font> x^2 <font color="blue">end</font>, 0, 3) <br>
+    9 <br>
+
+    <br>
+
+    &gt;&gt;std.simpson{f=<font color="blue">function</font>(x) <font color="blue">return</font> x^2 <font color="blue">end</font>, a=0, b=3, inter=20} <br>
+    9
+
+</p>
+
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+
+<!DOCTYPE HTML>
+<html>
+
+<body>
+
+ 
+
+<h1>muller</h1>
+<p>
+    Finds the root of an equation of form <em>f(x)=0</em>. 
+</p>
+
+
+<h3>Syntax</h3>
+<p>
+    
+    muller{f=, x0=, [h=0.5], [tol=1E-5], [maxiter=100]} &rarr; Complex / real, integer <br>
+    <br>
+    
+    muller{f=, x0=, x1=, x2=, [tol=1E-5], [maxiter=100]}  &rarr; Complex / real, integer<br>
+    
+    <br>
+    
+    muller(f=, x0=) &rarr; Complex / real, integer
+    
+</p>
+
+
+<p>
+    returns the <em>root</em> and<em> the number of iterations</em>.
+</p>
+
+
+<p>&nbsp;</p>
+
+
+
+<h3>Arguments:</h3>
+<table border="1">
+    <tr>
+        <td>f:</td>
+        <td>A unary function  &larr; <em>function</em></td>
+    </tr>
+    
+    <tr>
+        <td>x0, x1, x2:</td>
+        <td>Initial guesses &larr; <em>real / Complex number</em></td>
+    </tr>
+   
+    <tr>
+        <td>h:</td>
+        <td>Step length &larr; <em>real / Complex number</em></td>
+    </tr>
+
+    <tr>
+        <td>tol:</td>
+        <td>tolerance for error &larr; <em> real number</em></td>
+    </tr>
+    <tr>
+        <td>maxiter:</td>
+        <td>Max number of iterations &larr; <em>integer</em></td>
+    </tr>
+</table>
+
+
+
+
+<p>&nbsp;</p>
+
+
+<h3>Example:</h3>
+<p>
+    2x<sup>3</sup> - 5x<sup>2</sup> + 2x - 5 = 0, has both 
+    real and complex roots
+</p>
+
+<p>
+    function f(x) <br>
+    &emsp; return 2*x^3 - 5*x^2 + 2*x -5 <br>
+    end <br>
+
+    <br>
+    
+    &gt;&gt;std.muller{f=f, x0=2} <br>
+    2.50001 &emsp; 3 <br>
+
+    <br>
+
+    &gt;&gt;std.muller{f=f, x0=-1} <br>
+    i &emsp; 5 <br>
+
+    <br>
+
+    &gt;&gt;std.muller{f=f, x0=std.Complex.new(0,-2)} <br>
+    -i &emsp;  2
+</p>
+
+
+</body>
+</html>

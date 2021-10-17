@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<RIBBON>
+	<PAGE TITLE="Apps">
+		<BUTTON NAME="psychrometry" TITLE="Psychrometry">
+			<FUNCTION>std.app.Psychrometry</FUNCTION>
+			<IMAGE>apps/images/psychrometry.bmp</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="fooddatabase" TITLE="Food Database">
+			<FUNCTION>std.app.FoodDatabase</FUNCTION>
+			<IMAGE>apps/images/fooddatabase.jpg</IMAGE>
+		</BUTTON>
+		<BUTTON NAME="foodthermalproc" TITLE="Thermal Processing">
+			<FUNCTION>std.app.FoodThermalProcessing</FUNCTION>
+			<IMAGE>apps/images/thermalprocessing.jpg</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="fluidproperties" TITLE="Properties of Fluids">
+			<FUNCTION>std.app.FluidProperties</FUNCTION>
+			<IMAGE>apps/images/fluid.bmp</IMAGE>
+		</BUTTON>
+		
+		
+		<PANEL TITLE="Process Engineering">
+			<ADD>fooddatabase</ADD>
+			<ADD>foodthermalproc</ADD>
+			<ADD>psychrometry</ADD>
+			<ADD>fluidproperties</ADD>
+		</PANEL>
+		
+		
+	
+		<BUTTON NAME="sort" TITLE="Sort">
+			<FUNCTION>std.app.RangeSorter</FUNCTION>
+			<IMAGE>apps/images/sort.jpg</IMAGE>
+		</BUTTON>
+
+		<BUTTON NAME="descriptivestat" TITLE="Descriptive Statistics">
+			<FUNCTION>std.app.DescriptiveStat</FUNCTION>
+			<IMAGE>apps/images/descriptivestat.jpg</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="ttest1sample" TITLE="1 sample t-test">
+			<FUNCTION>std.app.TTest1Sample</FUNCTION>
+			<IMAGE>apps/images/t_test1sample.png</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="ttest2sample" TITLE="2 sample t-test">
+			<FUNCTION>std.app.TTest2Sample</FUNCTION>
+			<IMAGE>apps/images/t_test2sample.png</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="ttestpaired" TITLE="Paired t-test">
+			<FUNCTION>std.app.TTestPaired</FUNCTION>
+			<IMAGE>apps/images/t_testpaired.png</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="test_z" TITLE="Z-test">
+			<FUNCTION>std.app.test_z</FUNCTION>
+			<IMAGE>apps/images/test_z.png</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="test_f" TITLE="F-test">
+			<FUNCTION>std.app.test_f</FUNCTION>
+			<IMAGE>apps/images/test_f.png</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="anova_singlefactor" TITLE="Single factor">
+			<FUNCTION>std.app.ANOVASingleFactor</FUNCTION>
+			<IMAGE>apps/images/anovasinglefactor.png</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="anova_twofactor" TITLE="Two factor">
+			<FUNCTION>std.app.ANOVATwoFactor</FUNCTION>
+			<IMAGE>apps/images/anova2factor.png</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="regression_linear" TITLE="Linear Regression">
+			<FUNCTION>std.app.LinearRegression</FUNCTION>
+			<IMAGE>apps/images/regression.png</IMAGE>
+		</BUTTON>
+		
+		<BUTTON NAME="test_sign" TITLE="Sign Test">
+			<FUNCTION>std.app.SignTest</FUNCTION>
+			<IMAGE>apps/images/test_sign.png</IMAGE>
+		</BUTTON>
+		
+		
+		
+		
+		<DROPBUTTON NAME="exploration" TITLE="Exploration">
+			<IMAGE>apps/images/exploration.jpg</IMAGE>
+			<ADD>descriptivestat</ADD>
+		</DROPBUTTON>
+		
+		<DROPBUTTON NAME="ttest" TITLE="t-test">
+			<IMAGE>apps/images/t_test.png</IMAGE>
+			<ADD>ttest1sample</ADD>
+			<ADD>ttest2sample</ADD>
+			<ADD>ttestpaired</ADD>
+		</DROPBUTTON>
+		
+		<DROPBUTTON NAME="anova" TITLE="ANOVA">
+			<IMAGE>apps/images/anova.png</IMAGE>
+			<ADD>anova_singlefactor</ADD>
+			<ADD>anova_twofactor</ADD>
+		</DROPBUTTON>
+		
+		<DROPBUTTON NAME="regression" TITLE="Regression">
+			<IMAGE>apps/images/regression.png</IMAGE>
+			<ADD>regression_linear</ADD>
+		</DROPBUTTON>
+		
+		<PANEL TITLE="Statistics">
+			<ADD>sort</ADD>
+			<ADD>exploration</ADD>
+			<ADD>ttest</ADD>
+			<ADD>test_f</ADD>
+			<ADD>test_z</ADD>
+			<ADD>test_sign</ADD>
+			<ADD>anova</ADD>
+			<ADD>regression</ADD>
+		</PANEL>
+	</PAGE>
+</RIBBON>

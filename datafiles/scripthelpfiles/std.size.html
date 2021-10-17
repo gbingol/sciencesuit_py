@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>size</h1>
+
+<p>
+    Finds the size of the given container.
+</p>
+
+<h3>Syntax:</h3>
+<p>
+    size(container) &rarr; integer(s)
+</p>
+<h4>Containers:</h4>
+<table border="1" cellspacing="3" collapse>
+    <tr>
+        <td><i>Matrix, Range, Worksheet:</i></td>  
+        <td>Number of rows and columns</td>
+    </tr>
+
+    <tr>
+        <td><i>Vector:</i></td>  
+        <td>Length</td>
+    </tr>
+    <tr>
+        <td>Workbook:</td>
+        <td>Number of Worksheets</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;std.size(std.activeworkbook()) <br>
+    2 <br>
+
+    <br>
+    
+    &gt;&gt;range=Range.new(std.activeworkbook(), "Sheet 1!A1:B5") <br>
+    &gt;&gt;std.size(range) <br>
+    5 &nbsp;&nbsp; 2 <br>
+
+    <br>
+    
+    &gt;&gt;m=std.rand(3, 4) <br>
+    &gt;&gt;std.size(m) <br>
+    3 &nbsp;&nbsp; 4 <br>
+
+    <br>
+    
+    &gt;&gt;v=std.rand(4) <br>
+    &gt;&gt;std.size(v) <br>
+    4
+
+</p>
+
+</body>
+
+</html>

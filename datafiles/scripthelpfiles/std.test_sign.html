@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>test_sign</h1>
+
+<p>
+1-sample nonparametric test to test if the null hypothesis of a median of a distribution is equal to some specific value or not.
+</p>
+
+
+<h3>Syntax:</h3>
+<p>test_sign{x=, y=nil, md=, alternative="two.sided", conflevel=0.95}</p>
+
+<p>
+returns p-value and a table containing confidence intervals and extra information.
+</p>
+
+<h3>Arguments:</h3>
+<table>
+      <tr>
+      <td>x:</td>
+      <td>Sample &rarr; Vector</td>
+      </tr>
+
+      <tr>
+      <td>y:</td>
+      <td>Second sample &rarr; Vector</td>
+      </tr>
+
+      <tr>
+      <td>md:</td>
+      <td>Median of the population tested by the null hypothesis &rarr; number</td>
+      </tr>
+
+      <tr>
+      <td>alternative:</td>
+      <td>"two.sided", "less", "greater" &rarr; string</td>
+      </tr>
+
+      <tr>
+      <td>conflevel:</td>
+      <td>Confidence level, [0,1] &rarr; number</td>
+      </tr>
+</table>
+
+<p>
+      <em>Note:</em> If argument <em>y</em> is provided, then function performs 
+      the test by assuming <em>x</em> and <em>y</em> are paired data.
+</p>
+
+
+<p>&nbsp;</p>
+<h3>Example</h3>
+
+<p>
+      &gt;&gt;v=std.util.tovector{4.8, 4.0, 3.8, 4.3, 3.9, 4.6, 3.1, 3.7} <br />
+
+      <br />
+
+      &gt;&gt;p, tbl=std.test_sign{x=v, md=3.55}  <br />
+
+            <br />
+
+      &gt;&gt;p  <br />
+      0.0703125	 <br />
+      &gt;&gt;tbl <br />
+      lower=table&nbsp;&nbsp;&nbsp; interpolated=table&nbsp;&nbsp;&nbsp; upper=table&nbsp;&nbsp;&nbsp; ngreater=7&nbsp;&nbsp;&nbsp; nequal=0  <br />
+
+            <br />
+
+      &gt;&gt;tbl.interpolated <br />
+      CILow=3.505&nbsp;&nbsp;&nbsp; CIHigh=4.665&nbsp;&nbsp;&nbsp; prob=0.95
+</p>
+
+</body>
+
+</html>

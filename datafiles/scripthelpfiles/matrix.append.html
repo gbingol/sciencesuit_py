@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+  
+<body>
+
+<h2>Matrix:append</h2>
+
+
+<p>Appends a vector or a Lua table to the matrix</p>
+
+<h3>Syntax</h3> 
+
+<p>append (elem=, align=)</p>
+
+<p>&nbsp;</p>
+
+<table border=1 cellspacing="0">
+
+    <tr>
+        <td><i>elem:</i></td>  
+        <td>either a Vector or a Lua table</td>
+    </tr>
+    <tr>
+        <td><i>align:</i></td>  
+        <td>append <i>elem</i> as "row" or "col"</td>
+    </tr>
+</table>
+    
+
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;m=std.util.tomatrix{ {1,2} , {3, 4} } <br>
+
+    <br>
+
+    &gt;&gt;m:append( {10, 20}, "row")  <br>
+    &gt;&gt;m
+</p>
+<table cellspacing="5" >
+
+    <tr align="right">
+        <td >1</td>  
+        <td>2</td>
+    </tr>
+    <tr align="right">
+        <td>3</td>  
+        <td>4</td>
+    </tr>
+    <tr align="right">
+        <td>10</td>  
+        <td>20</td>
+    </tr>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>qpois</h1>
+
+<p>
+    Computes the lower tail quantile (inverse of ppois). <br>
+    The function always rounds up the result. <br> <br>
+    Returns number/Vector/Array.
+</p>
+
+<p><b> Syntax:</b></p> 
+<p><b>1)</b> qpois{p=, lambda=}</p>
+<p><b>2)</b> qpois(p=, lambda=)</p>
+
+
+<p>&nbsp;</p>
+
+<table border="1" cellspacing="0">
+    <tr>
+        <td><i>p:</i></td>  
+        <td>Cumulative probability &larr; number/Vector/Array</td>
+    </tr>
+
+    <tr>
+        <td><i>lambda:</i></td>  
+        <td>The average number of events per interval (event rate) &larr; number</td>
+    </tr>
+    
+</table>
+   
+
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;std.ppois{q=1, lambda=3} <br>
+    0.199148 <br>
+
+    <br>
+    
+    &gt;&gt;std.qpois{p=0.20, lambda=3} -- slightly greater than 0.199 <br>
+    2
+</p>
+
+</body>
+
+</html>

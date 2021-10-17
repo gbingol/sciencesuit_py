@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+  
+<body>
+
+<h2>integ</h2>
+
+
+<p>Returns the m<sup>th</sup> order integral.</p>
+
+<h3>Syntax</h3> 
+
+<p>
+    integ([m=1], [k=0.0, ...]) &rarr; Polynomial <br>
+
+    <br>
+
+    integ{[m=1], [k=0.0, ...]} &rarr; Polynomial <br>
+</p>
+
+
+<p>
+    where parameter <em>m</em> is the order of integration 
+    and <em>k</em> is the integration constant(s) which is/are by default 0.0. <br>
+
+    <br>
+
+    Parameter <em>k</em> can be real number, Lua table (all entries real numbers) or a
+    Vector. When provided if the order of integration and the number of integration constants 
+    does not match, constants are padded with zeros.
+</p>
+
+
+<p>&nbsp;</p>
+
+
+
+<p>    
+    &gt;&gt;p=std.Polynomial.new{1, 0, 2} <br>
+    &gt;&gt;p <br>
+    x^2 + 2 <br>
+
+    <br>
+
+    &gt;&gt;p:integ() <br>
+    0.333333x^3 + 2x <br>
+
+    <br>
+
+    &gt;&gt;p:integ(1, 5) <br>
+    0.333333x^3 + 2x + 5 <br>
+
+    <br>
+
+
+    &gt;&gt;p:integ(2) <br>
+    0.0833333x^4 + x^2 <br>
+
+    <br>
+
+    
+    &gt;&gt;p:integ(2, {3, 5}) <br>
+    0.0833333x^4 + x^2 + 3x + 5 <br>
+
+    <br>
+
+    
+    &gt;&gt;p:integ(2, {3}) <br>
+    0.0833333x^4 + x^2 + 3x
+</p>
+
+
+<p>&nbsp;</p>
+
+
+<p>
+    It is also possible to work with named arguments:
+</p>
+
+<p>
+    &gt;&gt;p:integ{} <br>
+    0.333333x^3 + 2x <br>
+
+    <br>
+
+    &gt;&gt;p:integ{m=1, k=5} <br>
+    0.333333x^3 + 2x + 5 <br>
+
+    <br>
+
+    &gt;&gt;p:integ{m=2} <br>
+    0.0833333x^4 + x^2 <br>
+
+    <br>
+
+    &gt;&gt;p:integ{m=2, k={3, 5} } <br>
+    0.0833333x^4 + x^2 + 3x + 5 <br>
+
+    <br>
+
+    &gt;&gt;p:integ{m=2, k={3} } <br>
+    0.0833333x^4 + x^2 + 3x
+</p>
+
+
+
+</body>
+
+</html>

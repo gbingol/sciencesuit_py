@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Food:normalize</h2>
+    
+<p>Only sets the weight to 1.0. </p>
+
+<h3>Note:</h3>
+
+    
+<p><b>Syntax:</b></p> 
+<p>normalize()</p>
+
+
+<h3>Example:</h3>
+<p>
+      &gt;&gt;milk=Food.new{water=88.13, protein=3.15, CHO=4.80, lipid=3.25, ash=0.67} <br>
+      &gt;&gt;water=Food.new{water=100} <br>
+
+      <br>
+      
+      &gt;&gt;powder=milk-0.87*water <br>
+      &gt;&gt;powder <br>
+      Weight (unit weight)=0.13
+</p>
+
+<p>
+      This is a rather important function as the food material that is a result of an <br>
+      addition or a subtraction operation can have a weight different than 1.0. <br>
+      <br>
+      For example: if you were to use the variable powder as is in another mathematical operation, <br>
+      its weight would have been considered as <b>0.13 units</b>.
+</p>
+</body>
+
+</html>

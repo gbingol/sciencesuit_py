@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>qf</h1>
+
+<p>
+    Computes the lower tail quantile. <br>
+    Returns number/Vector/Array.
+</p>
+
+<h3> Syntax:</h3> 
+<p><b>1)</b> qf{p=, df1=, df2=}</p>
+<p><b>2)</b> qf(p=, df1=, df2=)</p>
+
+
+<p>&nbsp;</p>
+
+<table border="1" cellspacing="0">
+    <tr>
+        <td><i>p:</i></td>  
+        <td>Cumulative probability &larr; number/Vector/Array</td>
+    </tr>
+
+    <tr>
+        <td><i>df1, df2:</i></td>  
+        <td>Degrees of freedoms &larr; integer</td>
+    </tr>
+    
+</table>
+    
+
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;std.<b>p</b>f{q=1, df1=3, df2=5} <br>
+    0.535145 <br>
+
+    <br>
+    
+    &gt;&gt;std.<b>q</b>f{p=0.535145, df1=3, df2=5} <br>
+    0.999999
+</p>
+
+</body>
+
+</html>

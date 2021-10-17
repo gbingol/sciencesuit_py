@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h1>scatter</h1>
+
+<p>Used for plotting scatter family charts.</p>
+
+
+<h3>Syntax:</h3>
+<p>
+        scatter{ <br />
+        <br />
+        x=, y=, <br />
+
+        <br />
+
+        [name=DefaultName], <br />
+
+        <br />
+        
+
+        [title=""], <br />
+
+        <br />
+
+        [xlab=""], <br />
+
+        <br />
+
+        [ylab=""], <br />
+
+        <br />
+
+        [marker={type="c", size=4,  fill=DefaultColor, linewidth=1, linecolor=DefaultColor}], <br />
+        <br />
+
+        [line={ color=DefaultColor, width=1, style="solid", smooth=false}], <br />
+        <br />
+
+        [trendline={ type="linear", degree=2, intercept=AutoCompute, name=DefaultName, color=DefaultColor, width=1, style="dash"}] <br />
+        <br />
+        
+        [hwnd=nil], <br />
+        <br />
+        
+        } &rarr; window handle (light userdata)
+    
+</p>
+
+    <p> &nbsp;</p>
+   
+    
+    <p>
+        <em><strong>Arguments:</strong></em>
+    </p>
+
+<table>
+    <tr>
+        <td>x, y:</td>
+        <td>x- and y-data &larr; <em>Vector</em></td>
+    </tr>
+
+    <tr>
+        <td>name:</td>
+        <td>Name of the series &larr; <em>string</em></td>
+    </tr>
+
+    <tr>
+        <td>title:</td>
+        <td>Title of the chart &larr; <em>string</em></td>
+    </tr>
+
+    <tr>
+        <td>xlab:</td>
+        <td>Label of x-axis &larr; <em>string</em></td>
+    </tr>
+
+    <tr>
+        <td>ylab:</td>
+        <td>Label of y-axis &larr; <em>string</em></td>
+    </tr>
+
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+
+    <tr>
+        <td >Marker Properties</td>
+    </tr>
+
+    <tr>
+        <td>type:</td>
+        <td>"<em>c</em>", "<em>t</em>" or "<em>s</em>" for circle, triangle or square, respectively &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>size:</td>
+        <td>size of the marker &larr; integer</td>
+    </tr>
+
+    <tr>
+        <td>fill:</td>
+        <td>fill color, in the form of “R G B”  &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>linewidth:</td>
+        <td>width of the line forming the boundary of the marker &larr; integer</td>
+    </tr>
+
+    <tr>
+        <td>linecolor:</td>
+        <td>color of the line, in the form of “R G B”, forming the boundary &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+
+    <tr>
+        <td>Line Properties</td>
+    </tr>
+
+    <tr>
+        <td>width:</td>
+        <td>width of the line &larr; integer</td>
+    </tr>
+
+    <tr>
+        <td>color:</td>
+        <td>color of the line, in the form of "R G B" &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>style:</td>
+        <td>"<em>solid</em>", "<em>dash</em>" or "<em>dot</em>" &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>smooth:</td>
+        <td>Spline algorithm is applied to smooth the line &larr; boolean</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>Trendline Properties</td>
+    </tr>
+    <tr>
+        <td>type:</td>
+        <td>
+            "<em>exp</em>", "<em>linear</em>", "<em>log</em>", "<em>poly</em>" and "<em>pow</em>" for exponential, linear, logarithmic, polynomial and power fitting, respectively. &larr; string
+        </td>
+    </tr>
+    <tr>
+        <td>degree:</td>
+        <td>If type="poly", then the degree of the polynomial &larr; integer</td>
+    </tr>
+    <tr>
+        <td>intercept:</td>
+        <td>The desired intercept of the trendline &larr; number</td>
+    </tr>
+    <tr>
+        <td>color:</td>
+        <td>color of the trendline, in the form of "R G B" &larr; string</td>
+    </tr>
+    <tr>
+        <td>width:</td>
+        <td>width of the trendline &larr; integer</td>
+    </tr>
+    <tr>
+        <td>style:</td>
+        <td>"<em>solid</em>", "<em>dash</em>" or "<em>dot</em>" &larr; string</td>
+    </tr>
+    
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td>hwnd:</td>
+        <td>The handle of a window. If nil then the chart is displayed on a new plot window &larr; Light userdata</td>
+    </tr>
+</table>
+
+</body>
+
+</html>

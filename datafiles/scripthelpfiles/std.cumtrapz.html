@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>cumtrapz</h1>
+
+<p>
+    Computes the left-tailed cumulative area and returns a column Vector. <br>
+    Returns Vector/Array.
+</p>
+
+
+
+<h3> Syntax:</h3> 
+<p><b>1)</b> cumtrapz(f=, v1=) &rarr; Vector/Array</p>
+<p><b>2)</b> cumtrapz(v1=,v2=) &rarr; Vector/Array</p>
+<p><b>3)</b> cumtrapz{f=, a=, b=, inter=10} &rarr; Vector</p>
+
+
+<table border="1" cellspacing="0" cellpadding="5">
+    <tr>
+        <td><i>f:</i></td>  <td>A unary function &larr; function</td>
+    </tr>
+
+    <tr>
+        <td><i>a,b:</i></td>  <td>Limits of the integral &larr; number</td>
+    </tr>
+
+    <tr>
+        <td><i>inter:</i></td>  <td>Number of <i>intervals</i> in the limits [a,b]. Default value is 10 &larr; integer</td>
+    </tr>
+
+    <tr>
+        <td><i>v1, v2:</i></td>  <td>Vector/Array, values on x- and y-axis, respectively.</td>
+    </tr>
+    
+</table>
+    
+
+<p>&nbsp;</p>
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;std.cumtrapz{f=function(x) return x^2 end, a=1, b=5, inter=4} <br>
+    0 &nbsp;&nbsp; 2.5 &nbsp;&nbsp; 9 &nbsp;&nbsp; 21.5 &nbsp;&nbsp; 42 &nbsp;&nbsp; COL
+</p>
+
+</body>
+
+</html>

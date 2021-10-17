@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<body>
+    
+<h1>histogram</h1>
+
+<p>
+    Plots quantile-quantile chart using two datasets.
+</p>
+
+<h3> Syntax:</h3> 
+
+<<p class="funcsignature">
+    histogram{ 
+        <br />
+    <span class="tablekey">[1]</span>=  ,   <br />
+
+    <br />
+
+    [<span class="tablekey">mode</span>="f"], <br />
+
+    <br />
+
+    [<span class="tablekey">cumulative</span>=<span class="LuaKeyword">false</span>], <br />
+
+    <br />
+
+    [<span class="tablekey">breaks</span> = DefaultValue], <br />
+
+    <br />
+
+    [<span class="tablekey">title</span>=""], <br />
+
+    <br />
+
+    [<span class="tablekey">fill</span>={color=DefaultColor, style=DefaultStyle}], <br />
+    <br />
+
+    [<span class="tablekey">line</span>={ color=DefaultColor, width=1, style=DefaultStyle}], <br />
+    <br />
+    
+    [<span class="tablekey">hwnd</span>=<span class="LuaKeyword">nil</span>], <br />
+    <br />
+
+    } &rarr; window handle (light userdata)
+</p>
+
+
+<p>&nbsp;</p>
+
+
+<table border="1" cellspacing="0">
+    <tr>
+        <td>[1]= :</td>
+        <td>A variable &larr; <em>Vector/Array</em></td>
+    </tr>
+
+    <tr>
+        <td>mode :</td>
+        <td>"d", "f" or "r" for density, frequency and relative frequency, respectively.</td>
+    </tr>
+
+    <tr>
+        <td>cumulative :</td>
+        <td>whether distribution is cumulative or not &larr; <em>boolean</em></td>
+    </tr>
+
+    <tr>
+        <td>breaks :</td>
+        <td>Number of breaks or the break points &larr; <em>integer/Vector</em></td>
+    </tr>
+
+    <tr>
+        <td>title:</td>
+        <td>Title of the chart &larr; <em>string</em></td>
+    </tr>
+
+    <tr>
+        <td colspan="2">&nbsp;</td>
+    </tr>
+
+    
+    
+    <tr>
+        <td colspan="2">Fill Properties</td>
+    </tr>
+
+    <tr>
+        <td>color:</td>
+        <td>In the form of “R G B”  &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>style:</td>
+        <td>By default it is solid (=100). &larr; integer</td>
+    </tr>
+
+
+    <tr>
+        <td  colspan="2">&nbsp;</td>
+    </tr>
+
+    <tr>
+        <td  colspan="2">Line Properties</td>
+    </tr>
+
+    <tr>
+        <td>width:</td>
+        <td>width of the line &larr; integer</td>
+    </tr>
+
+    <tr>
+        <td>color:</td>
+        <td>color of the line, in the form of "R G B" &larr; string</td>
+    </tr>
+
+    <tr>
+        <td>style:</td>
+        <td>By default it is solid (=100). &larr; integer</td>
+    </tr>
+    
+     <tr>
+        <td  colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+        <td>hwnd:</td>
+        <td>The handle of a window. If <span class="LuaKeyword">nil</span> 
+            then the chart is displayed on a new plot window &larr; Light userdata
+        </td>
+    </tr>
+</table>
+    
+
+<p>&nbsp;</p>
+
+<h2>Example</h2>
+
+<p>
+    &gt;&gt;std.histogram{x, mode="r", cumulative=<span class="LuaKeyword">true</span>}
+</p>
+
+
+</body>
+
+</html>

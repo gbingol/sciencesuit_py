@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+  
+<body>
+
+<h2>Matrix:insert</h2>
+
+
+<p>Inserts a vector or a Lua table to the matrix.</p>
+
+<h3>Syntax</h3> 
+
+<p>insert (elem=, pos=, align=)</p>
+
+<p>&nbsp;</p>
+
+<table border=1 cellspacing="0">
+
+    <tr>
+        <td><i>elem:</i></td>  
+        <td>either a Vector or a Lua table</td>
+    </tr>
+    <tr>
+        <td><i>pos:</i></td>  
+        <td>A valid position starting from 1</td>
+    </tr>
+    <tr>
+        <td><i>align:</i></td>  
+        <td>append <i>elem</i> as "row" or "col"</td>
+    </tr>
+</table>
+    
+
+
+<h3>Example:</h3>
+<p>
+    &gt;&gt;m=std.util.tomatrix{ {1,2,3} , {4,5,6} , {7,8,9} } <br>
+
+    <br>
+
+    &gt;&gt;m:insert( {10,20,30}, 2, "col")  <br>
+    &gt;&gt;m
+</p>
+<table cellspacing="5" >
+
+    <tr align="right">
+        <td >1</td> 
+        <td>10</td> 
+        <td>2</td>
+        <td>3</td>
+    </tr>
+    <tr align="right">
+        <td >4</td> 
+        <td>20</td> 
+        <td>5</td>
+        <td>6</td>
+    </tr>
+    <tr align="right">
+        <td >7</td> 
+        <td>30</td> 
+        <td>8</td>
+        <td>9</td>
+    </tr>
+</table>
+
+</body>
+
+</html>

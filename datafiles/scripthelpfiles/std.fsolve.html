@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+
+<body>
+
+
+<h1>fsolve</h1>
+<p>
+    Solves system of non-linear equations using Newton-Raphson approach.
+</p>
+
+<h3>Syntax</h3>
+<p>  
+    fsolve(Functions, initialValues) &rarr; table
+</p>
+
+<p>
+    returns the solution vector as Lua table.
+</p>
+
+
+<p>&nbsp;</p>
+
+
+<h3>Parameters</h3>
+<table border="1">
+    <tr>
+        <td>Functions</td>
+        <td>A table of functions where each function takes a table as its parameter</td>
+    </tr>
+    
+    <tr>
+        <td>InitialValues</td>
+        <td>A table of values for the initial estimate of the roots.</td>
+    </tr>
+</table>
+
+
+
+
+<p>&nbsp;</p>
+
+<p>
+    Let's work on the following set of functions:<br>
+    x<sup>2</sup> + y<sup>2</sup> = 5 <br>
+    x<sup>2</sup> - y<sup>2</sup> = 1
+</p>
+
+
+<p>&nbsp;</p>
+
+
+<div>
+    function f1(t) <br>
+    &emsp;return t[1]^2 + t[2]^2 -5 <br>
+        
+    end<br>
+    
+    <br>
+
+     function f2(t) <br>
+    &emsp;return t[1]^2 - t[2]^2 -1 <br>
+        
+    end<br>
+    
+    <br>
+    
+    &gt;&gt;roots, iter=std.fsolve( {f1, f2}, {1, 1} ) <br>
+    
+    &gt;&gt;roots <br>
+    1.73205 &emsp; 1.41421 <br>
+    
+    <br>
+    
+    &gt;&gt;iter <br>
+    5 <br>    
+</div>
+
+
+
+</body>
+
+</html>
