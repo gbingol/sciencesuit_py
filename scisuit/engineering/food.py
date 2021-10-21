@@ -400,7 +400,7 @@ class Food:
 
 	#Not implemented, however needed for Food safety ops and the thermal processing app
 	def ph(self, func=None)->float:
-	
+        """returns pH, notice that this will always return 6.0 unless a function provided"""
 		if(func==None):
 			return self.m_ph
 			
