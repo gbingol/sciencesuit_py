@@ -10,7 +10,7 @@ def muller(f:callable, x0, h=None, x1=None, x2=None, tol=1E-5, maxiter=100):
     
     """
     #In all cases f and x0 must be provided
-    if(not isinstance(f, callable)):
+    if(not isinstance(f, Callable)):
         raise TypeError("f must be callable")
     
     if(not (isinstance(x0, complex) or isinstance(x0, numbers.Number))):
