@@ -1,3 +1,5 @@
+import math
+
 from .mathfuncs import Copy_CallObjectMethod
 
 
@@ -42,11 +44,11 @@ def log(entry, base):
 
 
 def ln(entry):     
-      return Copy_CallObjectMethod(entry, "ln")
+      return Copy_CallObjectMethod(entry, "log", math.exp(1.0))
 
 
 def log10(entry):     
-      return Copy_CallObjectMethod(entry, "log10")
+      return Copy_CallObjectMethod(entry, "log", 10.0)
 
 
 def pow(entry, exponent):     
