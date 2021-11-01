@@ -1,11 +1,21 @@
 from scisuit.core import Vector, Matrix
 
+import numbers
+
 def cumsum(entry, axis=None):
+      """
+      Find the cumulative sum for list/Matrix/Vector <br>
+
+      list: all entries must be real numbers (int/float) <br>
+      Matrix: axis=0 or 1, for row or column
+      """
       if(isinstance(entry, list)):
             retList=[]
             sum=0
 
             for i in entry:
+                  if(isinstance(i, numbers.Number)==False):
+                        raise ValueError("list entries must be real numbers")
                   sum += i
                   retList.append(sum)
             

@@ -1,5 +1,7 @@
 import math
 
+from SCISUITSYSTEM import Array, Matrix, Polynomial, Vector
+
 from .mathfuncs import Copy_CallObjectMethod
 
 from .cumsum import cumsum
