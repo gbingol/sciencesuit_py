@@ -2,6 +2,8 @@ import math
 
 from .mathfuncs import Copy_CallObjectMethod
 
+from .cumsum import cumsum
+
 
 def abs(entry):     
       return Copy_CallObjectMethod(entry, "abs")
