@@ -8,6 +8,7 @@ from .cumsum import cumsum
 
 from .minmax import minmax
 
+from .sum import sum
 
 def abs(entry):     
       return Copy_CallObjectMethod(entry, "abs")
