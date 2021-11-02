@@ -6,6 +6,8 @@ from .mathfuncs import Copy_CallObjectMethod
 
 from .cumsum import cumsum
 
+from .minmax import minmax
+
 
 def abs(entry):     
       return Copy_CallObjectMethod(entry, "abs")

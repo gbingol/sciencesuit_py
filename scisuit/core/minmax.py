@@ -2,37 +2,32 @@ from scisuit.core import Vector, Matrix
 
 import numbers
 
-def cumsum(entry, axis=None):
+def minmax(entry, axis=None):
       """
-      Find the cumulative sum for list/Matrix/Vector <br>
+      Find the min and max elements <br>
 
       list: all entries must be real numbers (int/float) <br>
       Matrix: axis=0 or 1, for row or column
       """
       if(isinstance(entry, list)):
-            retList=[]
-            sum=0
+            Min = Max = entry[0]
 
             for i in entry:
                   if(isinstance(i, numbers.Real)==False):
                         raise ValueError("list entries must be real numbers")
-                  sum += i
-                  retList.append(sum)
+                  Min = Min if Min<i else i
+                  Max = Max if Max>i else i
+                  
             
-            return retList
+            return Min, Max
       
       elif(isinstance(entry, Vector)):
-            retVec=entry.copy()
-            retVec.cumsum()
-
-            return retVec
+            return entry.minmax()
 
       elif(isinstance(entry, Matrix)):
-            retMat=entry.copy()
-
+            
             if(axis==None):
-                  retMat.cumsum()
-                  return retMat
+                  return entry.minmax()
 
             if(isinstance(axis, int)==False):
                   raise TypeError("axis must be of type int")
@@ -40,7 +35,4 @@ def cumsum(entry, axis=None):
             if(not(axis==0 or axis==1)):
                   raise ValueError("axis must be either 0 or 1")
 
-            retMat=entry.copy()
-            retMat.cumsum(axis)
-
-            return retMat
+            return entry.minmax(axis)
