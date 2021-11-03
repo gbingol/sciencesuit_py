@@ -1,3 +1,4 @@
 from __SCISUIT import STATS as stat
 
 dbinom = stat.dbinom
+pbinom = stat.pbinom
