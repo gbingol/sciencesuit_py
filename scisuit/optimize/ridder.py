@@ -1,4 +1,4 @@
-import SCISUITSYSTEM
+from __SCISUIT import ridder as __ridder
 
 import numbers
 from typing import Callable
@@ -29,4 +29,4 @@ def ridder(f:callable, a:float, b:float, tol=1E-5, maxiter:int=100 ):
             raise TypeError("maxiter must be an integer")
 
 
-      return SCISUITSYSTEM.ridder(f, a, b, tol, maxiter)
+      return __ridder(f, a, b, tol, maxiter)

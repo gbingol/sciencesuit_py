@@ -1,4 +1,6 @@
-import SCISUITSYSTEM
+from __SCISUIT import cumtrapz as __cumtrapz
+
+from scisuit.core import Vector
 
 import numbers
 from typing import Callable
@@ -19,7 +21,7 @@ def cumtrapz_d(y, x):
 
 
       if(IsYOK and IsXOK):    
-            return SCISUITSYSTEM.cumtrapz(x,y)
+            return __cumtrapz(x,y)
       else:
             raise TypeError("x and y must be of type list/Vector")
 
@@ -37,12 +39,12 @@ def cumtrapz(f:callable, a=None, b=None, nodes=None, inter=10):
             IsNodesOK = isinstance(nodes, list) or isinstance(nodes, Vector)
 
             if(IsNodesOK):
-                  return SCISUITSYSTEM.cumtrapz(f, nodes)
+                  return __cumtrapz(f, nodes)
             
             IsOK = isinstance(a,numbers.Number) and isinstance(b, numbers.Number) and isinstance(inter, int)
 
             if(IsOK):
-                  return SCISUITSYSTEM.cumtrapz(f, a, b, inter)
+                  return __cumtrapz(f, a, b, inter)
 
       raise TypeError("Unexpected combination of types.\n"
                   "(f:callable, nodes:list/vector) \n"

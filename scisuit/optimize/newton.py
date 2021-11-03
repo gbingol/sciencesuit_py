@@ -1,4 +1,5 @@
-import SCISUITSYSTEM
+from __SCISUIT import secant as __secant
+from __SCISUIT import newtonraphson as __newtonraphson
 
 import numbers
 import types
@@ -31,7 +32,7 @@ def secant(f:callable, x0:float, x1:float, tol=1E-5, maxiter:int=100 ):
             raise TypeError("maxiter must be a positive integer")
 
 
-      return SCISUITSYSTEM.secant(f, x0, x1, tol, maxiter)
+      return __secant(f, x0, x1, tol, maxiter)
 
 
 
@@ -63,7 +64,7 @@ def newtonraphson(f:callable, x0:float, fprime:callable, tol=1E-5, maxiter:int=1
             raise TypeError("maxiter must be a positive integer")
             
       
-      return SCISUITSYSTEM.newtonraphson(f, x0, fprime, tol, maxiter)
+      return __newtonraphson(f, x0, fprime, tol, maxiter)
 
 
 

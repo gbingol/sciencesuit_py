@@ -1,4 +1,4 @@
-import SCISUITSYSTEM
+from __SCISUIT import brentq as __brentq
 
 import numbers
 from typing import Callable
@@ -31,4 +31,4 @@ def brentq(f:callable, a:float, b:float, tol=1E-5, maxiter:int=100 ):
             raise TypeError("maxiter must be an integer")
 
 
-      return SCISUITSYSTEM.brentq(f, a, b, tol, maxiter)
+      return __brentq(f, a, b, tol, maxiter)

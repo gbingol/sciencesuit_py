@@ -1,4 +1,4 @@
-import SCISUITSYSTEM
+from __SCISUIT import simpson as __simpson
 
 import numbers
 from typing import Callable
@@ -23,4 +23,4 @@ def simpson(f:Callable, a:float, b:float, inter=100)->float:
       if(not isinstance(inter, int)):
             raise TypeError("inter must be an integer")
 
-      return SCISUITSYSTEM.simpson(f, a, b, 100)
+      return __simpson(f, a, b, 100)

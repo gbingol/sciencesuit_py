@@ -1,5 +1,7 @@
 import cmath
-import SCISUITSYSTEM
+
+from __SCISUIT import muller_x012 as __muller_x012
+from __SCISUIT import muller_x0 as __muller_x0
 
 import numbers
 from typing import Callable
@@ -34,7 +36,7 @@ def muller(f:callable, x0, h=None, x1=None, x2=None, tol=1E-5, maxiter=100):
         if(h!=None):
             Warning("if x1 and x2 are provided, h will not be taken into account")
         
-        return SCISUITSYSTEM.muller_x012(f, x0, x1, x2, tol, maxiter)
+        return __muller_x012(f, x0, x1, x2, tol, maxiter)
 
 
     if(h==None):
@@ -46,6 +48,6 @@ def muller(f:callable, x0, h=None, x1=None, x2=None, tol=1E-5, maxiter=100):
     if(x1!=None or x2!=None):
         Warning("When (x1 or x2) and h is defined, h will be taken into account")
 
-    return SCISUITSYSTEM.muller_x0(f, x0, h, tol, maxiter)
+    return __muller_x0(f, x0, h, tol, maxiter)
 
     

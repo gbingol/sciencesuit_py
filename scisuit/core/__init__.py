@@ -1,6 +1,34 @@
 import math
 
-from SCISUITSYSTEM import Array, Matrix, Polynomial, Vector
+from __SCISUIT import CORE as __scicore
+
+Array = __scicore.Array
+Matrix = __scicore.Matrix
+Polynomial = __scicore.Polynomial 
+Vector = __scicore.Vector
+
+arange =  __scicore.arange
+det = __scicore.det
+diag = __scicore.diag
+diff = __scicore.diff
+eig = __scicore.eig
+eigvals = __scicore.eigvals
+expfit = __scicore.expfit
+eye = __scicore.eye
+inv = __scicore.inv
+linspace = __scicore.linspace
+logfit = __scicore.logfit
+lu = __scicore.lu
+meshgrid = __scicore.meshgrid
+null = __scicore.null
+polyfit = __scicore.polyfit
+powfit = __scicore.powfit
+qr = __scicore.qr
+rank = __scicore.rank
+svd = __scicore.svd
+trans = __scicore.trans
+
+
 
 from .mathfuncs import Copy_CallObjectMethod
 

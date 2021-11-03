@@ -1,5 +1,5 @@
 
-import SCISUITSYSTEM
+import __SCISUIT as SCI
 
 
 
@@ -25,7 +25,7 @@ class psychrometry:
             """
             returns PsychrometryResult class
             """
-            res = SCISUITSYSTEM.psychrometry(**self.m_Params)
+            res = SCI.psychrometry(**self.m_Params)
            
             return self.PsychrometryResult(res)
 

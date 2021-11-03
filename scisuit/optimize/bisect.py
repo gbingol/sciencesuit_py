@@ -1,4 +1,4 @@
-import SCISUITSYSTEM
+from __SCISUIT import bisect as __bisect
 
 import numbers
 from typing import Callable
@@ -37,4 +37,4 @@ def bisect(f:callable, a:float, b:float, tol=1E-5, maxiter:int=100 , method:str=
             raise TypeError("modified must be bool, True for modified regula falsi")
 
 
-      return SCISUITSYSTEM.bisect(f, a, b, tol, maxiter, method, modified)
+      return __bisect(f, a, b, tol, maxiter, method, modified)
