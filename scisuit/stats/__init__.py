@@ -24,6 +24,8 @@ rf = stat.rf
 #normal dist
 dnorm = stat.dnorm
 pnorm = stat.pnorm
+qnorm = stat.qnorm
+rnorm = stat.rnorm
 
 
 from .mean import mean
