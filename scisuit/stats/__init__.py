@@ -28,4 +28,11 @@ qnorm = stat.qnorm
 rnorm = stat.rnorm
 
 
+#Poisson dist
+dpois = stat.dpois
+ppois = stat.ppois
+qpois = stat.qpois
+rpois = stat.rpois
+
+
 from .mean import mean
