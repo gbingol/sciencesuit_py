@@ -6,17 +6,24 @@ pbinom = stat.pbinom
 qbinom = stat.qbinom
 rbinom = stat.rbinom
 
+
 #chisq
 dchisq = stat.dchisq
 pchisq = stat.pchisq
 qchisq = stat.qchisq
 rchisq = stat.rchisq
 
+
 #F-dist
 df = stat.df
 pf = stat.pf
 qf = stat.qf
 rf = stat.rf
+
+
+#normal dist
+dnorm = stat.dnorm
+pnorm = stat.pnorm
 
 
 from .mean import mean
