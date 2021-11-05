@@ -35,4 +35,25 @@ qpois = stat.qpois
 rpois = stat.rpois
 
 
+#t-dist
+dt = stat.dt
+pt = stat.pt
+qt = stat.qt
+rt = stat.rt
+
+
+#unif dist
+dunif = stat.dunif
+punif = stat.punif
+qunif = stat.qunif
+runif = stat.runif
+
+
+#sign rank dist
+dsignrank = stat.dsignrank
+psignrank = stat.psignrank
+qsignrank = stat.qsignrank
+rsignrank = stat.rsignrank
+
+
 from .mean import mean
