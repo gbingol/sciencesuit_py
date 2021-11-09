@@ -100,7 +100,7 @@ class aov:
             if(isinstance(Alpha, numbers.Number) == False):
                   raise TypeError("Alpha must be of type number")
 
-            D = qdist.getqdist(1-Alpha, self.m_DFTreatment + 1, self.m_DFError) / math.sqrt(self.m_SampleSizes[0])
+            D = qdist.getqdist(1-Alpha, self.m_DFTreatment-1, self.m_DFError-1) / math.sqrt(self.m_SampleSizes[0])
             ConfIntervalLength = D*math.sqrt(self.m_MSError)
 
             self.m_TukeyTable=[]
