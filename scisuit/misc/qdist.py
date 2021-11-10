@@ -267,7 +267,7 @@ def getqdist(alpha, k, df):
       """
       assert alpha>=0.95 and alpha<=0.99,"Currently, Studentized Range Distribution can only be computer [0.95-0.99] range."
       assert df>2,"Degrees of freedom cannot be smaller than 2"
-      assert k>2,"Number of dependent variables cannot be smaller than 2"
+      assert k>=2,"Number of dependent variables cannot be smaller than 2"
       
       srd1, srd2=qdist095[df][k], qdist099[df][k]
       
