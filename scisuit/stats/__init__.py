@@ -66,3 +66,5 @@ test_norm_ad = stat.test_norm_ad
 #as of this point import modules which might depend on the core stat
 
 from .mean import mean
+from .kurt import kurt
+from .var import var
