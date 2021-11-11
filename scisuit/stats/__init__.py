@@ -56,7 +56,13 @@ qsignrank = stat.qsignrank
 rsignrank = stat.rsignrank
 
 
+
+cor = stat.cor
+cov = stat.cov
 test_norm_ad = stat.test_norm_ad
 
+
+
+#as of this point import modules which might depend on the core stat
 
 from .mean import mean
