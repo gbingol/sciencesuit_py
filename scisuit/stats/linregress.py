@@ -30,7 +30,10 @@ def FitZeroIntercept(yobs, factor):
 
 
 
-class SLM:
+class slm:
+      """
+      simple linear model
+      """
       
       def __init__(self, yobs, factor, intercept=True, alpha=0.05) -> None:
           self.m_yobs=yobs
