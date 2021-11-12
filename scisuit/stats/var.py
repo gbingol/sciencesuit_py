@@ -10,10 +10,10 @@ def var(y, ddof=0, axis=None):
         raise ValueError("axis must be 0 or 1")
     
     if(isinstance(y, Matrix)):
-        return y.var(axis, ddof)
+        return y.var(axis=axis, ddof=ddof)
     
     if(isinstance(y, Vector)):
         return y.var(ddof)
     
     v=Vector(y)
-    return v.var(ddof).tolist()
+    return v.var(ddof)
