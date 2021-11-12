@@ -67,4 +67,4 @@ test_norm_ad = stat.test_norm_ad
 
 from .mean import mean
 from .kurt import kurt
-from .var import var
+from .var import var, stdev

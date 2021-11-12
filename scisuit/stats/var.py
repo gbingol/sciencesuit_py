@@ -1,4 +1,6 @@
-from scisuit.core import Vector, Matrix
+from scisuit.core import Vector, Matrix, sqrt
+
+import math
 
 def var(y, ddof=0, axis=None):
     TypeOK=isinstance(y, list) or isinstance(y, Vector) or isinstance(y, Matrix)
@@ -17,3 +19,11 @@ def var(y, ddof=0, axis=None):
     
     v=Vector(y)
     return v.var(ddof)
+
+
+
+def stdev(y, ddof=0, axis=None):
+    if(isinstance(y, Matrix)):
+        return sqrt(y.var(axis=axis, ddof=ddof))
+    
+    return math.sqrt(var(y, ddof=ddof, axis=axis))
