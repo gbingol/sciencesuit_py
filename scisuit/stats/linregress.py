@@ -46,7 +46,7 @@ class linregress:
           if(isinstance(yobs, scr.Vector)==False):
                 raise TypeError("yobs must be of type Vector")
           if(isinstance(factor, scr.Vector)==False):
-                raise TypeError("yobs must be of type Vector")
+                raise TypeError("factor must be of type Vector")
 
       
 
@@ -75,7 +75,7 @@ class linregress:
                   """
                   return self.m_Dict["ANOVA"]["pvalue"]
             
-            
+
             @property
             def fvalue(self):
                   """
@@ -261,3 +261,27 @@ class linregress:
             ResultClass=linregress.linregressResult(retTable)
 
             return ResultClass
+
+
+
+
+
+
+class multiple_linregress:
+      """
+      multiple linear regression
+      """
+      def __init__(self, yobs, factor, intercept=True, alpha=0.05) -> None:
+          self.m_yobs=yobs
+          self.m_factor=factor
+          self.m_intercept=intercept
+          self.m_alpha=alpha
+          
+          if(isinstance(yobs, scr.Vector)==False):
+                raise TypeError("yobs must be of type Vector")
+          if(isinstance(factor, scr.Matrix)==False):
+                raise TypeError("factor must be of type Matrix")
+
+      
+
+      def compute(self):
