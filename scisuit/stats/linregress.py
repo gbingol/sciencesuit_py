@@ -4,6 +4,8 @@ import numbers
 import scisuit.core as scr
 import scisuit.stats as stat
 
+
+
 def FitZeroIntercept(yobs, factor):
       """
       Equation to be solved: a1.x=y1, a2.x=y2 ..... an.x=yn
@@ -30,7 +32,7 @@ def FitZeroIntercept(yobs, factor):
 
 
 
-class slm:
+class linregress:
       """
       simple linear model
       """
@@ -45,15 +47,94 @@ class slm:
                 raise TypeError("yobs must be of type Vector")
           if(isinstance(factor, scr.Vector)==False):
                 raise TypeError("yobs must be of type Vector")
+
+      
+
+      class linregressResult:
+            def __init__(self, Dict) -> None:
+                self.m_Dict = Dict
+            
+            @property
+            def all(self):
+                  """returns the dictionary containing all results"""
+                  return self.m_Dict
+
+
+            @property
+            def R2(self):
+                  return self.m_Dict["R2"]
+            
+            @property
+            def stderr(self):
+                  return self.m_Dict["SE"]
+
+            @property
+            def pvalue(self):
+                  """
+                  p-value from ANOVA stat
+                  """
+                  return self.m_Dict["ANOVA"]["pvalue"]
+            
+            
+            @property
+            def fvalue(self):
+                  """
+                  F-value from ANOVA statis
+                  """
+                  return self.m_Dict["ANOVA"]["Fvalue"]
+            
+            @property
+            def slope(self):
+                  """
+                  returns dictionary with keys: <br>
+                  coeff, pvalue, tvalue, SE, CILow, CIHigh
+                  
+                  """
+                  if(len(self.m_Dict["CoefStats"])==2):
+                        return self.m_Dict["CoefStats"][1]
+                  
+                  return self.m_Dict["CoefStats"][0]
+
+            @property
+            def intercept(self):
+                  """
+                  returns dictionary with keys: <br>
+                  coeff, pvalue, tvalue, SE, CILow, CIHigh
+                  
+                  """
+                  if(len(self.m_Dict["CoefStats"])==2):
+                        return self.m_Dict["CoefStats"][0]
+                  
+                  return None
+
+            @property
+            def ANOVA(self):
+                  """
+                  returns dictionary with keys: <br>
+                  DF_Residual, SS_Residual, MS_Residual, DF_Regression, SS_Regression, MS_Regression <br>
+                  SS_Total, Fvalue, pvalue
+                  """
+                  return self.m_Dict["ANOVA"]
+
+
+
       
       def compute(self):
+            """
+            returns slope, [intercept] and must be called before summary()
+            """
             self.m_coeffs=None
             if(self.m_intercept):
                   Polynom=scr.polyfit(self.m_factor, self.m_yobs, 1)  # an*x^n+...+a0
                   self.m_coeffs = Polynom.coeffs()
+
+                  return self.m_coeffs[0], self.m_coeffs[1]
             else:
                   self.m_coeffs = scr.Vector(2,0)
                   self.m_coeffs[0] = FitZeroIntercept(self.m_yobs, self.m_factor)
+            
+            return self.m_coeffs[0]
+
       
 
       
@@ -66,6 +147,8 @@ class slm:
             
           return retStr
       
+
+
 
       def summary(self):
             if(len(self.m_coeffs) == 0):
@@ -175,4 +258,6 @@ class slm:
 
             retTable={"CoefStats":CoefStats, "ANOVA":ANOVA, "R2":R2, "SE":s}
 
-            return retTable
+            ResultClass=linregress.linregressResult(retTable)
+
+            return ResultClass
