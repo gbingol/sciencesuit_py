@@ -32,7 +32,7 @@ def FitZeroIntercept(yobs, factor):
 
 
 
-class linregress:
+class simple_linregress:
       """
       simple linear model
       """
@@ -50,7 +50,7 @@ class linregress:
 
       
 
-      class linregressResult:
+      class simple_linregressResult:
             def __init__(self, Dict) -> None:
                 self.m_Dict = Dict
             
@@ -258,7 +258,7 @@ class linregress:
 
             retTable={"CoefStats":CoefStats, "ANOVA":ANOVA, "R2":R2, "SE":s}
 
-            ResultClass=linregress.linregressResult(retTable)
+            ResultClass=simple_linregress.simple_linregressResult(retTable)
 
             return ResultClass
 
@@ -272,16 +272,59 @@ class multiple_linregress:
       multiple linear regression
       """
       def __init__(self, yobs, factor, intercept=True, alpha=0.05) -> None:
-          self.m_yobs=yobs
-          self.m_factor=factor
-          self.m_intercept=intercept
-          self.m_alpha=alpha
+            self.m_yobs=yobs
+            self.m_factor=factor
+            self.m_intercept=intercept
+            self.m_alpha=alpha
           
-          if(isinstance(yobs, scr.Vector)==False):
+            if(isinstance(yobs, scr.Vector)==False):
                 raise TypeError("yobs must be of type Vector")
-          if(isinstance(factor, scr.Matrix)==False):
-                raise TypeError("factor must be of type Matrix")
 
-      
+            if(isinstance(factor, scr.Matrix)==False):
+                raise TypeError("factor must be of type Matrix")
+            
+            if(factor.nrows() != len(yobs)):
+                  raise ValueError("Number of rows of matrix must be equal to the dimension of the Vector.")
+                 
 
       def compute(self):
+            mat = self.m_factor.copy()
+            ones = scr.Vector(self.m_factor.nrows()*[1])
+            mat.insert(ones, pos=0, axis=1)
+
+            self.m_coeffs = scr.solve(a=mat, b=self.m_yobs)
+
+            return self.m_coeffs
+
+
+      def __str__(self) -> str:
+            retStr=""
+            N = len(self.m_coeffs)
+            
+            if(self.m_intercept):
+                  retStr += str(self.m_coeffs[0]) + " + "
+                  
+                  for i in range(1, N-1):
+                        retStr += str(self.m_coeffs[i]) + "*x" + str(i-1) + " + "
+                  
+                  retStr += str(self.m_coeffs[N-1]) + "*x" + str(N-1)
+            else:
+                  for i in range(0, N-1):
+                        retStr += str(self.m_coeffs[i]) + "*x" +str(i) + " + "
+                  
+                  retStr += str(self.m_coeffs[N-1]) + "*x" +str(N)
+            
+            return retStr
+
+
+
+
+def linregress(yobs, factor, intercept=True, alpha=0.05):
+      if(isinstance(factor, scr.Matrix)):
+            return multiple_linregress(yobs, factor, intercept, alpha)
+      
+      elif(isinstance(factor, scr.Vector)):
+            return simple_linregress(yobs, factor, intercept, alpha)
+      
+      else:
+            return TypeError("factor must be either Matrix or Vector")
