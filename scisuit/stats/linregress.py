@@ -71,17 +71,7 @@ class linregressResult:
             """
             return self.m_Dict["ANOVA"]["Fvalue"]
       
-      @property
-      def slope(self):
-            """
-            returns dictionary with keys: <br>
-            coeff, pvalue, tvalue, SE, CILow, CIHigh
-            
-            """
-            if(len(self.m_Dict["CoefStats"])==2):
-                  return self.m_Dict["CoefStats"][1]
-            
-            return self.m_Dict["CoefStats"][0]
+     
 
       @property
       def intercept(self):
@@ -90,7 +80,7 @@ class linregressResult:
             coeff, pvalue, tvalue, SE, CILow, CIHigh
             
             """
-            if(len(self.m_Dict["CoefStats"])==2):
+            if(len(self.m_Dict["CoefStats"])>1):
                   return self.m_Dict["CoefStats"][0]
             
             return None
@@ -107,9 +97,8 @@ class linregressResult:
       @property
       def coeffstat(self):
             """
-            returns dictionary with keys: <br>
-            DF_Residual, SS_Residual, MS_Residual, DF_Regression, SS_Regression, MS_Regression <br>
-            SS_Total, Fvalue, pvalue
+            returns a list containing dictionary with keys: <br>
+            coeff, pvalue, tvalue, SE, CILow, CIHigh
             """
             return self.m_Dict["CoefStats"]
 
