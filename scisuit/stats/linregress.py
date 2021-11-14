@@ -32,6 +32,84 @@ def FitZeroIntercept(yobs, factor):
 
 
 
+class __linregressResult:
+      """
+      Do NOT create an instance of this class directly <br>
+
+      An instance is returned by simple_linregress or multiple_linregress classes' summary methods
+      """
+      def __init__(self, Dict) -> None:
+            self.m_Dict = Dict
+      
+      @property
+      def all(self):
+            """returns the dictionary containing all results"""
+            return self.m_Dict
+
+
+      @property
+      def R2(self):
+            return self.m_Dict["R2"]
+      
+      @property
+      def stderr(self):
+            """standard error"""
+            return self.m_Dict["SE"]
+
+      @property
+      def pvalue(self):
+            """
+            p-value from ANOVA stat
+            """
+            return self.m_Dict["ANOVA"]["pvalue"]
+      
+
+      @property
+      def fvalue(self):
+            """
+            F-value from ANOVA statis
+            """
+            return self.m_Dict["ANOVA"]["Fvalue"]
+      
+      @property
+      def slope(self):
+            """
+            returns dictionary with keys: <br>
+            coeff, pvalue, tvalue, SE, CILow, CIHigh
+            
+            """
+            if(len(self.m_Dict["CoefStats"])==2):
+                  return self.m_Dict["CoefStats"][1]
+            
+            return self.m_Dict["CoefStats"][0]
+
+      @property
+      def intercept(self):
+            """
+            returns dictionary with keys: <br>
+            coeff, pvalue, tvalue, SE, CILow, CIHigh
+            
+            """
+            if(len(self.m_Dict["CoefStats"])==2):
+                  return self.m_Dict["CoefStats"][0]
+            
+            return None
+
+      @property
+      def ANOVA(self):
+            """
+            returns dictionary with keys: <br>
+            DF_Residual, SS_Residual, MS_Residual, DF_Regression, SS_Regression, MS_Regression <br>
+            SS_Total, Fvalue, pvalue
+            """
+            return self.m_Dict["ANOVA"]
+
+
+
+
+
+
+
 class simple_linregress:
       """
       simple linear model
@@ -47,75 +125,6 @@ class simple_linregress:
                 raise TypeError("yobs must be of type Vector")
           if(isinstance(factor, scr.Vector)==False):
                 raise TypeError("factor must be of type Vector")
-
-      
-
-      class simple_linregressResult:
-            def __init__(self, Dict) -> None:
-                self.m_Dict = Dict
-            
-            @property
-            def all(self):
-                  """returns the dictionary containing all results"""
-                  return self.m_Dict
-
-
-            @property
-            def R2(self):
-                  return self.m_Dict["R2"]
-            
-            @property
-            def stderr(self):
-                  return self.m_Dict["SE"]
-
-            @property
-            def pvalue(self):
-                  """
-                  p-value from ANOVA stat
-                  """
-                  return self.m_Dict["ANOVA"]["pvalue"]
-            
-
-            @property
-            def fvalue(self):
-                  """
-                  F-value from ANOVA statis
-                  """
-                  return self.m_Dict["ANOVA"]["Fvalue"]
-            
-            @property
-            def slope(self):
-                  """
-                  returns dictionary with keys: <br>
-                  coeff, pvalue, tvalue, SE, CILow, CIHigh
-                  
-                  """
-                  if(len(self.m_Dict["CoefStats"])==2):
-                        return self.m_Dict["CoefStats"][1]
-                  
-                  return self.m_Dict["CoefStats"][0]
-
-            @property
-            def intercept(self):
-                  """
-                  returns dictionary with keys: <br>
-                  coeff, pvalue, tvalue, SE, CILow, CIHigh
-                  
-                  """
-                  if(len(self.m_Dict["CoefStats"])==2):
-                        return self.m_Dict["CoefStats"][0]
-                  
-                  return None
-
-            @property
-            def ANOVA(self):
-                  """
-                  returns dictionary with keys: <br>
-                  DF_Residual, SS_Residual, MS_Residual, DF_Regression, SS_Regression, MS_Regression <br>
-                  SS_Total, Fvalue, pvalue
-                  """
-                  return self.m_Dict["ANOVA"]
-
 
 
       
@@ -258,7 +267,7 @@ class simple_linregress:
 
             retTable={"CoefStats":CoefStats, "ANOVA":ANOVA, "R2":R2, "SE":s}
 
-            ResultClass=simple_linregress.simple_linregressResult(retTable)
+            ResultClass=__linregressResult(retTable)
 
             return ResultClass
 
@@ -285,10 +294,12 @@ class multiple_linregress:
             
             if(factor.nrows() != len(yobs)):
                   raise ValueError("Number of rows of matrix must be equal to the dimension of the Vector.")
+            
                  
 
       def compute(self):
             mat = self.m_factor.copy()
+            
             ones = scr.Vector(self.m_factor.nrows()*[1])
             mat.insert(ones, pos=0, axis=1)
 
@@ -298,6 +309,9 @@ class multiple_linregress:
 
 
       def __str__(self) -> str:
+            """
+            returns as a0 + a1*X1 + a2*X2 + ...
+            """
             retStr=""
             N = len(self.m_coeffs)
             
@@ -305,9 +319,9 @@ class multiple_linregress:
                   retStr += str(self.m_coeffs[0]) + " + "
                   
                   for i in range(1, N-1):
-                        retStr += str(self.m_coeffs[i]) + "*x" + str(i-1) + " + "
+                        retStr += str(self.m_coeffs[i]) + "*x" + str(i) + " + "
                   
-                  retStr += str(self.m_coeffs[N-1]) + "*x" + str(N-1)
+                  retStr += str(self.m_coeffs[N-1]) + "*x" + str(N)
             else:
                   for i in range(0, N-1):
                         retStr += str(self.m_coeffs[i]) + "*x" +str(i) + " + "
@@ -317,14 +331,115 @@ class multiple_linregress:
             return retStr
 
 
+      def summary(self):
+            if(len(self.m_coeffs) == 0):
+                  raise RuntimeError("compute must be called first")
+
+            nrows = self.m_factor.nrows()
+            ncols = self.m_factor.ncols()
+
+            MeanYObs = stat.mean(self.m_yobs)
+            ypredicted = scr.Vector(nrows)
+
+            SS_Total, SS_Residual = 0, 0
+            sum_y2=0
+            for i in range(nrows):
+                  ypredicted[i]=self.m_factor[i]*self.m_coeffs #row vector * col vector = number
+                  
+                  SS_Total += (MeanYObs-self.m_yobs[i])**2
+                  SS_Residual += (self.m_yobs[i]-ypredicted[i])**2
+                  sum_y2 += self.m_yobs[i]**2
+            
+            NObservations = nrows
+            DF_Regression = ncols
+            DF_Residual = NObservations - (DF_Regression + 1)
+            if(not self.m_intercept):
+                  DF_Residual = NObservations - DF_Regression
+                  SS_Total = sum_y2
+            
+            DF_Total = DF_Regression + DF_Residual
+
+            SS_Regression = SS_Total - SS_Residual
+
+            R2 = SS_Regression/SS_Total
+
+            MS_Residual = SS_Residual / DF_Residual
+            MS_Regression = SS_Regression/DF_Regression
+
+            FValue = MS_Regression/MS_Residual
+
+            pvalue = 1-stat.pf(FValue, DF_Regression, DF_Residual)
+
+            ANOVA = {"SS_Total":SS_Total, "SS_Residual":SS_Residual, "SS_Regression":SS_Regression,
+                  "DF_Regression":DF_Regression, "DF_Residual":DF_Residual, "MS_Residual":MS_Residual,
+                  "MS_Regression": MS_Regression, 
+                  "Fvalue": FValue,
+                  "pvalue": pvalue}
+            
+            SEMat = scr.inv(scr.trans(self.m_factor)*self.m_factor)
+            SE = scr.sqrt(scr.diag(SEMat))*math.sqrt(MS_Residual)
+
+            CoefStats=[]
+            for i in range(len(self.m_coeffs)):
+                  tbl = {}
+
+                  tbl["coeff"] = self.m_coeffs[i]
+                  tbl["SE"] = SE[i]
+                  
+                  Tvalue = self.m_coeffs[i]/SE[i]
+                  tbl["tvalue"] = Tvalue
+
+                  if(Tvalue>=0):
+                        tbl["pvalue"] = 2*(1-stat.pt(q=Tvalue,df=nrows-1))
+                  else:
+                        tbl["pvalue"] = 2*stat.pt(q=Tvalue,df=nrows-1)
+                  
+                  
+                  invTval = stat.qt(self.m_alpha/2.0, DF_Residual)
+                  
+                  val1 = self.m_coeffs[i] - SE[i]*invTval
+                  val2 = self.m_coeffs[i] + SE[i]*invTval
+
+                  tbl["CILow"] = min(val1,val2)
+                  tbl["CIHigh"] = max(val1,val2)
+
+                  CoefStats.append(tbl)
+
+                  retTable = {"CoefStats":CoefStats, "ANOVA":ANOVA, "R2":R2, "SE":SE}
+
+                  ResultClass=__linregressResult(retTable)
+
+                  return ResultClass
+
+
+
 
 
 def linregress(yobs, factor, intercept=True, alpha=0.05):
-      if(isinstance(factor, scr.Matrix)):
-            return multiple_linregress(yobs, factor, intercept, alpha)
+      """
+      yobs: Dependent data (vector, list) <br>
+      factor: independent data (matrix, 2D list) <br>
+      intercept: True if there is intercept <br>
+      alpha: significance level
+      """
+      Observed = yobs
+      Factor = factor
+
+      if(isinstance(yobs, list)):
+            Observed = scr.Vector(yobs)
+
+      if(isinstance(factor, list)):
+            if(isinstance(factor[0], list)):
+                  Factor = scr.Matrix(factor)
+            else:
+                  Factor = scr.Vector(factor)
+
+
+      if(isinstance(Factor, scr.Matrix)):
+            return multiple_linregress(Observed, Factor, intercept, alpha)
       
-      elif(isinstance(factor, scr.Vector)):
-            return simple_linregress(yobs, factor, intercept, alpha)
+      elif(isinstance(Factor, scr.Vector)):
+            return simple_linregress(Observed, Factor, intercept, alpha)
       
       else:
-            return TypeError("factor must be either Matrix or Vector")
+            return TypeError("factor must be either list, 2D list, Matrix or Vector")
