@@ -32,7 +32,7 @@ def FitZeroIntercept(yobs, factor):
 
 
 
-class __linregressResult:
+class linregressResult:
       """
       Do NOT create an instance of this class directly <br>
 
@@ -104,7 +104,14 @@ class __linregressResult:
             """
             return self.m_Dict["ANOVA"]
 
-
+      @property
+      def coeffstat(self):
+            """
+            returns dictionary with keys: <br>
+            DF_Residual, SS_Residual, MS_Residual, DF_Regression, SS_Regression, MS_Regression <br>
+            SS_Total, Fvalue, pvalue
+            """
+            return self.m_Dict["CoefStats"]
 
 
 
@@ -267,7 +274,7 @@ class simple_linregress:
 
             retTable={"CoefStats":CoefStats, "ANOVA":ANOVA, "R2":R2, "SE":s}
 
-            ResultClass=__linregressResult(retTable)
+            ResultClass = linregressResult(retTable)
 
             return ResultClass
 
@@ -298,12 +305,12 @@ class multiple_linregress:
                  
 
       def compute(self):
-            mat = self.m_factor.copy()
-            
-            ones = scr.Vector(self.m_factor.nrows()*[1])
-            mat.insert(ones, pos=0, axis=1)
+            self.m_modifiedMatrix = self.m_factor.copy()
 
-            self.m_coeffs = scr.solve(a=mat, b=self.m_yobs)
+            ones = scr.Vector(self.m_factor.nrows()*[1])
+            self.m_modifiedMatrix.insert(ones, pos=0, axis=1)
+
+            self.m_coeffs = scr.solve(a=self.m_modifiedMatrix, b=self.m_yobs)
 
             return self.m_coeffs
 
@@ -344,7 +351,7 @@ class multiple_linregress:
             SS_Total, SS_Residual = 0, 0
             sum_y2=0
             for i in range(nrows):
-                  ypredicted[i]=self.m_factor[i]*self.m_coeffs #row vector * col vector = number
+                  ypredicted[i] = self.m_modifiedMatrix[i, :]*self.m_coeffs #row vector * col vector = number
                   
                   SS_Total += (MeanYObs-self.m_yobs[i])**2
                   SS_Residual += (self.m_yobs[i]-ypredicted[i])**2
@@ -376,7 +383,7 @@ class multiple_linregress:
                   "Fvalue": FValue,
                   "pvalue": pvalue}
             
-            SEMat = scr.inv(scr.trans(self.m_factor)*self.m_factor)
+            SEMat = scr.inv(scr.trans(self.m_modifiedMatrix)*self.m_modifiedMatrix)
             SE = scr.sqrt(scr.diag(SEMat))*math.sqrt(MS_Residual)
 
             CoefStats=[]
@@ -405,11 +412,12 @@ class multiple_linregress:
 
                   CoefStats.append(tbl)
 
-                  retTable = {"CoefStats":CoefStats, "ANOVA":ANOVA, "R2":R2, "SE":SE}
 
-                  ResultClass=__linregressResult(retTable)
+            retTable = {"CoefStats":CoefStats, "ANOVA":ANOVA, "R2":R2, "SE":SE}
 
-                  return ResultClass
+            ResultClass = linregressResult(retTable)
+
+            return ResultClass
 
 
 
