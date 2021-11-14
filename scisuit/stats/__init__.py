@@ -59,6 +59,7 @@ rsignrank = stat.rsignrank
 
 cor = stat.cor
 cov = stat.cov
+quantile = stat.quantile
 test_norm_ad = stat.test_norm_ad
 
 
@@ -66,6 +67,7 @@ test_norm_ad = stat.test_norm_ad
 #as of this point import modules which might depend on the core stat
 
 from .mean import mean
+from .median import median
 from .kurt import kurt
 from .var import var, stdev
 from .linregress import linregress
