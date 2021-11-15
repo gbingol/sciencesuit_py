@@ -59,6 +59,7 @@ rsignrank = stat.rsignrank
 
 cor = stat.cor
 cov = stat.cov
+mode = stat.mode
 quantile = stat.quantile
 test_norm_ad = stat.test_norm_ad
 
