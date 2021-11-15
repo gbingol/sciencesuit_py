@@ -64,6 +64,7 @@ quantile = stat.quantile
 rand = stat.rand
 sample = stat.sample
 skew = stat.skew
+test_f = stat.test_f
 test_norm_ad = stat.test_norm_ad
 
 
