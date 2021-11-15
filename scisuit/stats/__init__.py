@@ -63,6 +63,7 @@ mode = stat.mode
 quantile = stat.quantile
 rand = stat.rand
 sample = stat.sample
+skew = stat.skew
 test_norm_ad = stat.test_norm_ad
 
 
