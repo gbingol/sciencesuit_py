@@ -61,6 +61,8 @@ cor = stat.cor
 cov = stat.cov
 mode = stat.mode
 quantile = stat.quantile
+rand = stat.rand
+sample = stat.sample
 test_norm_ad = stat.test_norm_ad
 
 
