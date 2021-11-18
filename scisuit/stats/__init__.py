@@ -66,6 +66,7 @@ sample = stat.sample
 skew = stat.skew
 test_f = stat.test_f
 test_sign = stat.test_sign
+test_t = stat.test_t
 test_norm_ad = stat.test_norm_ad
 
 
