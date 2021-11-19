@@ -56,7 +56,7 @@ qsignrank = stat.qsignrank
 rsignrank = stat.rsignrank
 
 
-
+aov2 = stat.aov2
 cor = stat.cor
 cov = stat.cov
 mode = stat.mode
