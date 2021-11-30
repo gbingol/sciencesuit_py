@@ -6,7 +6,7 @@ from scisuit.stats import pf
 
 from ..misc import qdist
 
-class aov:
+class aov: 
 
       class TukeyComparison:
             def __init__(self) -> None:
@@ -16,7 +16,7 @@ class aov:
                 self.m_CILow=None
                 self.m_CIHigh=None
 
-            def __str__(self) -> str:
+            def __str__(self) -> str: 
                 retStr = str(self.m_a) + "-" + str(self.m_b) + \
                   "\t \t" + \
                   str(round(self.m_MeanValueDiff, 2)) + \
