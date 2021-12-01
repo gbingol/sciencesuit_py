@@ -2,8 +2,6 @@
 import wx
 
 
-app=wx.App()
-
 class frmPsychrometry ( wx.Frame ):
 
 	def __init__( self, parent ):
@@ -16,8 +14,6 @@ class frmPsychrometry ( wx.Frame ):
                 size = wx.Size( -1,-1 ), 
                 style = wx.CAPTION|wx.CLOSE_BOX|wx.MAXIMIZE|wx.MINIMIZE_BOX|wx.RESIZE_BORDER|wx.SYSTEM_MENU|wx.TAB_TRAVERSAL )
 
-
-		
 
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
@@ -297,7 +293,6 @@ class frmPsychrometry ( wx.Frame ):
 		event.Skip()
 
 	def btnCalc_OnButtonClick( self, event ):
-
 		for Entry in self.m_Controls:
 			if(Entry[0].GetValue() and Entry[1].GetValue()==""): 
 				wx.MessageBox("ERROR","A numeric value must be entered for " + Entry[2] + ".") 
@@ -307,6 +302,7 @@ class frmPsychrometry ( wx.Frame ):
 
 
 #if __name__=='main':
+app=wx.App()
 frm=frmPsychrometry(None)
 frm.Show()
 app.MainLoop()
