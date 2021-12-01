@@ -74,6 +74,7 @@ test_z = stat.test_z
 
 #as of this point import modules which might depend on the core stat
 
+from .aov import aov
 from .mean import mean
 from .median import median
 from .kurt import kurt

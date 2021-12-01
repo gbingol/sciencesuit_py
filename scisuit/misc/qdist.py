@@ -259,7 +259,7 @@ def Interpolation(x1, y1,x2,y2,val):
 
 
 
-def getqdist(alpha, k, df):
+def qdist(alpha, k, df):
       """
       alpha: level of significance
 	df: degrees of freedom
