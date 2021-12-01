@@ -301,8 +301,8 @@ class frmPsychrometry ( wx.Frame ):
 		event.Skip()
 
 
-#if __name__=='main':
-app=wx.App()
-frm=frmPsychrometry(None)
-frm.Show()
-app.MainLoop()
+if __name__=='__main__':
+	app=wx.App()
+	frm=frmPsychrometry(None)
+	frm.Show()
+	app.MainLoop()
