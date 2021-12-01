@@ -2,7 +2,8 @@
 <RIBBON>
 	<PAGE TITLE="Apps">
 		<BUTTON NAME="psychrometry" TITLE="Psychrometry">
-			<FUNCTION>std.app.Psychrometry</FUNCTION>
+			<MODULE>apps.frmPsychrometry</MODULE>
+			<FUNCTION>frmPsychrometry</FUNCTION>
 			<IMAGE>apps/images/psychrometry.bmp</IMAGE>
 		</BUTTON>
 		
