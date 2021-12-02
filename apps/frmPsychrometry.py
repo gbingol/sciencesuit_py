@@ -2,13 +2,17 @@
 import wx
 
 
+import scisuit.proceng as eng
+
+app=wx.App()
+
 class frmPsychrometry ( wx.Frame ):
 
 	def __init__( self, parent ):
         
 		wx.Frame.__init__ ( self, 
                 parent, 
-                id = wx.ID_ANY, 
+                id = wx.ID_ANY, 	
                 title = u"Psychrometry", 
                 pos = wx.DefaultPosition, 
                 size = wx.Size( -1,-1 ), 
@@ -298,11 +302,16 @@ class frmPsychrometry ( wx.Frame ):
 				wx.MessageBox("ERROR","A numeric value must be entered for " + Entry[2] + ".") 
 				break
 
+		psy = eng.psychrometry(P=101.3, Tdb=50, RH=40)
+		result = psy.compute()
+
+		wx.MessageBox("Value", str(result.P))
+
 		event.Skip()
 
 
-if __name__=='__main__':
-	app=wx.App()
-	frm=frmPsychrometry(None)
-	frm.Show()
-	app.MainLoop()
+#if __name__=='__main__': 
+frm=frmPsychrometry(None)
+frm.Show()
+
+app.MainLoop()
