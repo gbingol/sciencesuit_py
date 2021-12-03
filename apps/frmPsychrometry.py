@@ -1,4 +1,5 @@
 
+import time
 import wx
 
 import scisuit.proceng as eng
@@ -187,14 +188,37 @@ class frmPsychrometry ( gui.Frame ):
 		self.m_btnCalc = wx.Button( self, wx.ID_ANY, u"Calculate", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_btnCalc.Enabled=False
 		mainSizer.Add( self.m_btnCalc, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+		
+		
+		self.m_menubar = wx.MenuBar( 0 )
+		
+		self.m_menuFile = wx.Menu()
+		self.m_menuItemExport = wx.MenuItem( self.m_menuFile, wx.ID_ANY, u"Export", wx.EmptyString, wx.ITEM_NORMAL )
+		self.m_menuFile.Append( self.m_menuItemExport )
+
+		self.m_menubar.Append( self.m_menuFile, u"File" )
+		
+		self.m_menuDigits = wx.Menu()
+		self.m_menuItem2Digits = wx.MenuItem( self.m_menuDigits, wx.ID_ANY, u"2 Digits", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menuDigits.Append( self.m_menuItem2Digits )
+
+		self.m_menuItem3Digits = wx.MenuItem( self.m_menuDigits, wx.ID_ANY, u"3 Digits", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menuDigits.Append( self.m_menuItem3Digits )
+
+		self.m_menuItem4Digits = wx.MenuItem( self.m_menuDigits, wx.ID_ANY, u"4 Digits", wx.EmptyString, wx.ITEM_RADIO )
+		self.m_menuDigits.Append( self.m_menuItem4Digits )
+
+		self.m_menubar.Append( self.m_menuDigits, u"Digits" )
+
+		self.SetMenuBar( self.m_menubar )
 
 
 		self.SetSizer( mainSizer )
 		self.Layout()
 		mainSizer.Fit( self )
 
+		
 		self.Centre( wx.BOTH )
-
 		
 		self.m_chkP.Bind( wx.EVT_CHECKBOX, self.chkP_OnCheckBox )
 		self.m_chkTdb.Bind( wx.EVT_CHECKBOX, self.chkTdb_OnCheckBox )
@@ -205,6 +229,12 @@ class frmPsychrometry ( gui.Frame ):
 		self.m_chkRH.Bind( wx.EVT_CHECKBOX, self.chkRH_OnCheckBox )
 		self.m_chkV.Bind( wx.EVT_CHECKBOX, self.chkV_OnCheckBox )
 		self.m_btnCalc.Bind( wx.EVT_BUTTON, self.btnCalc_OnButtonClick )
+		
+		self.Bind( wx.EVT_MENU, self.Export_OnMenuSelection, id = self.m_menuItemExport.GetId() )
+		
+		self.Bind( wx.EVT_MENU, self.OnMenuSelection_Digits, id = self.m_menuItem2Digits.GetId() )
+		self.Bind( wx.EVT_MENU, self.OnMenuSelection_Digits, id = self.m_menuItem3Digits.GetId() )
+		self.Bind( wx.EVT_MENU, self.OnMenuSelection_Digits, id = self.m_menuItem4Digits.GetId() )
 
 
 		self.m_CheckBoxes=[self.m_chkP, 
@@ -303,6 +333,24 @@ class frmPsychrometry ( gui.Frame ):
 
 	def chkV_OnCheckBox( self, event ):
 		self.CheckToAllowStateChange()
+		event.Skip()
+		
+	
+	def Export_OnMenuSelection( self, event ):
+		t=time.localtime()
+		month=t.tm_mon
+		day=t.tm_mday
+		hour=t.tm_hour
+		minute=t.tm_min
+		sec=t.tm_sec
+
+		wsname=str(month) + str(day) + " " + str(hour) + str(minute) + str(sec)
+
+		ws=gui.Worksheet(wsname)
+		event.Skip()
+		
+	
+	def OnMenuSelection_Digits( self, event ): 
 		event.Skip()
 
 
