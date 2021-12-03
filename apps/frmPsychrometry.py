@@ -17,9 +17,17 @@ class frmPsychrometry ( gui.Frame ):
                 title = u"Psychrometry", 
                 pos = wx.DefaultPosition, 
                 size = wx.Size( -1,-1 ), 
-                style = wx.CAPTION|wx.CLOSE_BOX|wx.MAXIMIZE|wx.MINIMIZE_BOX|wx.RESIZE_BORDER|wx.SYSTEM_MENU|wx.TAB_TRAVERSAL )
+                style = wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.RESIZE_BORDER|wx.TAB_TRAVERSAL )
 
 
+		self.m_Digits=2
+
+		icon=wx.EmptyIcon()
+		image=wx.Image()
+		image.LoadFile(gui.exepath()+"apps/images/psychrometry.bmp")
+		bmp=image.ConvertToBitmap()
+		icon.CopyFromBitmap(bmp)
+		self.SetIcon(icon)
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 0, 242, 242 ) )
@@ -248,14 +256,17 @@ class frmPsychrometry ( gui.Frame ):
 
 		
 		self.m_Controls=[
-			[self.m_chkP, self.m_txtP, "Pressure", "P"],
-			[self.m_chkTdb, self.m_txtTdb, "Dry-bulb temperature", "Tdb"],
-			[self.m_chkTwb, self.m_txtTwb, "Wet-bulb temperature", "Twb"],
-			[self.m_chkTdp, self.m_txtTdp, "Dew point temperature", "Tdp"],
-			[self.m_chkW, self.m_txtW, "Absolute humidity", "W"],
-			[self.m_chkH, self.m_txtH, "Enthalpy", "H"],
-			[self.m_chkRH, self.m_txtRH, "Relative humidity", "RH"],
-			[self.m_chkV, self.m_txtV, "Specific volume", "V"]
+			[self.m_chkP, self.m_txtP, "kPa", "P"],
+			[self.m_chkTdb, self.m_txtTdb, u"°C", "Tdb"],
+			[self.m_chkTwb, self.m_txtTwb, u"°C", "Twb"],
+			[self.m_chkTdp, self.m_txtTdp, u"°C", "Tdp"],
+			[self.m_chkW, self.m_txtW, "kg/kg da", "W"],
+			[self.m_chkH, self.m_txtH, "kJ/kgda", "H"],
+			[self.m_chkRH, self.m_txtRH, "%", "RH"],
+			[self.m_chkV, self.m_txtV, "m3/kg", "V"],
+			[None, self.m_txtPw, "kPa", "Pw"],
+			[None, self.m_txtPws, "kPa", "Pws"],
+			[None, self.m_txtWs, "kg/kgda", "Ws"]
 		]
 
 	
@@ -347,17 +358,42 @@ class frmPsychrometry ( gui.Frame ):
 		wsname=str(month) + str(day) + " " + str(hour) + str(minute) + str(sec)
 
 		ws=gui.Worksheet(wsname)
+
+		InputPos=0
+		OutputPos=4
+		for Entry in self.m_Controls:
+			Pos=0
+			if(Entry[0] and Entry[0].GetValue()):
+				Pos=InputPos
+				InputPos += 1
+			else:
+				Pos=OutputPos
+				OutputPos += 1
+			
+			ws[Pos, 0]=Entry[3]
+			ws[Pos, 1]= Entry[1].GetValue()
+			ws[Pos, 2]= Entry[2]
+
+
 		event.Skip()
 		
 	
 	def OnMenuSelection_Digits( self, event ): 
+		id=event.GetId()
+		if(id == self.m_menuItem2Digits.GetId()):
+			self.m_Digits=2
+		elif(id == self.m_menuItem3Digits.GetId()):
+			self.m_Digits=3
+		else:
+			self.m_Digits=4
+
 		event.Skip()
 
 
 	def btnCalc_OnButtonClick( self, event ):
 		PsyParams=dict()
 		for Entry in self.m_Controls:
-			if(Entry[0].GetValue()):
+			if(Entry[0] and Entry[0].GetValue()):
 				if(Entry[1].GetValue()==""): 
 					wx.MessageBox("A numeric value must be entered for " + Entry[2] + ".") 
 					break
@@ -369,16 +405,21 @@ class frmPsychrometry ( gui.Frame ):
 			psy = eng.psychrometry(**PsyParams)
 			result = psy.compute()
 
+			if(self.m_Digits<2 or self.m_Digits>4):
+				self.m_Digits=2
+
 			for Entry in self.m_Controls:
-				if(Entry[0].GetValue()):
+				if(Entry[0] and Entry[0].GetValue()):
 					continue
 				else:
-					Entry[1].SetValue(str(getattr(result,Entry[3])))
+					value=getattr(result, Entry[3])
+					value=round(value, self.m_Digits)
+					Entry[1].SetValue(str(value))
 
 
-			self.m_txtPw.SetValue(str(result.Pw))
-			self.m_txtPws.SetValue(str(result.Pws))
-			self.m_txtWs.SetValue(str(result.Ws))
+			self.m_txtPw.SetValue(str(round(result.Pw, self.m_Digits)))
+			self.m_txtPws.SetValue(str(round(result.Pws, self.m_Digits)))
+			self.m_txtWs.SetValue(str(round(result.Ws, self.m_Digits)))
 
 		except Exception as e:
 			wx.MessageBox(str(e))
