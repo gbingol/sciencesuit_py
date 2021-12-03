@@ -1,16 +1,16 @@
 
 import wx
 
-
 import scisuit.proceng as eng
+import scisuit.gui as gui
 
-app=wx.App()
+#app=wx.App()
 
-class frmPsychrometry ( wx.Frame ):
+class frmPsychrometry ( gui.Frame ):
 
 	def __init__( self, parent ):
         
-		wx.Frame.__init__ ( self, 
+		gui.Frame.__init__ ( self, 
                 parent, 
                 id = wx.ID_ANY, 	
                 title = u"Psychrometry", 
@@ -41,7 +41,7 @@ class frmPsychrometry ( wx.Frame ):
 
 		fgSizer_Left.Add( self.m_txtP, 0, wx.ALL, 5 )
 
-		self.m_lblP = wx.StaticText( self, wx.ID_ANY, u"Pa", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblP = wx.StaticText( self, wx.ID_ANY, u"kPa", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_lblP.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblP, 0, wx.ALL, 5 )
@@ -54,7 +54,7 @@ class frmPsychrometry ( wx.Frame ):
 		self.m_txtPw = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
 		fgSizer_Left.Add( self.m_txtPw, 0, wx.ALL, 5 )
 
-		self.m_lblPw = wx.StaticText( self, wx.ID_ANY, u"Pa", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblPw = wx.StaticText( self, wx.ID_ANY, u"kPa", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_lblPw.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblPw, 0, wx.ALL, 5 )
@@ -67,7 +67,7 @@ class frmPsychrometry ( wx.Frame ):
 		self.m_txtPws = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
 		fgSizer_Left.Add( self.m_txtPws, 0, wx.ALL, 5 )
 
-		self.m_lblPws = wx.StaticText( self, wx.ID_ANY, u"Pa", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblPws = wx.StaticText( self, wx.ID_ANY, u"kPa", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_lblPws.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblPws, 0, wx.ALL, 5 )
@@ -195,7 +195,7 @@ class frmPsychrometry ( wx.Frame ):
 
 		self.Centre( wx.BOTH )
 
-		# Connect Events
+		
 		self.m_chkP.Bind( wx.EVT_CHECKBOX, self.chkP_OnCheckBox )
 		self.m_chkTdb.Bind( wx.EVT_CHECKBOX, self.chkTdb_OnCheckBox )
 		self.m_chkTwb.Bind( wx.EVT_CHECKBOX, self.chkTwb_OnCheckBox )
@@ -218,28 +218,30 @@ class frmPsychrometry ( wx.Frame ):
 
 		
 		self.m_Controls=[
-			[self.m_chkP, self.m_txtP, "Pressure"],
-			[self.m_chkTdb, self.m_txtTdb, "Dry-bulb temperature"],
-			[self.m_chkTwb, self.m_txtTwb, "Wet-bulb temperature"],
-			[self.m_chkTdp, self.m_txtTdp, "Dew point temperature"],
-			[self.m_chkW, self.m_txtW, "Absolute humidity"],
-			[self.m_chkH, self.m_txtH, "Enthalpy"],
-			[self.m_chkRH, self.m_txtRH, "Relative humidity"],
-			[self.m_chkV, self.m_txtV, "Specific volume"],
+			[self.m_chkP, self.m_txtP, "Pressure", "P"],
+			[self.m_chkTdb, self.m_txtTdb, "Dry-bulb temperature", "Tdb"],
+			[self.m_chkTwb, self.m_txtTwb, "Wet-bulb temperature", "Twb"],
+			[self.m_chkTdp, self.m_txtTdp, "Dew point temperature", "Tdp"],
+			[self.m_chkW, self.m_txtW, "Absolute humidity", "W"],
+			[self.m_chkH, self.m_txtH, "Enthalpy", "H"],
+			[self.m_chkRH, self.m_txtRH, "Relative humidity", "RH"],
+			[self.m_chkV, self.m_txtV, "Specific volume", "V"]
 		]
 
-		
+	
 	
 	def EnableAllCheckBoxes(self):
 		for chkBox in self.m_CheckBoxes:
 			chkBox.Enable(True)
     
 
+
 	def DisableUncheckedBoxes(self):
 		for chkBox in self.m_CheckBoxes:
 			if(chkBox.GetValue()==False):  #unchecked
 				chkBox.Enabled=False
 	
+
 
 	def CheckToAllowStateChange(self):
 		NumberofCheckedBoxes=0
@@ -268,50 +270,76 @@ class frmPsychrometry ( wx.Frame ):
 		self.CheckToAllowStateChange()
 		event.Skip()
 
+
 	def chkTdb_OnCheckBox( self, event ):
 		self.CheckToAllowStateChange()
 		event.Skip()
+
 
 	def chkTwb_OnCheckBox( self, event ):
 		self.CheckToAllowStateChange()
 		event.Skip()
 
+
 	def chkTdp_OnCheckBox( self, event ):
 		self.CheckToAllowStateChange()
 		event.Skip()
+
 
 	def chkW_OnCheckBox( self, event ):
 		self.CheckToAllowStateChange()
 		event.Skip()
 
+
 	def chkH_OnCheckBox( self, event ):
 		self.CheckToAllowStateChange()
 		event.Skip()
+
 
 	def chkRH_OnCheckBox( self, event ):
 		self.CheckToAllowStateChange()
 		event.Skip()
 
+
 	def chkV_OnCheckBox( self, event ):
 		self.CheckToAllowStateChange()
 		event.Skip()
 
+
 	def btnCalc_OnButtonClick( self, event ):
+		PsyParams=dict()
 		for Entry in self.m_Controls:
-			if(Entry[0].GetValue() and Entry[1].GetValue()==""): 
-				wx.MessageBox("ERROR","A numeric value must be entered for " + Entry[2] + ".") 
-				break
+			if(Entry[0].GetValue()):
+				if(Entry[1].GetValue()==""): 
+					wx.MessageBox("A numeric value must be entered for " + Entry[2] + ".") 
+					break
+				else:
+					PsyParams[Entry[3]] = float(Entry[1].GetValue())
+		
+		
+		try:
+			psy = eng.psychrometry(**PsyParams)
+			result = psy.compute()
 
-		psy = eng.psychrometry(P=101.3, Tdb=50, RH=40)
-		result = psy.compute()
+			for Entry in self.m_Controls:
+				if(Entry[0].GetValue()):
+					continue
+				else:
+					Entry[1].SetValue(str(getattr(result,Entry[3])))
 
-		wx.MessageBox("Value", str(result.P))
+
+			self.m_txtPw.SetValue(str(result.Pw))
+			self.m_txtPws.SetValue(str(result.Pws))
+			self.m_txtWs.SetValue(str(result.Ws))
+
+		except Exception as e:
+			wx.MessageBox(str(e))
 
 		event.Skip()
 
 
-#if __name__=='__main__': 
-frm=frmPsychrometry(None)
-frm.Show()
+if __name__=='__main__':
+	frm=frmPsychrometry(None)
+	frm.Show()
 
-app.MainLoop()
+#app.MainLoop()

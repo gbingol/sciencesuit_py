@@ -2,8 +2,7 @@
 <RIBBON>
 	<PAGE TITLE="Apps">
 		<BUTTON NAME="psychrometry" TITLE="Psychrometry">
-			<MODULE>apps.frmPsychrometry</MODULE>
-			<FUNCTION>frmPsychrometry</FUNCTION>
+			<PATH>apps/frmPsychrometry.py</PATH>
 			<IMAGE>apps/images/psychrometry.bmp</IMAGE>
 		</BUTTON>
 		
