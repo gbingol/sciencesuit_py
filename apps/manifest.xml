@@ -7,7 +7,7 @@
 		</BUTTON>
 		
 		<BUTTON NAME="fooddatabase" TITLE="Food Database">
-			<FUNCTION>std.app.FoodDatabase</FUNCTION>
+			<PATH>apps/frmFoodDatabase.py</PATH>
 			<IMAGE>apps/images/fooddatabase.jpg</IMAGE>
 		</BUTTON>
 		<BUTTON NAME="foodthermalproc" TITLE="Thermal Processing">
