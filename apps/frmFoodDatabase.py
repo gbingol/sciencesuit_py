@@ -66,10 +66,21 @@ class pnlSearch ( wx.Panel ):
 		words=Txt.split()
 
 		rows = None
+		QueryString = "SELECT * FROM Composition where FoodName like ?"
 		if(len(words) == 1):
 			SearchTxt = "%" + Txt + "%"
-			rows = cursor.execute("SELECT * FROM Composition where FoodName like ?", (SearchTxt,)).fetchall()
-
+			rows = cursor.execute(QueryString , (SearchTxt,)).fetchall() 
+		else:
+			for i in range(1, len(words)):
+				QueryString += " INTERSECT SELECT * FROM Composition where FoodName like ?"  
+			
+			PlaceHolderLst=[]
+			for word in  words:
+				w="%"+word+"%"
+				PlaceHolderLst.append(w)
+			
+			rows = cursor.execute(QueryString , PlaceHolderLst).fetchall() 
+			
 		
 
 		for entry in rows:
