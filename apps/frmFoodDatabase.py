@@ -5,6 +5,7 @@ import scisuit.gui as gui
 import scisuit.proceng as eng
 
 
+
 class pnlSearch ( wx.Panel ):
 
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
@@ -65,7 +66,7 @@ class pnlSearch ( wx.Panel ):
 		#split the phrase based on empty character
 		words=Txt.split()
 
-		rows=None
+		rows = None
 		if(len(words) == 1):
 			SearchTxt = "%" + Txt + "%"
 			rows = cursor.execute("SELECT * FROM Composition where FoodName like ?", (SearchTxt,)).fetchall()
@@ -73,7 +74,7 @@ class pnlSearch ( wx.Panel ):
 		
 
 		for entry in rows:
-			self.m_listSearch.Append(str(entry[1]))
+			self.m_listSearch.Append(str(entry[1])) 
 
 
 		event.Skip()
@@ -270,5 +271,5 @@ class frmFoodDatabase ( gui.Frame ):
 
 
 if __name__=="__main__":
-	frm=frmFoodDatabase(None)
+	frm=frmFoodDatabase(None) 
 	frm.Show()

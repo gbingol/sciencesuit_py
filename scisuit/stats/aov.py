@@ -38,6 +38,8 @@ class aov:
           self.m_TukeyTable=[]
           self.m_pvalue = None
 
+
+
       def compute(self):
             SS_Treatment, SS_Error, SS_Total=0, 0, 0
             
