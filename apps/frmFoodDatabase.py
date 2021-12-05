@@ -5,7 +5,6 @@ import scisuit.gui as gui
 import scisuit.proceng as eng
 
 
-
 class pnlSearch ( wx.Panel ):
 
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
@@ -33,7 +32,7 @@ class pnlSearch ( wx.Panel ):
 		self.m_listSearch.Bind( wx.EVT_LISTBOX, self.listSearch_OnListBox )
 		self.m_txtSearch.Bind( wx.EVT_LEFT_DOWN, self.txtSearch_OnLeftDown )
 		self.m_txtSearch.Bind( wx.EVT_TEXT, self.txtSearch_OnText )
-
+		
 	
 
 	
