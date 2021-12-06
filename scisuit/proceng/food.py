@@ -9,25 +9,25 @@ class Food:
 
 # component can be water, CHO...; T is temperature in Celcius 
 def Cp(component:str, T:float)->float:
-      if(component=="water" ):
-            return 4.1289 - 9.0864E-05*T + (5.4731*10**-6.0)*T**2 
-
-      elif(component=="protein"): 
-	      return 2.0082 + (1.2089*10**-3.0)*T - 1.3129*(10.0**-6.0)*T**2.0 
-
-      elif(component=="lipid"): 
-	      return 1.9842 + (1.4733*10.0**-3.0)*T - 4.8008*(10.0**-6.0)*T**2.0 
-
-      elif(component=="CHO"): 
-	      return 1.5488 + (1.9625*10.0**-3.0)*T - (5.9399*10.0**-6.0)*T**2.0 
+	if(component=="water" ):
+		return 4.1289 - 9.0864E-05*T + (5.4731*10**-6.0)*T**2 
+	
+	elif(component=="protein"):
+		return 2.0082 + (1.2089*10**-3.0)*T - 1.3129*(10.0**-6.0)*T**2.0 
 		
-      elif(component=="ash"): 
-	      return 1.0926 + (1.8896*10.0**-3.0)*T - (3.6817*10.0**-6.0)*T**2.0 
+	elif(component=="lipid"):
+		return 1.9842 + (1.4733*10.0**-3.0)*T - 4.8008*(10.0**-6.0)*T**2.0
 		
-      elif (component == "salt"):   #Engineering Toolbox
-	      return 0.88
-
-      else:
+	elif(component=="CHO"):
+		return 1.5488 + (1.9625*10.0**-3.0)*T - (5.9399*10.0**-6.0)*T**2.0
+		
+	elif(component=="ash"):
+		return 1.0926 + (1.8896*10.0**-3.0)*T - (3.6817*10.0**-6.0)*T**2.0 
+	
+	elif (component == "salt"):   #Engineering Toolbox
+		return 0.88
+	
+	else:
 	      raise Exception("Component must be water, lipid, protein, CHO, ash or salt")
 
 
@@ -46,7 +46,7 @@ def ThermConduct (component:str, T:float)->float:
 		return 1.8071E-01-2.7604E-04*T-1.7749E-07*T**2.0 
 		
 	elif(component=="CHO"):
-		 return 2.0141E-01+1.3874E-03*T-4.3312E-06*T**2.0 
+		return 2.0141E-01+1.3874E-03*T-4.3312E-06*T**2.0 
 		 
 	elif(component=="ash"): 
 		return 3.2962E-01+1.4011E-03*T-2.9069E-06*T**2.0 
@@ -285,9 +285,8 @@ class Food:
 
 
 	def __getitem__(self, index):
-            return index
-
-
+		return index
+	
 
 
 	def cp(self, arg=None)->float:
@@ -466,7 +465,7 @@ class Food:
 
 
 	@property
-	def water(self)->float:
+	def Water(self)->float:
 		return self.m_Water
 
 	
@@ -508,7 +507,7 @@ class Food:
 		Ta, Tb = self.temperature, foodB.temperature 
 		cpa, cpb = self.cp(), foodB.cp()
 
-		water:float = ma*self.water + mb*foodB.water
+		water:float = ma*self.Water + mb*foodB.Water
 		CHO:float = ma*self.CHO + mb*foodB.CHO
 		lipid:float = ma*self.Lipid + mb*foodB.Lipid
 		protein = ma*self.Protein + mb*foodB.Protein

@@ -12,6 +12,7 @@ class pnlSearch ( wx.Panel ):
 
 		self.m_FirstLDown = True
 		self.m_Connection = sql.connect(gui.exepath() + "datafiles/USDANALSR28.db")
+		self.m_Food = None
 
 		sizerSearch = wx.BoxSizer( wx.VERTICAL )
 
@@ -37,6 +38,26 @@ class pnlSearch ( wx.Panel ):
 
 	
 	def listSearch_OnListBox( self, event ):
+		SelText = self.m_listSearch.GetStringSelection()
+		QueryString="SELECT * FROM Composition where FoodName= ?"
+
+		cursor = self.m_Connection.cursor()
+
+		PlaceHolderTxt = SelText
+		rows = cursor.execute(QueryString , (PlaceHolderTxt,)).fetchall() [0]
+		
+		water = float(rows[2])
+		protein = float(rows[3])
+		lipid = float(rows[4])
+		CHO = float(rows[5])
+		ash = float(rows[6])
+		
+		try:
+			self.m_Food = eng.Food(water=water, protein = protein, lipid=lipid, CHO= CHO, ash=ash)
+		except Exception as e:
+			wx.MessageBox(e)
+		
+
 		event.Skip()
 
 
@@ -68,8 +89,8 @@ class pnlSearch ( wx.Panel ):
 		rows = None
 		QueryString = "SELECT * FROM Composition where FoodName like ?"
 		if(len(words) == 1):
-			SearchTxt = "%" + Txt + "%"
-			rows = cursor.execute(QueryString , (SearchTxt,)).fetchall() 
+			PlaceHolderTxt = "%" + Txt + "%"
+			rows = cursor.execute(QueryString , (PlaceHolderTxt,)).fetchall() 
 		else:
 			for i in range(1, len(words)):
 				QueryString += " INTERSECT SELECT * FROM Composition where FoodName like ?"  
@@ -88,6 +109,10 @@ class pnlSearch ( wx.Panel ):
 
 
 		event.Skip()
+
+	
+	def GetFood(self):
+		return self.m_Food
 
 
 
@@ -237,8 +262,21 @@ class pnlProperties ( wx.Panel ):
 		# Connect Events
 		self.m_txtT.Bind( wx.EVT_TEXT, self.txtT_OnText )
 
-	def __del__( self ):
-		pass
+	
+	def SetWater(self, water:float):
+		self.m_txtWater.SetValue(str(water))
+
+	def SetProtein(self, protein:float):
+		self.m_txtProtein.SetValue(str(protein))
+
+	def SetLipid(self, lipid:float):
+		self.m_txtLipid.SetValue(str(lipid))
+	
+	def SetCHO(self, CHO:float):
+		self.m_txtCHO.SetValue(str(CHO))
+
+	def SetAsh(self, ash:float):
+		self.m_txtAsh.SetValue(str(ash))
 
 
 	# Virtual event handlers, overide them in your derived class
@@ -250,6 +288,14 @@ class pnlProperties ( wx.Panel ):
 
 
 class frmFoodDatabase ( gui.Frame ):
+	"""
+	1) The compositional data was downloaded from USDA NAL website (given below) as an Excel file.
+	https://www.ars.usda.gov/northeast-area/beltsville-md/beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/sr28-download-files/
+	
+	2) Some of the characters such as & and , was replaced with empty characters for food names.
+	3) Acronyms such as W/ and WO/ was replaced with with and without, respectively.
+	4) Compositional Data (water, CHO, protein, total lipids, ash) was read from the Excel file into database/USDANALSR28.db SQLite file.
+	"""
 
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, 
@@ -277,7 +323,22 @@ class frmFoodDatabase ( gui.Frame ):
 
 		self.Centre( wx.BOTH )
 
+		self.m_notebook.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.OnNotebookPageChanged )
+
 	
+
+	def OnNotebookPageChanged( self, event ):
+		selPage = self.m_notebook.GetSelection()
+
+		if(selPage == 1):
+			food = self.m_pnlSearch.GetFood()
+			self.m_pnlProps.SetWater(round(food.Water, 2))
+			self.m_pnlProps.SetProtein(round(food.Protein, 2))
+			self.m_pnlProps.SetLipid(round(food.Lipid, 2))
+			self.m_pnlProps.SetCHO(round(food.CHO, 2))
+			self.m_pnlProps.SetAsh(round(food.Ash, 2))
+
+		event.Skip()
 
 
 if __name__=="__main__":
