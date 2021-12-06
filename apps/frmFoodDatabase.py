@@ -7,7 +7,15 @@ import scisuit.proceng as eng
 
 class pnlSearch ( wx.Panel ):
 
-	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+	def __init__( self, 
+		parent, 
+		id = wx.ID_ANY, 
+		pos = wx.DefaultPosition, 
+		size = wx.Size( 500,300 ), 
+		style = wx.TAB_TRAVERSAL, 
+		name = wx.EmptyString ):
+
+
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
 		self.m_FirstLDown = True
@@ -34,7 +42,6 @@ class pnlSearch ( wx.Panel ):
 		self.m_txtSearch.Bind( wx.EVT_LEFT_DOWN, self.txtSearch_OnLeftDown )
 		self.m_txtSearch.Bind( wx.EVT_TEXT, self.txtSearch_OnText )
 		
-	
 
 	
 	def listSearch_OnListBox( self, event ):
@@ -57,7 +64,6 @@ class pnlSearch ( wx.Panel ):
 		except Exception as e:
 			wx.MessageBox(e)
 		
-
 		event.Skip()
 
 
@@ -119,7 +125,13 @@ class pnlSearch ( wx.Panel ):
 
 class pnlProperties ( wx.Panel ):
 
-	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+	def __init__( self, parent, 
+		id = wx.ID_ANY, 
+		pos = wx.DefaultPosition, 
+		size = wx.Size( 500,300 ), 
+		style = wx.TAB_TRAVERSAL, 
+		name = wx.EmptyString ):
+
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
 		sizerMain = wx.BoxSizer( wx.VERTICAL )
@@ -259,7 +271,6 @@ class pnlProperties ( wx.Panel ):
 		self.SetSizer( sizerMain )
 		self.Layout()
 
-		# Connect Events
 		self.m_txtT.Bind( wx.EVT_TEXT, self.txtT_OnText )
 
 	
@@ -277,9 +288,23 @@ class pnlProperties ( wx.Panel ):
 
 	def SetAsh(self, ash:float):
 		self.m_txtAsh.SetValue(str(ash))
+	
+	def SetK(self, k:float):
+		self.m_txtK.SetValue(str(k))
+	
+	def SetRho(self, rho:float):
+		self.m_txtRho.SetValue(str(rho))
+	
+	def SetCp(self, cp:float):
+		self.m_txtCp.SetValue(str(cp))
 
+	def SetAlpha(self, alpha:float):
+		self.m_txtAlpha.SetValue(str(alpha))
 
-	# Virtual event handlers, overide them in your derived class
+	def GetTemperatureTxt(self):
+		return self.m_txtT
+
+	
 	def txtT_OnText( self, event ):
 		event.Skip()
 
@@ -290,29 +315,38 @@ class pnlProperties ( wx.Panel ):
 class frmFoodDatabase ( gui.Frame ):
 	"""
 	1) The compositional data was downloaded from USDA NAL website (given below) as an Excel file.
-	https://www.ars.usda.gov/northeast-area/beltsville-md/beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/sr28-download-files/
+	https://www.ars.usda.gov/northeast-area/beltsville-md/
+	beltsville-human-nutrition-research-center/nutrient-data-laboratory/docs/sr28-download-files/
 	
 	2) Some of the characters such as & and , was replaced with empty characters for food names.
 	3) Acronyms such as W/ and WO/ was replaced with with and without, respectively.
-	4) Compositional Data (water, CHO, protein, total lipids, ash) was read from the Excel file into database/USDANALSR28.db SQLite file.
+	4) Compositional Data (water, CHO, protein, total lipids, ash) was read from the 
+	Excel file into database/USDANALSR28.db SQLite file.
 	"""
 
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, 
             id = wx.ID_ANY, 
-            title = wx.EmptyString, 
+            title = "Search Food Database File - SR 28 (Offline)", 
             pos = wx.DefaultPosition, 
             size = wx.DefaultSize, 
             style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+		
+		icon = wx.Icon()
+		image = wx.Image()
+		image.LoadFile(gui.exepath()+"apps/images/fooddatabase.jpg")
+		bmp=image.ConvertToBitmap()
+		icon.CopyFromBitmap(bmp)
+		self.SetIcon(icon)
 
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_notebook = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_pnlSearch = pnlSearch( self.m_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_pnlSearch = pnlSearch( self.m_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize)
+		self.m_pnlProps =pnlProperties( self.m_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize)
 		self.m_notebook.AddPage( self.m_pnlSearch, u"Search", False )
-		self.m_pnlProps =pnlProperties( self.m_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		self.m_notebook.AddPage( self.m_pnlProps, u"Thermo-Physical Props", False )
 
 		mainSizer.Add( self.m_notebook, 1, wx.EXPAND |wx.ALL, 5 )
@@ -324,7 +358,7 @@ class frmFoodDatabase ( gui.Frame ):
 		self.Centre( wx.BOTH )
 
 		self.m_notebook.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.OnNotebookPageChanged )
-
+		self.m_pnlProps.GetTemperatureTxt().Bind( wx.EVT_TEXT, self.txtT_OnText )
 	
 
 	def OnNotebookPageChanged( self, event ):
@@ -337,6 +371,44 @@ class frmFoodDatabase ( gui.Frame ):
 			self.m_pnlProps.SetLipid(round(food.Lipid, 2))
 			self.m_pnlProps.SetCHO(round(food.CHO, 2))
 			self.m_pnlProps.SetAsh(round(food.Ash, 2))
+			
+			self.m_pnlProps.SetRho(round(food.rho(), 2))
+			self.m_pnlProps.SetCp(round(food.cp(), 3))
+			self.m_pnlProps.SetK(round(food.k(), 3))
+
+			alpha=food.k() / (food.rho()*food.cp())
+			self.m_pnlProps.SetAlpha(round(alpha, 5))
+
+		event.Skip()
+	
+
+	def txtT_OnText( self, event ):
+		txt = self.m_pnlProps.GetTemperatureTxt().GetValue()
+
+		if(txt == ""):
+			self.m_pnlProps.GetTemperatureTxt().SetBackgroundColour(wx.Colour(255, 255, 255))
+			self.m_pnlProps.GetTemperatureTxt().Refresh()
+			return
+		
+		Temperature = float(txt)
+
+		if(Temperature<2 or Temperature>50):
+			self.m_pnlProps.GetTemperatureTxt().SetToolTip(u"Thermo-physical predictions are not reliable")
+			self.m_pnlProps.GetTemperatureTxt().SetBackgroundColour(wx.Colour(255, 0, 0))
+			self.m_pnlProps.GetTemperatureTxt().Refresh()
+		else:
+			self.m_pnlProps.GetTemperatureTxt().SetToolTip(u"[2, 50]")
+			self.m_pnlProps.GetTemperatureTxt().SetBackgroundColour(wx.Colour(255, 255, 255))
+			self.m_pnlProps.GetTemperatureTxt().Refresh()
+
+		food = self.m_pnlSearch.GetFood()
+		food.temperature = Temperature
+		self.m_pnlProps.SetRho(round(food.rho(), 2))
+		self.m_pnlProps.SetCp(round(food.cp(), 3))
+		self.m_pnlProps.SetK(round(food.k(), 3))
+
+		alpha=food.k() / (food.rho()*food.cp())
+		self.m_pnlProps.SetAlpha(round(alpha, 5))
 
 		event.Skip()
 
