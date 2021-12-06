@@ -355,13 +355,10 @@ class Food:
 				(self.m_CHO/100)*Rho("CHO",T) + \
 				(self.m_Ash/100)*Rho("ash",T) + \
 				(self.m_Salt/100)*Rho("salt",T)
-		
-			
+				
 		elif(callable(arg)):
-			retVal=arg(self)
-			
+			retVal=arg(self)	
 			assert isinstance(retVal, numbers.Number) and retVal>0, "Function must return a number >0."
-			
 			self.m_rho=retVal
 
 			return retVal
