@@ -22,8 +22,8 @@ class frmPsychrometry ( gui.Frame ):
 
 		self.m_Digits=2
 
-		icon=wx.EmptyIcon()
-		image=wx.Image()
+		icon = wx.Icon()
+		image = wx.Image()
 		image.LoadFile(gui.exepath()+"apps/images/psychrometry.bmp")
 		bmp=image.ConvertToBitmap()
 		icon.CopyFromBitmap(bmp)
