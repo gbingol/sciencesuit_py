@@ -7,12 +7,11 @@ def _GetVariable(txt):
     ws = gui.activeworksheet()
     rng = ws.selection()
     txt.SetValue(str(rng))
-    txt.GetParent().Raise()
 
 
 class _frmGridSelection (wx.Frame):
 	def __init__(self, parent):
-		wx.Frame.__init__(self, parent, size=wx.Size(500, 48), style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.TAB_TRAVERSAL)
+		wx.Frame.__init__(self, parent, size=wx.Size(500, 48), style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.STAY_ON_TOP | wx.TAB_TRAVERSAL)
 
 		self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 

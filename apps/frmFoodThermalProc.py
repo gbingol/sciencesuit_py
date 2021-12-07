@@ -6,12 +6,7 @@ import scisuit.gui as gui
 class frmFoodThermalProc ( gui.Frame ):
 
 	def __init__( self, parent ):
-		gui.Frame.__init__ ( self, 
-			parent, 
-			id = wx.ID_ANY, 
-			title = u"Food Thermal Processing", 
-			pos = wx.DefaultPosition, 
-			size = wx.Size(-1, -1))
+		gui.Frame.__init__ ( self, parent,title = u"Food Thermal Processing", size = wx.Size(-1, -1)) 
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -59,7 +54,7 @@ class frmFoodThermalProc ( gui.Frame ):
 
 		fgSizer.Add( self.m_staticText21, 0, wx.ALL, 5 )
 
-		self.m_txtTemperature = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtTemperature = gui.GridTextCtrl( self )
 		fgSizer.Add( self.m_txtTemperature, 1, wx.ALL|wx.EXPAND, 5 )
 
 		self.m_staticText23 = wx.StaticText( self, wx.ID_ANY, u"Ref Temperature:", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -67,7 +62,7 @@ class frmFoodThermalProc ( gui.Frame ):
 
 		fgSizer.Add( self.m_staticText23, 0, wx.ALL, 5 )
 
-		self.m_txtRefTemperature = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtRefTemperature = wx.TextCtrl( self, wx.ID_ANY,"121", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer.Add( self.m_txtRefTemperature, 0, wx.ALL|wx.EXPAND, 5 )
 
 
@@ -82,19 +77,14 @@ class frmFoodThermalProc ( gui.Frame ):
 
 		self.Centre( wx.BOTH )
 
-		# Connect Events
 		self.m_btnCalc.Bind( wx.EVT_BUTTON, self.btnCalc_OnButtonClick )
 
-	def __del__( self ):
-		pass
 
-
-	# Virtual event handlers, overide them in your derived class
 	def btnCalc_OnButtonClick( self, event ):
 		event.Skip()
     
 
 if __name__ == "__main__":
-    frm = frmFoodThermalProc(None)
-    frm.Show()
+	frm = frmFoodThermalProc(None) 
+	frm.Show()
 
