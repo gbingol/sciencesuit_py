@@ -1,11 +1,17 @@
 import wx
 
-app = wx.App()
+import scisuit.gui as gui
 
-class frmFoodThermalProc ( wx.Frame ):
+
+class frmFoodThermalProc ( gui.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Food Thermal Processing", pos = wx.DefaultPosition, size = wx.Size(-1, -1), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		gui.Frame.__init__ ( self, 
+			parent, 
+			id = wx.ID_ANY, 
+			title = u"Food Thermal Processing", 
+			pos = wx.DefaultPosition, 
+			size = wx.Size(-1, -1))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -45,7 +51,7 @@ class frmFoodThermalProc ( wx.Frame ):
 
 		fgSizer.Add( self.m_staticText20, 0, wx.ALL, 5 )
 
-		self.m_txtTime = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtTime = gui.GridTextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer.Add( self.m_txtTime, 1, wx.ALL|wx.EXPAND, 5 )
 
 		self.m_staticText21 = wx.StaticText( self, wx.ID_ANY, u"Temperature(s):", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -92,4 +98,3 @@ if __name__ == "__main__":
     frm = frmFoodThermalProc(None)
     frm.Show()
 
-    app.MainLoop()
