@@ -51,7 +51,7 @@ class frmFoodThermalProc ( gui.Frame ):
 
 		fgSizer.Add( self.m_staticText20, 0, wx.ALL, 5 )
 
-		self.m_txtTime = gui.GridTextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtTime = gui.GridTextCtrl( self )
 		fgSizer.Add( self.m_txtTime, 1, wx.ALL|wx.EXPAND, 5 )
 
 		self.m_staticText21 = wx.StaticText( self, wx.ID_ANY, u"Temperature(s):", wx.DefaultPosition, wx.DefaultSize, 0 )
