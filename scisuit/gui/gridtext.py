@@ -11,22 +11,20 @@ def _GetVariable(txt):
 
 class _frmGridSelection (wx.Frame):
 	def __init__(self, parent):
-		wx.Frame.__init__(self, parent, size=wx.Size(500, 48), style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.STAY_ON_TOP | wx.TAB_TRAVERSAL)
+		wx.Frame.__init__(self, parent, size=wx.DefaultSize, style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.STAY_ON_TOP )
 
 		self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
 		mainSizer = wx.BoxSizer(wx.HORIZONTAL)
 
 		self.m_textCtrl = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0)
-		mainSizer.Add(self.m_textCtrl, 1, wx.ALL, 5)
+		mainSizer.Add( self.m_textCtrl, 3, wx.ALL, 5 )
 
 		self.m_btnOK = wx.Button(self, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0)
-		mainSizer.Add(self.m_btnOK, 0, wx.ALL, 5)
+		mainSizer.Add( self.m_btnOK, 1, wx.ALL, 5 )
 
 		self.SetSizerAndFit(mainSizer)
 		self.Layout()
-
-		self.Centre(wx.BOTH)
 
 		self.m_btnOK.Bind(wx.EVT_BUTTON, self.btnOK_OnButtonClick)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)

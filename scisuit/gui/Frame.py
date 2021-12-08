@@ -12,7 +12,7 @@ class Frame(wx.Frame):
             title=wx.EmptyString, 
             pos=wx.DefaultPosition, 
             size=wx.DefaultSize, 
-            style=wx.DEFAULT_FRAME_STYLE, 
+            style=wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.RESIZE_BORDER|wx.TAB_TRAVERSAL, 
             name=wx.FrameNameStr ):
 
             wx.Frame.__init__ ( self, 

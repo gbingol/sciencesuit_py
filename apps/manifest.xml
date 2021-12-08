@@ -11,7 +11,7 @@
 			<IMAGE>apps/images/fooddatabase.jpg</IMAGE>
 		</BUTTON>
 		<BUTTON NAME="foodthermalproc" TITLE="Thermal Processing">
-			<FUNCTION>std.app.FoodThermalProcessing</FUNCTION>
+			<PATH>apps/frmFoodThermalProc.py</PATH>
 			<IMAGE>apps/images/thermalprocessing.jpg</IMAGE>
 		</BUTTON>
 		

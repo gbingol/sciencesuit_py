@@ -22,5 +22,5 @@ since there can only be one main loop in wxPython in a single process.
 Attempting to use app.MainLoop elsewhere will crash the whole system 
 unless a subprocess is used.
 """
-app=wx.App()
+app=wx.App(useBestVisual=True)
 app.MainLoop() #there can only be one main loop in wxPython
