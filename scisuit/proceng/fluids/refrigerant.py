@@ -4,6 +4,19 @@ from sqlite3.dbapi2 import Cursor
 
 import sqlite3 as sql
 
+
+def Interpolation(x1, y1, x2, y2, val):
+	if(x1 == x2): 
+		return y1 
+	
+	m,n=0, 0
+	m = (y2 - y1) / (x2 - x1)
+	n = y2 - m * x2
+
+	return m * val + n
+
+
+
 class Refrigerant:
     """
     Base class thermodynamic properties of refrigerants
@@ -92,34 +105,67 @@ class SaturatedRefrigerant(Refrigerant):
         cursor = self.m_Connection.cursor()
         AllFieldNames = self.GetFieldNames(cursor, self.m_DBTable)
 
-        if((PropertyName in AllFieldNames) == False):
+        #Index of the property in the columns of the table
+        ParamIndex = -1
+        try:
+            ParamIndex = AllFieldNames.index(PropertyName)
+        except:
             raise ValueError("Valid property names: " + str(AllFieldNames))
         
-        #Check if the numbers are increasing or decreasing for the given property
-        strQuery="SELECT "+ PropertyName +" FROM " + self.m_DBTable
+        strQuery="SELECT * FROM " + self.m_DBTable + " ORDER BY "+ PropertyName
         rows = cursor.execute(strQuery , []).fetchall()
-	    
-        """
-        We select a value from the mid-point of the properties and subtract the value at the very beginning
-	    if Diff>0, then the numbers are ascending otherwise descending order
-        """
-        Diff = rows[math.floor(len(rows)/2)][0] - rows[0][0]
-        Ascending = True
-        if(Diff<0):
-            Ascending = False
         
-        SearchedFieldNames = AllFieldNames
-        AllFieldNames.remove(PropertyName)
-        SearchedFieldNames = ",".join(AllFieldNames)
-        PlaceHolderList = [PropertyName, QueryValue]
-        
-        QueryLarger="SELECT " + SearchedFieldNames + " FROM " + self.m_DBTable + " WHERE " + "? >= ?" 
-        RowsLarger = cursor.execute(QueryLarger , PlaceHolderList).fetchall()
+        RowIndex = -1
 
-        QueryLarger="SELECT " + SearchedFieldNames + " FROM " + self.m_DBTable + " WHERE " + "? <= ?" 
-        RowsSmaller = cursor.execute(QueryLarger , PlaceHolderList).fetchall()
+        for i in range(len(rows)):
+            Value = rows[i][ParamIndex]
+            if(Value>=QueryValue):
+                RowIndex = i
+                break
+        
+        retDict = dict()
+
+        if(RowIndex == 0):
+            TupleIndex = -1
+            for propName in AllFieldNames:
+                TupleIndex += 1
+                if(propName == PropertyName):
+                    continue
+
+                Value = rows[0][TupleIndex]
+                retDict[propName] = Value
+
+            return retDict
+            
+        
+        if(RowIndex == -1):
+            strQuery="SELECT min( {} ), max( {} ) FROM " + self.m_DBTable
+            rows = cursor.execute(strQuery.format(PropertyName, PropertyName)).fetchone()      
+            raise ValueError(PropertyName + " range: [" + str(rows[0]) + " , " + str(rows[1]) + "]")
+        
+
+        PropValHigh = rows[RowIndex][ParamIndex]
+        PropValLow = rows[RowIndex - 1][ParamIndex]
+        TupleIndex = -1
+        for propName in AllFieldNames:
+            TupleIndex += 1
+            if(propName == PropertyName):
+                continue
+
+            ValueLow = rows[RowIndex - 1][TupleIndex]
+            ValueHigh = rows[RowIndex][TupleIndex]
+            Value = Interpolation(PropValLow, ValueLow, PropValHigh, ValueHigh, QueryValue)
+            retDict[propName] = Value
+        
+        return retDict
+            
+
+
+       
 
 
 if __name__ == "__main__":
     r=SaturatedRefrigerant("water")
-    r.search("T", 22.0)
+    result = r.search("sg", 20.0)
+
+    print(result)
