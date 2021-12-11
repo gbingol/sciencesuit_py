@@ -3,6 +3,8 @@ import sqlite3 as sql
 from scisuit.proceng.fluids.fluid import Fluid
 from scisuit.proceng.fluids.searchorderedtable import searchOrderedTable
 
+import scisuit.gui as gui
+
 import sqlite3 as sql
 
 
@@ -43,7 +45,7 @@ class SaturatedRefrigerant(Refrigerant):
 	Value: A numeric value of the property
 	"""
 
-	s_DataBasePath = "C:/datafiles/refrigerants.db"
+	s_DataBasePath = gui.exepath() + "/datafiles/refrigerants.db"
 
 	def __init__(self, FluidName:str) -> None:
 		super().__init__() 
@@ -53,9 +55,9 @@ class SaturatedRefrigerant(Refrigerant):
 		cursor = self.m_Connection.cursor()
 
 		"""
-            Check if the parameter FluidName is valid
-            Note that the columns in the database is configured as
-            COLLATE NOCASE, therefore search is not case-sensitive
+		Check if the parameter FluidName is valid
+		Note that the columns in the database is configured as
+		COLLATE NOCASE, therefore search is not case-sensitive
 		"""
 		PlaceHolderTxt = FluidName
 		QueryString = "SELECT * FROM MAINTABLE where NAME=?"
@@ -80,8 +82,13 @@ class SaturatedRefrigerant(Refrigerant):
 		else:
 			self.m_DBTable = rows[0][2]
 
+	def __del__( self ):
+		self.m_Connection.close()
+
+
 	def GetConnection(self):
 		return self.m_Connection
+
 
 	def search(self, PropertyName:str, QueryValue:float): 
 		return searchOrderedTable(self, self.m_DBTable, PropertyName, QueryValue) 
