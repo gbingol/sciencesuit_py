@@ -4,9 +4,9 @@ import scisuit.gui as gui
 
 
 def _GetVariable(txt):
-    ws = gui.activeworksheet()
-    rng = ws.selection()
-    txt.SetValue(str(rng))
+	ws = gui.activeworksheet()
+	rng = ws.selection()
+	txt.SetValue(str(rng))
 
 
 class _frmGridSelection (wx.Frame):
