@@ -8,7 +8,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
 		self.m_txtBGChanged = None
-		
+	
 
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
@@ -17,7 +17,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		fgSizerLeft.SetFlexibleDirection( wx.BOTH )
 		fgSizerLeft.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.m_radioT = wx.RadioButton( self, wx.ID_ANY, u"T (C)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_radioT = wx.RadioButton( self, wx.ID_ANY, u"T (°C)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_radioT, 0, wx.ALL, 5 )
 
 		self.m_txtT = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -29,13 +29,13 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		self.m_txtP = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_txtP, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_radioVf = wx.RadioButton( self, wx.ID_ANY, u"vf (m3/kg)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_radioVf = wx.RadioButton( self, wx.ID_ANY, u"vf (m\u00B3/kg)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_radioVf, 0, wx.ALL, 5 )
 
 		self.m_txtVf = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_txtVf, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_radioVg = wx.RadioButton( self, wx.ID_ANY, u"vg (m3/kg)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_radioVg = wx.RadioButton( self, wx.ID_ANY, u"vg (m\u00B3/kg)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_radioVg, 0, wx.ALL, 5 )
 
 		self.m_txtVg = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -53,20 +53,20 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		self.m_txtHg = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_txtHg, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_radioSf = wx.RadioButton( self, wx.ID_ANY, u"sf (kJ/kgK)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_radioSf = wx.RadioButton( self, wx.ID_ANY, u"sf (kJ/kg\u00B7K)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_radioSf, 0, wx.ALL, 5 )
 
 		self.m_txtSf = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_txtSf, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_radioSg = wx.RadioButton( self, wx.ID_ANY, u"sg (kJ/kgK)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_radioSg = wx.RadioButton( self, wx.ID_ANY, u"sg (kJ/kg\u00B7K)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_radioSg, 0, wx.ALL, 5 )
 
 		self.m_txtSg = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_txtSg, 0, wx.ALL|wx.EXPAND, 5 )
 
 
-		mainSizer.Add( fgSizerLeft, 1, wx.EXPAND, 5 )
+		mainSizer.Add( fgSizerLeft, 0, wx.EXPAND, 5 )
 
 
 		mainSizer.Add( ( 0, 10), 1, wx.EXPAND, 5 )
@@ -93,9 +93,13 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 
 	
 	def ChangeBGColor(self, txtCtrl):
-		BGColor = wx.Colour(128, 128, 0)
-		self.m_txtBGChanged.SetBackgroundColour(wx.Color(255, 255, 255))
+		BGColor = wx.Colour(144,238,144)
+		if(self.m_txtBGChanged != None):
+			self.m_txtBGChanged.SetBackgroundColour(wx.Colour(255, 255, 255)) 
+			self.m_txtBGChanged.Refresh()
+		
 		txtCtrl.SetBackgroundColour(BGColor)
+		txtCtrl.Refresh()
 		self.m_txtBGChanged = txtCtrl
 
 	
@@ -143,7 +147,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 class frmPropertiesofFluids ( gui.Frame ):
 
 	def __init__( self, parent ):
-		gui.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Properties of Fluids", pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		gui.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Properties of Fluids", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -156,8 +160,10 @@ class frmPropertiesofFluids ( gui.Frame ):
 		mainSizer.Add( self.m_notebook, 1, wx.EXPAND |wx.ALL, 5 )
 
 
-		self.SetSizer( mainSizer )
+		self.SetSizerAndFit( mainSizer )
 		self.Layout()
+		
+		
 		self.m_menubar1 = wx.MenuBar( 0 )
 		self.m_menuExport = wx.Menu()
 		self.m_menuItemWorksheet = wx.MenuItem( self.m_menuExport, wx.ID_ANY, u"Worksheet", wx.EmptyString, wx.ITEM_NORMAL )
