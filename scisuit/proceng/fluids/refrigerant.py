@@ -16,24 +16,40 @@ class Refrigerant(Fluid):
 	"""
 	Base class thermodynamic properties of refrigerants
 	"""
-
+	s_DataBasePath = gui.exepath() + "/datafiles/refrigerants.db"
+	
 	def __init__(self) -> None: 
 		super().__init__()
+		self.m_Connection = sql.connect(self.s_DataBasePath) 
+	
+	
+	def GetConnection(self):
+		return self.m_Connection
     
 
-	def GetFieldNames(self, cursor:sql.Cursor, TableName:str): 
-		PlaceHolderTxt = TableName
+	def GetFieldNames(self, TableName:str): 
 		QueryString = "SELECT name FROM PRAGMA_TABLE_INFO(?)"
-		rowList = cursor.execute(QueryString , (PlaceHolderTxt,)).fetchall()
+		rowList = self.m_Connection.cursor().execute(QueryString , (TableName,)).fetchall()
 
 		if(len(rowList) == 0):
 			raise ValueError("Invalid table name:" + TableName)
 
 		retList = []
-
 		for tupleItem in rowList:
 		   retList.append(tupleItem[0])
 
+		return retList
+	
+	
+	def GetFluidNames(self):
+		QueryString = "SELECT name, alternative FROM MAINTABLE"
+		rowList = self.m_Connection.cursor().execute(QueryString , []).fetchall()
+		
+		retList = []
+		for tupleItem in rowList:
+			Name = str(tupleItem[0]) + str(tupleItem[1])[0:6]
+			retList.append(Name) 
+		
 		return retList
     
 
@@ -45,13 +61,10 @@ class SaturatedRefrigerant(Refrigerant):
 	Value: A numeric value of the property
 	"""
 
-	s_DataBasePath = gui.exepath() + "/datafiles/refrigerants.db"
-
 	def __init__(self, FluidName:str) -> None:
 		super().__init__() 
+		
 		self.m_FluidName = FluidName
-		self.m_Connection = sql.connect(self.s_DataBasePath) 
-
 		cursor = self.m_Connection.cursor()
 
 		"""
@@ -59,9 +72,8 @@ class SaturatedRefrigerant(Refrigerant):
 		Note that the columns in the database is configured as
 		COLLATE NOCASE, therefore search is not case-sensitive
 		"""
-		PlaceHolderTxt = FluidName
 		QueryString = "SELECT * FROM MAINTABLE where NAME=?"
-		rows = cursor.execute(QueryString , (PlaceHolderTxt,)).fetchall()
+		rows = cursor.execute(QueryString , (FluidName,)).fetchall()
 
 		#a name like "R" or "R1" will match more than 1
 		if(len(rows)>1):
@@ -70,7 +82,7 @@ class SaturatedRefrigerant(Refrigerant):
         
 		if(len(rows) == 0):
 			QueryString = "SELECT * FROM MAINTABLE where ALTERNATIVE=?"
-			rows = cursor.execute(QueryString , (PlaceHolderTxt,)).fetchall()
+			rows = cursor.execute(QueryString , (FluidName,)).fetchall()
 
 			#all options exhausted, raise an error
 			if(len(rows)==0):
@@ -82,12 +94,9 @@ class SaturatedRefrigerant(Refrigerant):
 		else:
 			self.m_DBTable = rows[0][2]
 
+
 	def __del__( self ):
 		self.m_Connection.close()
-
-
-	def GetConnection(self):
-		return self.m_Connection
 
 
 	def search(self, PropertyName:str, QueryValue:float): 

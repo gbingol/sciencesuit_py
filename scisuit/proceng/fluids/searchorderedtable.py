@@ -27,7 +27,7 @@ def searchOrderedTable(fluid:Fluid, TableName:str, PropertyName:str, QueryValue:
       Returns a dict with keys P, T, s, vf and with values corresponding to T=22`
 	"""
 	cursor = fluid.GetConnection().cursor() 
-	AllFieldNames = fluid.GetFieldNames(cursor, TableName)
+	AllFieldNames = fluid.GetFieldNames(TableName)
 
 	#Index of the property in the columns of the table
 	ParamIndex = -1

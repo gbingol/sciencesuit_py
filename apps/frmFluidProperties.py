@@ -97,7 +97,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		self.SetSizer( mainSizer )
 		self.Layout()
 
-		# Connect Events
+
 		self.Bind( wx.EVT_INIT_DIALOG, self.OnInitDialog )
 		self.m_choiceFluidType.Bind( wx.EVT_CHOICE, self.FluidType_OnChoice )
 		self.m_radioT.Bind( wx.EVT_RADIOBUTTON, self.radioT_OnRadioButton )
@@ -126,6 +126,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 
 
 	def OnInitDialog( self, event ):
+		
 		event.Skip()
 		
 	def FluidType_OnChoice( self, event ):
