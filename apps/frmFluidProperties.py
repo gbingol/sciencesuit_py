@@ -2,15 +2,34 @@ import wx
 
 import scisuit.gui as gui
 
+import scisuit.proceng.fluids as fluid
+
+
+
 class pnlRefrigerantSaturated ( wx.Panel ):
 
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
-		self.m_txtBGChanged = None
-	
-
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
+
+		sizerFluidType = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticFluidType = wx.StaticText( self, wx.ID_ANY, u"Type: ", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticFluidType.Wrap( -1 )
+
+		sizerFluidType.Add( self.m_staticFluidType, 0, wx.ALL, 5 )
+
+		m_choiceFluidTypeChoices = []
+		self.m_choiceFluidType = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choiceFluidTypeChoices, 0 )
+		self.m_choiceFluidType.SetSelection( 0 )
+		sizerFluidType.Add( self.m_choiceFluidType, 1, wx.ALL, 5 )
+
+
+		mainSizer.Add( sizerFluidType, 1, wx.EXPAND, 5 )
+
+
+		mainSizer.Add( ( 0, 10), 1, wx.EXPAND, 5 )
 
 		fgSizerLeft = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizerLeft.AddGrowableCol( 1 )
@@ -62,8 +81,8 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		self.m_radioSg = wx.RadioButton( self, wx.ID_ANY, u"sg (kJ/kg\u00B7K)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_radioSg, 0, wx.ALL, 5 )
 
-		self.m_txtSg = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizerLeft.Add( self.m_txtSg, 0, wx.ALL|wx.EXPAND, 5 )
+		self.m_txtHg = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_txtHg, 0, wx.ALL|wx.EXPAND, 5 )
 
 
 		mainSizer.Add( fgSizerLeft, 0, wx.EXPAND, 5 )
@@ -75,9 +94,12 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		mainSizer.Add( self.m_btnCompute, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
 
 
-		self.SetSizerAndFit( mainSizer )
+		self.SetSizer( mainSizer )
 		self.Layout()
 
+		# Connect Events
+		self.Bind( wx.EVT_INIT_DIALOG, self.OnInitDialog )
+		self.m_choiceFluidType.Bind( wx.EVT_CHOICE, self.FluidType_OnChoice )
 		self.m_radioT.Bind( wx.EVT_RADIOBUTTON, self.radioT_OnRadioButton )
 		self.m_radioP.Bind( wx.EVT_RADIOBUTTON, self.radioP_OnRadioButton )
 		self.m_radioVf.Bind( wx.EVT_RADIOBUTTON, self.radioVf_OnRadioButton )
@@ -101,6 +123,13 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		txtCtrl.SetBackgroundColour(BGColor)
 		txtCtrl.Refresh()
 		self.m_txtBGChanged = txtCtrl
+
+
+	def OnInitDialog( self, event ):
+		event.Skip()
+		
+	def FluidType_OnChoice( self, event ):
+		event.Skip()
 
 	
 	def radioT_OnRadioButton( self, event ):
@@ -136,6 +165,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		event.Skip()
 
 	def btnCompute_OnButtonClick( self, event ):
+		fl = fluid.SaturatedRefrigerant(None)
 		event.Skip()
 
 
