@@ -45,12 +45,7 @@ class Refrigerant(Fluid):
 		QueryString = "SELECT name, alternative FROM MAINTABLE"
 		rowList = self.m_Connection.cursor().execute(QueryString , []).fetchall()
 		
-		retList = []
-		for tupleItem in rowList:
-			Name = str(tupleItem[0]) + str(tupleItem[1])[0:6]
-			retList.append(Name) 
-		
-		return retList
+		return rowList
     
 
 

@@ -11,6 +11,13 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
+		self.m_txtBGChanged  = None
+		self.m_FluidType = None
+		self.m_SelectedProperty = None
+		self.m_Parent = parent.GetParent()
+		
+		
+		
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
 		sizerFluidType = wx.BoxSizer( wx.HORIZONTAL )
@@ -81,8 +88,8 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		self.m_radioSg = wx.RadioButton( self, wx.ID_ANY, u"sg (kJ/kg\u00B7K)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizerLeft.Add( self.m_radioSg, 0, wx.ALL, 5 )
 
-		self.m_txtHg = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizerLeft.Add( self.m_txtHg, 0, wx.ALL|wx.EXPAND, 5 )
+		self.m_txtSg = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_txtSg, 0, wx.ALL|wx.EXPAND, 5 )
 
 
 		mainSizer.Add( fgSizerLeft, 0, wx.EXPAND, 5 )
@@ -94,8 +101,13 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		mainSizer.Add( self.m_btnCompute, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
 
 
-		self.SetSizer( mainSizer )
+		self.SetSizerAndFit( mainSizer )
 		self.Layout()
+		
+		self.m_CtrlList = [[self.m_txtT, "T"], [self.m_txtP, "P"], 
+            [self.m_txtVf, "vf"], [self.m_txtVg, "vg"],
+            [self.m_txtHf, "hf"], [self.m_txtHg, "hg"],
+            [self.m_txtSf, "sf"], [self.m_txtSg, "sg"]]
 
 
 		self.Bind( wx.EVT_INIT_DIALOG, self.OnInitDialog )
@@ -126,48 +138,107 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 
 
 	def OnInitDialog( self, event ):
-		
+		refrigerant = fluid.Refrigerant()
+		self.m_FluidList = refrigerant.GetFluidNames()
+	
+		for entry in self.m_FluidList:
+			Name = str(entry[0])
+			Alternative = str(entry[1])
+			if(len(Alternative)>7):
+				Alternative = Alternative[0:int(len(Alternative)/2)] + "..." + Alternative[-int(len(Alternative)/4):]
+			
+			self.m_choiceFluidType.Append(Name +", "+ Alternative)
 		event.Skip()
 		
+		
 	def FluidType_OnChoice( self, event ):
+		sel = event.GetSelection()
+		self.m_FluidType = self.m_FluidList[sel][0] #name
 		event.Skip()
 
 	
 	def radioT_OnRadioButton( self, event ):
 		self.ChangeBGColor(self.m_txtT)
+		self.m_SelectedProperty = "T"
 		event.Skip()
 
 	def radioP_OnRadioButton( self, event ):
 		self.ChangeBGColor(self.m_txtP)
+		self.m_SelectedProperty = "P"
 		event.Skip()
 
 	def radioVf_OnRadioButton( self, event ):
 		self.ChangeBGColor(self.m_txtVf)
+		self.m_SelectedProperty = "vf"
 		event.Skip()
 
 	def radioVg_OnRadioButton( self, event ):
 		self.ChangeBGColor(self.m_txtVg)
+		self.m_SelectedProperty = "vg"
 		event.Skip()
 
 	def radioHf_OnRadioButton( self, event ):
 		self.ChangeBGColor(self.m_txtHf)
+		self.m_SelectedProperty = "hf"
 		event.Skip()
 
 	def radioHg_OnRadioButton( self, event ):
 		self.ChangeBGColor(self.m_txtHg)
+		self.m_SelectedProperty = "hg"
 		event.Skip()
 
 	def radioSf_OnRadioButton( self, event ):
 		self.ChangeBGColor(self.m_txtSf)
+		self.m_SelectedProperty = "sf"
 		event.Skip()
 
 	def radioSg_OnRadioButton( self, event ):
 		self.ChangeBGColor(self.m_txtSg)
+		self.m_SelectedProperty = "sg"
 		event.Skip()
 
+
 	def btnCompute_OnButtonClick( self, event ):
-		fl = fluid.SaturatedRefrigerant(None)
+		if self.m_FluidType == None:
+			wx.MessageBox("Fluid type must be selected")
+			return
+		
+		fl = fluid.SaturatedRefrigerant(self.m_FluidType ) 
+		result = dict()
+		try:
+			result = fl.search(self.m_SelectedProperty, float(self.m_txtBGChanged.GetValue()))
+		except Exception as e:
+			wx.MessageBox(str(e))
+			return
+            
+		for lst in self.m_CtrlList:
+			if lst[0] == self.m_txtBGChanged:
+				continue
+			Value = result.get(lst[1])
+			Digits = self.m_Parent.GetDigits() 
+			if(Digits != None):
+				lst[0].SetValue(str(round(Value, Digits)))
+			else:
+				lst[0].SetValue(str(Value)) 
+
 		event.Skip()
+	
+	
+	def Export(self):
+		ws = gui.Worksheet()
+		ws[0,0] = self.m_SelectedProperty
+		ws[0,1] = self.m_txtBGChanged.GetValue()
+		
+		row = 2
+		for lst in self.m_CtrlList: 
+			if lst[0] == self.m_txtBGChanged:
+				continue
+			Name = lst[1]
+			Value = lst[0].GetValue()
+			ws[row, 0] = str(Name)
+			ws[row,1] = str(Value)
+			
+			row += 1
 
 
 
@@ -178,7 +249,9 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 class frmPropertiesofFluids ( gui.Frame ):
 
 	def __init__( self, parent ):
-		gui.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Properties of Fluids", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		gui.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Properties of Fluids" )
+		
+		self.m_Digits = None
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -186,7 +259,8 @@ class frmPropertiesofFluids ( gui.Frame ):
 
 		self.m_notebook = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_pnlSaturated = pnlRefrigerantSaturated( self.m_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL, u"Saturated" )
-		self.m_notebook.AddPage( self.m_pnlSaturated, u"a page", False )
+		self.m_pnlSaturated.InitDialog()
+		self.m_notebook.AddPage( self.m_pnlSaturated, u"Saturated", False )
 
 		mainSizer.Add( self.m_notebook, 1, wx.EXPAND |wx.ALL, 5 )
 
@@ -194,13 +268,12 @@ class frmPropertiesofFluids ( gui.Frame ):
 		self.SetSizerAndFit( mainSizer )
 		self.Layout()
 		
-		
-		self.m_menubar1 = wx.MenuBar( 0 )
+		self.m_menubar = wx.MenuBar( 0 )
 		self.m_menuExport = wx.Menu()
 		self.m_menuItemWorksheet = wx.MenuItem( self.m_menuExport, wx.ID_ANY, u"Worksheet", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menuExport.Append( self.m_menuItemWorksheet )
 
-		self.m_menubar1.Append( self.m_menuExport, u"Export" )
+		self.m_menubar.Append( self.m_menuExport, u"Export" )
 
 		self.m_menuDigits = wx.Menu()
 		self.m_menuItem2 = wx.MenuItem( self.m_menuDigits, wx.ID_ANY, u"2 Digits", wx.EmptyString, wx.ITEM_RADIO )
@@ -216,24 +289,46 @@ class frmPropertiesofFluids ( gui.Frame ):
 		self.m_menuDigits.Append( self.m_menuItem_AsIs )
 		self.m_menuItem_AsIs.Check( True )
 
-		self.m_menubar1.Append( self.m_menuDigits, u"Digits" )
-
-		self.SetMenuBar( self.m_menubar1 )
+		self.m_menubar.Append( self.m_menuDigits, u"Digits" )
+		self.SetMenuBar( self.m_menubar )
 
 
 		self.Centre( wx.BOTH )
 
-		# Connect Events
 		self.Bind( wx.EVT_MENU, self.menuItemWorksheet_OnMenuSelection, id = self.m_menuItemWorksheet.GetId() )
+		self.Bind( wx.EVT_MENU, self.menuItem2_OnMenuSelection, id = self.m_menuItem2.GetId() )
+		self.Bind( wx.EVT_MENU, self.menuItem3_OnMenuSelection, id = self.m_menuItem3.GetId() )
+		self.Bind( wx.EVT_MENU, self.menuItem4_OnMenuSelection, id = self.m_menuItem4.GetId() )
+		self.Bind( wx.EVT_MENU, self.menuItem_AsIs_OnMenuSelection, id = self.m_menuItem_AsIs.GetId() )
 
 	def __del__( self ):
 		pass
 
-
-	# Virtual event handlers, overide them in your derived class
+	
 	def menuItemWorksheet_OnMenuSelection( self, event ):
+		curPage = self.m_notebook.GetCurrentPage()
+		curPage.Export()
+		
+		event.Skip()
+	
+	def menuItem2_OnMenuSelection( self, event ):
+		self.m_Digits = 2
 		event.Skip()
 
+	def menuItem3_OnMenuSelection( self, event ):
+		self.m_Digits = 3
+		event.Skip()
+
+	def menuItem4_OnMenuSelection( self, event ):
+		self.m_Digits = 4
+		event.Skip()
+
+	def menuItem_AsIs_OnMenuSelection( self, event ):
+		self.m_Digits = None
+		event.Skip()
+
+	def GetDigits(self):
+            return self.m_Digits
 
 
 if __name__ == "__main__":
