@@ -50,7 +50,7 @@ class EmpiricalMaterial(Material):
 
 	def searchOrderedTable(self, TableName:str, PropertyName:str, QueryValue:float, Sort:bool = True):
 		"""
-			TableName: Database table name where properties are <br>
+			TableName: Database table name where uniquely named properties are <br>
 			PropertyName: Name of the property corresponding to fieldname in the table <br>
 			QueryValue: Value at which properties are sought after <br>
 			Sort: Sort the table based on the property name in ascending order 
@@ -69,9 +69,16 @@ class EmpiricalMaterial(Material):
 		#Index of the property in the columns of the table
 		ParamIndex = -1
 		try:
-			ParamIndex = AllFieldNames.index(PropertyName)
+			"""
+				note that we search in capitalized field names with capitalized PropertyName
+				For example, user now can enter Pr, pr ... to find properties for Prandtl
+				The table must contain only unique fields
+			"""
+			CapitalizedFiledNames = [s.capitalize() for s in AllFieldNames]
+			ParamIndex = CapitalizedFiledNames.index(PropertyName.capitalize())
 		except:
 			raise ValueError("Valid property names: " + str(AllFieldNames))
+		
 		
 		if(Sort):
 			strQuery = "SELECT * FROM " + TableName + " ORDER BY "+ PropertyName
@@ -112,7 +119,8 @@ class EmpiricalMaterial(Material):
 
 		for propName in AllFieldNames: 
 			TupleIndex += 1
-			if(propName == PropertyName):
+			
+			if(propName.capitalize() == PropertyName.capitalize()):
 				continue 
 
 			ValueLow = self._rows[RowIndex - 1][TupleIndex]
