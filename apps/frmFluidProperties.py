@@ -244,6 +244,192 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 
 
 
+class pnlThermoPhysical ( wx.Panel ):
+
+	def __init__( self, parent):
+		wx.Panel.__init__ ( self, parent)
+		
+		self.m_txtBGChanged  = None
+		self.m_FluidType = None
+		self.m_SelectedProperty = None
+		self.m_Parent = parent.GetParent()
+
+		mainSizer = wx.BoxSizer( wx.VERTICAL )
+
+		sizerFluidType = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticFluidType = wx.StaticText( self, wx.ID_ANY, u"Type: ", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticFluidType.Wrap( -1 )
+
+		sizerFluidType.Add( self.m_staticFluidType, 0, wx.ALL, 5 )
+
+		m_choiceFluidTypeChoices = []
+		self.m_choiceFluidType = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choiceFluidTypeChoices, 0 )
+		self.m_choiceFluidType.SetSelection( 0 )
+		sizerFluidType.Add( self.m_choiceFluidType, 1, wx.ALL, 5 )
+
+
+		mainSizer.Add( sizerFluidType, 1, wx.EXPAND, 5 )
+
+
+		mainSizer.Add( ( 0, 10), 1, wx.EXPAND, 5 )
+
+		fgSizerLeft = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizerLeft.AddGrowableCol( 1 )
+		fgSizerLeft.SetFlexibleDirection( wx.BOTH )
+		fgSizerLeft.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_radioT = wx.RadioButton( self, wx.ID_ANY, u"T (°C)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_radioT, 0, wx.ALL, 5 )
+
+		self.m_txtT = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_txtT, 0, wx.ALL|wx.EXPAND, 5 )
+
+		self.m_radioRho = wx.RadioButton( self, wx.ID_ANY, u"Density (kg/mu00B3)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_radioRho, 0, wx.ALL, 5 )
+
+		self.m_txtRho = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_txtRho, 0, wx.ALL|wx.EXPAND, 5 )
+
+		self.m_radioCp = wx.RadioButton( self, wx.ID_ANY, u"Cp (kJ/kgK)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_radioCp, 0, wx.ALL, 5 )
+
+		self.m_txtCp = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_txtCp, 0, wx.ALL|wx.EXPAND, 5 )
+
+		self.m_radioK = wx.RadioButton( self, wx.ID_ANY, u"k (W/mK)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_radioK, 0, wx.ALL, 5 )
+
+		self.m_txtK = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_txtK, 0, wx.ALL|wx.EXPAND, 5 )
+
+		self.m_radioMu = wx.RadioButton( self, wx.ID_ANY, u"Viscosity (Pa s)", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_radioMu, 0, wx.ALL, 5 )
+
+		self.m_txtMu = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_txtMu, 0, wx.ALL|wx.EXPAND, 5 )
+
+		self.m_radioPr = wx.RadioButton( self, wx.ID_ANY, u"Pr", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_radioPr, 0, wx.ALL, 5 )
+
+		self.m_txtPr = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizerLeft.Add( self.m_txtPr, 0, wx.ALL|wx.EXPAND, 5 )
+
+
+		mainSizer.Add( fgSizerLeft, 0, wx.EXPAND, 5 )
+
+
+		mainSizer.Add( ( 0, 10), 1, wx.EXPAND, 5 )
+
+		self.m_btnCompute = wx.Button( self, wx.ID_ANY, u"Compute", wx.DefaultPosition, wx.DefaultSize, 0 )
+		mainSizer.Add( self.m_btnCompute, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+
+
+		self.SetSizerAndFit( mainSizer )
+		self.Layout()
+		
+		self.m_CtrlList = [[self.m_txtT, "T"], [self.m_txtRho, "Rho"], 
+            [self.m_txtCp, "Cp"], [self.m_txtMu, "mu"],
+            [self.m_txtK, "k"], [self.m_txtPr, "Pr"]]
+
+		self.Bind( wx.EVT_INIT_DIALOG, self.OnInitDialog )
+		self.m_choiceFluidType.Bind( wx.EVT_CHOICE, self.FluidType_OnChoice )
+		self.m_radioT.Bind( wx.EVT_RADIOBUTTON, self.radioT_OnRadioButton )
+		self.m_radioRho.Bind( wx.EVT_RADIOBUTTON, self.radioRho_OnRadioButton )
+		self.m_radioCp.Bind( wx.EVT_RADIOBUTTON, self.radioCp_OnRadioButton )
+		self.m_radioK.Bind( wx.EVT_RADIOBUTTON, self.radioK_OnRadioButton )
+		self.m_radioMu.Bind( wx.EVT_RADIOBUTTON, self.radioMu_OnRadioButton )
+		self.m_radioPr.Bind( wx.EVT_RADIOBUTTON, self.radioPr_OnRadioButton )
+		self.m_btnCompute.Bind( wx.EVT_BUTTON, self.btnCompute_OnButtonClick )
+
+	def __del__( self ):
+		pass
+
+	def ChangeBGColor(self, txtCtrl):
+		BGColor = wx.Colour(144,238,144)
+		if(self.m_txtBGChanged != None):
+			self.m_txtBGChanged.SetBackgroundColour(wx.Colour(255, 255, 255)) 
+			self.m_txtBGChanged.Refresh()
+		
+		txtCtrl.SetBackgroundColour(BGColor)
+		txtCtrl.Refresh()
+		self.m_txtBGChanged = txtCtrl
+
+
+	def OnInitDialog( self, event ):
+		fl = fluid.ThermoPhysical("")
+		self.m_FluidList = fl.GetFluidNames()
+	
+		for entry in self.m_FluidList:
+			self.m_choiceFluidType.Append(str(entry[0]))
+		event.Skip()
+	
+	
+	
+	def FluidType_OnChoice( self, event ):
+		sel = event.GetSelection()
+		self.m_FluidType = self.m_FluidList[sel][0] 
+		event.Skip()
+
+
+
+	def radioT_OnRadioButton( self, event ):
+		self.ChangeBGColor(self.m_txtT)
+		self.m_SelectedProperty = "T"
+		event.Skip()
+
+	def radioRho_OnRadioButton( self, event ):
+		self.ChangeBGColor(self.m_txtRho)
+		self.m_SelectedProperty = "rho"
+		event.Skip()
+
+	def radioCp_OnRadioButton( self, event ):
+		self.ChangeBGColor(self.m_txtCp)
+		self.m_SelectedProperty = "cp"
+		event.Skip()
+
+	def radioK_OnRadioButton( self, event ):
+		self.ChangeBGColor(self.m_txtK)
+		self.m_SelectedProperty = "k"
+		event.Skip()
+
+	def radioMu_OnRadioButton( self, event ):
+		self.ChangeBGColor(self.m_txtMu)
+		self.m_SelectedProperty = "mu"
+		event.Skip()
+
+	def radioPr_OnRadioButton( self, event ):
+		self.ChangeBGColor(self.m_txtPr)
+		self.m_SelectedProperty = "pr"
+		event.Skip()
+
+	def btnCompute_OnButtonClick( self, event ):
+		if self.m_FluidType == None:
+			wx.MessageBox("Fluid type must be selected")
+			return
+		
+		fl = fluid.ThermoPhysical(self.m_FluidType ) 
+		result = dict()
+		try:
+			result = fl.search(self.m_SelectedProperty, float(self.m_txtBGChanged.GetValue()))
+		except Exception as e:
+			wx.MessageBox(str(e))
+			return
+            
+		for lst in self.m_CtrlList:
+			if lst[0] == self.m_txtBGChanged:
+				continue
+			Value = result.get(lst[1])
+			Digits = self.m_Parent.GetDigits() 
+			if(Digits != None):
+				lst[0].SetValue(str(round(Value, Digits)))
+			else:
+				lst[0].SetValue(str(Value)) 
+
+		event.Skip()
+
+
+
 
 
 class frmPropertiesofFluids ( gui.Frame ):
@@ -258,9 +444,14 @@ class frmPropertiesofFluids ( gui.Frame ):
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_notebook = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_pnlSaturated = pnlRefrigerantSaturated( self.m_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL, u"Saturated" )
+		self.m_pnlSaturated = pnlRefrigerantSaturated( self.m_notebook )
 		self.m_pnlSaturated.InitDialog()
+		
+		self.m_pnlThermal = pnlThermoPhysical( self.m_notebook)
+		self.m_pnlThermal.InitDialog()
+		
 		self.m_notebook.AddPage( self.m_pnlSaturated, u"Saturated", False )
+		self.m_notebook.AddPage( self.m_pnlThermal, u"Thermo-physical", False )
 
 		mainSizer.Add( self.m_notebook, 1, wx.EXPAND |wx.ALL, 5 )
 
