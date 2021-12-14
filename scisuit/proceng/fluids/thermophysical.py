@@ -6,19 +6,22 @@ import scisuit.gui as gui
 
 
 
-class ThermoPhysical(Fluid):
+class ThermoPhysical(Fluid):  
 	"""
 	Thermo-physical properties (T, rho, cp, viscosity, k, Pr) of fluids
 	"""
 	s_DataBasePath = gui.exepath() + "datafiles/fluid_heat.db" 
 	
-	def __init__(self, FluidName:str) -> None:
+	def __init__(self, FluidName:str ) -> None:
 		"""
 		FluidName: Name of the fluid
 		"""
 		super().__init__() 
 
 		self.m_Connection = sql.connect(self.s_DataBasePath) 
+		
+		if(FluidName ==""):
+			return
 		
 		self.m_FluidName = FluidName
 		cursor = self.m_Connection.cursor()
@@ -40,13 +43,13 @@ class ThermoPhysical(Fluid):
 
 	def __del__( self ):
 		self.m_Connection.close()
-
+	
 	
 	def GetFluidNames(self):
 		QueryString = "SELECT name FROM MAINTABLE"
-		rowList = self.m_Connection.cursor().execute(QueryString , []).fetchall()
+		FluidNameList = self.m_Connection.cursor().execute(QueryString , []).fetchall()
 		
-		return rowList
+		return FluidNameList
 
 
 	def search(self, PropertyName:str, QueryValue:float, Sort:bool = True): 
