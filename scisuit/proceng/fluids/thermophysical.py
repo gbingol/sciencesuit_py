@@ -10,7 +10,8 @@ class ThermoPhysical(Fluid):
 	"""
 	Thermo-physical properties (T, rho, cp, viscosity, k, Pr) of fluids
 	"""
-
+	s_DataBasePath = gui.exepath() + "datafiles/fluid_heat.db" 
+	
 	def __init__(self, FluidName:str) -> None:
 		"""
 		FluidName: Name of the fluid
@@ -27,14 +28,14 @@ class ThermoPhysical(Fluid):
 		Note that the columns in the database is configured as
 		COLLATE NOCASE, therefore search is not case-sensitive
 		"""
-		QueryString = "SELECT * FROM MAINTABLE where NAME=?"
+		QueryString = "SELECT NAME FROM MAINTABLE where NAME=?"
 		rows = cursor.execute(QueryString , (FluidName,)).fetchall()
 
 		#more than 1 name matches
 		if(len(rows)>1):
 			raise ValueError("More than 1 fluid matched the name:" + FluidName)
 
-		self.m_DBTable = rows[0][2]
+		self.m_DBTable = rows[0][0]
 
 
 	def __del__( self ):
@@ -55,6 +56,6 @@ class ThermoPhysical(Fluid):
 
 if __name__ == "__main__":
 	r=ThermoPhysical("water")
-	result = r.search("T", 22)
+	result = r.search("CP", 4)
 	
 	print(result)
