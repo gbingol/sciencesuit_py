@@ -1,4 +1,4 @@
-from .material import Material
+from  scisuit.proceng.material import Material
 
 
 
@@ -40,7 +40,7 @@ class EmpiricalMaterial(Material):
 		return retList
 
 
-	def Interpolation(self, x1, y1, x2, y2, val):
+	def Interpolation(self, x1:float, y1:float, x2:float, y2:float, val:float):
 		if(x1 == x2): 
 			return y1 
 		
