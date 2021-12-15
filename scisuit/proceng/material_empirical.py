@@ -82,21 +82,29 @@ class EmpiricalMaterial(Material):
 		except:
 			raise ValueError("Valid property names: " + str(AllFieldNames))
 		
+
+		#Check if QueryValue is within the bounds of the property
+		strQuery="SELECT min( {} ), max( {} ) FROM " + TableName 
+		rows = cursor.execute(strQuery.format(PropertyName, PropertyName)).fetchone()
+		MinVal, MaxVal = rows[0],  rows[1]
+		if(not (MinVal<QueryValue and QueryValue<MaxVal)):
+			raise ValueError(PropertyName + " range: [" + str(rows[0]) + " , " + str(rows[1]) + "]")
+
 		
 		if(Sort or self._rows == None):
 			strQuery = "SELECT * FROM " + TableName + " ORDER BY "+ PropertyName
 			self._rows = cursor.execute(strQuery , []).fetchall()
 		
-		RowIndex = -1
 
+		RowIndex = -1
 		for i in range(len(self._rows)):
 			Value = self._rows[i][ParamIndex]
 			if(Value>=QueryValue):
 				RowIndex = i
 				break
-			
+		
+		
 		retDict = dict()
-
 		if(RowIndex == 0):
 			TupleIndex = -1
 			for propName in AllFieldNames:
@@ -109,11 +117,6 @@ class EmpiricalMaterial(Material):
 
 			return retDict
 				
-			
-		if(RowIndex == -1):
-			strQuery="SELECT min( {} ), max( {} ) FROM " + TableName 
-			rows = cursor.execute(strQuery.format(PropertyName, PropertyName)).fetchone()      
-			raise ValueError(PropertyName + " range: [" + str(rows[0]) + " , " + str(rows[1]) + "]")
 			
 
 		PropValHigh = self._rows[RowIndex][ParamIndex]
