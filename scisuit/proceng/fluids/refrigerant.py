@@ -127,6 +127,7 @@ class SuperHeatedRefrigerant(Refrigerant):
 		"""
 		given a pressure value, finds lower and upper range of property
 		"""
+
 		cursor = self.m_Connection.cursor()
 		
 		"""
@@ -145,8 +146,51 @@ class SuperHeatedRefrigerant(Refrigerant):
 		return LowerRange, UpperRange
 
 
+	def _FindProperties(self, P: float, Name:str , Value:float):
+		"""
+		Given a pressure value and a property, i.e. temperature
+		the function returns the properties at the given pressure and temperature
+		
+		Note that the pressure here is the lower or upper value of the bracketed pressure
+		and NOT the exact pressure value requested by user
+		
+		Therefore for any search this function needs to be called twice: at lower and upper ranges of pressure
+		"""
+		cursor = self.m_Connection.cursor()
 
-	def searchPT(self, P:float, T:float):
+		PropLow, PropHigh = self._BracketProperty(P, Name, Value)
+
+		AllFieldNames:list = self.GetFieldNames(self.m_DBTable)
+		AllFieldNames.remove("P") #P is always known
+		AllFieldNames.remove(Name.capitalize()) #property is known as well
+
+		#As of this point AllFieldNames contains only the properties' names we are after
+		JoinedFieldNames = ",".join(AllFieldNames)
+
+		#Find properties at Pressure and lower range of the property 
+		strQuery="SELECT " + JoinedFieldNames +" FROM "+ self.m_DBTable + " WHERE P=? AND "+ Name +"=?"
+		
+		"""
+		Database table contains only fields of P, T, V, H, S
+		Therefore once two properties are known, i.e., P and T,
+		there remains 3 properties which are named arbitrarily as A, B, C
+		"""
+		
+		row = cursor.execute(strQuery , [P, PropLow]).fetchall()
+		Alow, Blow, Clow =row[0][0], row[0][1], row[0][2]
+
+		#Find properties at lPressure and Upper range of the property 
+		row = cursor.execute(strQuery , [P, PropHigh]).fetchall()
+		Aup, Bup, Cup =row[0][0], row[0][1], row[0][2]
+
+		A = self.Interpolation(PropLow, Alow, PropHigh, Aup, Value)
+		B = self.Interpolation(PropLow, Blow, PropHigh, Bup, Value)
+		C = self.Interpolation(PropLow, Clow, PropHigh, Cup, Value)
+
+		return A, B, C
+
+
+	def search_PT(self, P:float, T:float):
 		"""
 		search for the values at a given pressure (kPa) and temperature (celcius)
 		"""
@@ -154,27 +198,8 @@ class SuperHeatedRefrigerant(Refrigerant):
 
 		PL, PH = self._BracketPressure(P)
 
-		def FindProperties(Pressure: float, Temperature:float):
-			TL, TH = self._BracketProperty(Pressure, "T", Temperature)
-
-			#Find properties at Pressure and lower range of temperature 
-			strQuery="SELECT V, H, S FROM "+ self.m_DBTable + " WHERE P=? AND T=?"
-			
-			row = cursor.execute(strQuery , [Pressure, TL]).fetchall()
-			Vlow, Hlow, Slow =row[0][0], row[0][1], row[0][2]
-
-			#Find properties at lPressure and Upper range of temperature 
-			row = cursor.execute(strQuery , [Pressure, TH]).fetchall()
-			Vup, Hup, Sup =row[0][0], row[0][1], row[0][2]
-
-			V = self.Interpolation(TL, Vlow, TH, Vup, Temperature)
-			H = self.Interpolation(TL, Hlow, TH, Hup, Temperature)
-			S = self.Interpolation(TL, Slow, TH, Sup, Temperature)
-
-			return V, H, S
-		
-		Vlow, Hlow, Slow = FindProperties(PL, T)
-		Vup, Hup, Sup = FindProperties(PH, T)
+		Vlow, Hlow, Slow = self._FindProperties(PL, "T", T)
+		Vup, Hup, Sup = self._FindProperties(PH, "T", T)
 
 		V = self.Interpolation(PL, Vlow, PH, Vup, P)
 		H = self.Interpolation(PL, Hlow, PH, Hup, P)
@@ -185,7 +210,7 @@ class SuperHeatedRefrigerant(Refrigerant):
 
 if __name__ == "__main__":
 	fl = SuperHeatedRefrigerant("water")
-	V, H, S = fl.searchPT(P=500, T=225)
+	V, H, S = fl.search_PT(P=500, T=225)
 	print(V)
 	print(H)
 	print(S)
