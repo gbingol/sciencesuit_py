@@ -16,24 +16,9 @@ class Refrigerant(Fluid):
 	def __init__(self) -> None: 
 		super().__init__()
 		self.m_Connection = sql.connect(self.s_DataBasePath) 
-
 	
-	def GetFluidNames(self):
-		QueryString = "SELECT name, alternative FROM MAINTABLE"
-		rowList = self.m_Connection.cursor().execute(QueryString , []).fetchall()
-		
-		return rowList
-    
 
-
-class SaturatedRefrigerant(Refrigerant):
-
-	def __init__(self, FluidName:str) -> None:
-		"""
-		FluidName: Name of the fluid
-		"""
-		super().__init__() 
-		
+	def Init(self, FluidName:str)->None:
 		self.m_FluidName = FluidName
 		cursor = self.m_Connection.cursor()
 
@@ -63,6 +48,27 @@ class SaturatedRefrigerant(Refrigerant):
 		#len(rows) ==1
 		else:
 			self.m_DBTable = rows[0][2]
+
+
+	
+	def GetFluidNames(self):
+		QueryString = "SELECT name, alternative FROM MAINTABLE"
+		rowList = self.m_Connection.cursor().execute(QueryString , []).fetchall()
+		
+		return rowList
+    
+
+
+class SaturatedRefrigerant(Refrigerant):
+
+	def __init__(self, FluidName:str) -> None:
+		"""
+		FluidName: Name of the fluid
+		"""
+		super().__init__() 
+		super().Init(FluidName)
+		
+		
 
 
 	def __del__( self ):
