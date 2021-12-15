@@ -17,6 +17,11 @@ class Refrigerant(Fluid):
 		super().__init__()
 		self.m_Connection = sql.connect(self.s_DataBasePath) 
 
+		#-1:Compressed, 0:saturated, 1:superheated
+		self.m_FluidState = None
+
+		self.m_DBTable = None
+
 	
 	def __del__( self ):
 		self.m_Connection.close()
@@ -38,7 +43,10 @@ class Refrigerant(Fluid):
 		if(len(rows)>1):
 			raise ValueError("More than 1 fluid matched the name:" + FluidName)
 
-        
+		DBTableColPos = 2 #saturated, compressed
+		if(self.m_FluidState == 1):
+			DBTableColPos = 3
+		
 		if(len(rows) == 0):
 			QueryString = "SELECT * FROM MAINTABLE where ALTERNATIVE=?"
 			rows = cursor.execute(QueryString , (FluidName,)).fetchall()
@@ -47,11 +55,11 @@ class Refrigerant(Fluid):
 			if(len(rows)==0):
 				raise ValueError(FluidName + " did not match any")
             
-			self.m_DBTable = rows[0][2]
+			self.m_DBTable = rows[0][DBTableColPos]
         
 		#len(rows) ==1
 		else:
-			self.m_DBTable = rows[0][2]
+			self.m_DBTable = rows[0][DBTableColPos]
 
 
 
@@ -71,6 +79,8 @@ class SaturatedRefrigerant(Refrigerant):
 		FluidName: Name of the fluid
 		"""
 		super().__init__() 
+
+		self.m_FluidState = 0
 		super().Init(FluidName)
 		
 
@@ -86,4 +96,28 @@ class SuperHeatedRefrigerant(Refrigerant):
 		FluidName: Name of the fluid
 		"""
 		super().__init__() 
+
+		self.m_FluidState = 1 
 		super().Init(FluidName)
+	
+
+	def BracketPressure(self, P):
+		cursor = self.m_Connection.cursor()
+
+		QueryString = "SELECT min(P), max(P) FROM " + self.m_DBTable
+		MinMax = cursor.execute(QueryString , []).fetchall()
+		Pmin, Pmax = MinMax[0][0], MinMax[0][1]
+
+		if(not (Pmin<P and P<Pmax)):
+			raise ValueError("Pressure range: ["+ str(Pmin) + ", " + str(Pmax) + "]" )
+		
+		#Pressure is within limits, but where?
+		strQuery="SELECT DISTINCT P FROM " + self.m_DBTable + " WHERE P<=? ORDER BY P DESC LIMIT 1"
+		row = cursor.execute(QueryString , (P, )).fetchall()
+		PL =row[0][0]
+		
+		strQuery="SELECT DISTINCT P FROM " + self.m_DBTable + " WHERE P>? LIMIT 1"
+		row = cursor.execute(QueryString , (P, )).fetchall()
+		PH =row[0][0]
+		
+		return PL, PH
