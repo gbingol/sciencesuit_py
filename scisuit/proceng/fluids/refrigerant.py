@@ -101,7 +101,7 @@ class SuperHeatedRefrigerant(Refrigerant):
 		super().Init(FluidName)
 	
 
-	def BracketPressure(self, P:float):
+	def _BracketPressure(self, P:float):
 		cursor = self.m_Connection.cursor()
 
 		QueryString = "SELECT min(?), max(?) FROM " + self.m_DBTable
@@ -121,7 +121,25 @@ class SuperHeatedRefrigerant(Refrigerant):
 		PH =row[0][0]
 		
 		return PL, PH
+
 	
+	def _BracketTemperature(self, P:float, T:float):
+		"""
+		given a pressure value, finds lower and upper range of temperature
+		"""
+		cursor = self.m_Connection.cursor()
+ 
+		strQuery="SELECT T FROM "+ self.m_DBTable + " WHERE P=? AND T<=? ORDER BY T DESC LIMIT 1"
+		row = cursor.execute(strQuery , [P, T]).fetchall()
+		Tlow =row[0][0]
+
+		strQuery="SELECT V, H, S FROM "+ self.m_DBTable + " WHERE P=? AND T>? LIMIT 1"
+		row = cursor.execute(strQuery , [P, T]).fetchall()
+		Thigh = row[0][0]
+
+		return Tlow, Thigh
+
+
 
 	def searchPT(self, P:float, T:float):
 		"""
@@ -129,14 +147,40 @@ class SuperHeatedRefrigerant(Refrigerant):
 		"""
 		cursor = self.m_Connection.cursor()
 
-		PL, PH = self.BracketPressure(P)
+		PL, PH = self._BracketPressure(P)
 
-		#Find properties at lower range of Pressure and lower range of temperature 
-		strQuery="SELECT V, H, S FROM "+ self.m_DBTable + " WHERE P=? AND T<=? ORDER BY T DESC LIMIT 1"
-		row = cursor.execute(strQuery , [PL, T]).fetchall()
-		Vlow, Hlow, Slow =row[0][0], row[0][1], row[0][2]
+		def FindProperties(Pressure: float, Temperature:float):
+			TL, TH = self._BracketTemperature(Pressure, Temperature)
 
-		#Find properties at lower range of Pressure and Upper range of temperature 
-		strQuery="SELECT V, H, S FROM "+ self.m_DBTable + " WHERE P=? AND T>? LIMIT 1"
-		row = cursor.execute(strQuery , [PL, T]).fetchall()
-		Vup, Hup, Sup =row[0][0], row[0][1], row[0][2]
+			#Find properties at Pressure and lower range of temperature 
+			strQuery="SELECT V, H, S FROM "+ self.m_DBTable + " WHERE P=? AND T=?"
+			row = cursor.execute(strQuery , [Pressure, TL]).fetchall()
+			Vlow, Hlow, Slow =row[0][0], row[0][1], row[0][2]
+
+			#Find properties at lPressure and Upper range of temperature 
+			strQuery="SELECT V, H, S FROM "+ self.m_DBTable + " WHERE P=? AND T=?"
+			row = cursor.execute(strQuery , [Pressure, TH]).fetchall()
+			Vup, Hup, Sup =row[0][0], row[0][1], row[0][2]
+
+			V = self.Interpolate(TL, Vlow, TH, Vup, Temperature)
+			H = self.Interpolate(TL, Hlow, TH, Hup, Temperature)
+			S = self.Interpolate(TL, Slow, TH, Sup, Temperature)
+
+			return V, H, S
+		
+		Vlow, Hlow, Slow = FindProperties(PL, T)
+		Vup, Hup, Sup = FindProperties(PH, T)
+
+		V = self.Interpolate(PL, Vlow, PH, Vup, P)
+		H = self.Interpolate(PL, Hlow, PH, Hup, P)
+		S = self.Interpolate(PL, Slow, PH, Sup, P)
+
+		return V, H, S
+
+
+if __name__ == "__main__":
+	fl = SuperHeatedRefrigerant("water")
+	V, H, S = fl.searchPT(P=600, T=200)
+	print(V)
+	print(H)
+	print(S)
