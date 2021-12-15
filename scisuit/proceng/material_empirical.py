@@ -23,6 +23,9 @@ class EmpiricalMaterial(Material):
 		#database connection object
 		self.m_Connection = None
 
+		#private member to hold all the data in a table
+		self._rows = None
+
 
 	def GetConnection(self):
 		"""
@@ -80,7 +83,7 @@ class EmpiricalMaterial(Material):
 			raise ValueError("Valid property names: " + str(AllFieldNames))
 		
 		
-		if(Sort):
+		if(Sort or self._rows == None):
 			strQuery = "SELECT * FROM " + TableName + " ORDER BY "+ PropertyName
 			self._rows = cursor.execute(strQuery , []).fetchall()
 		
