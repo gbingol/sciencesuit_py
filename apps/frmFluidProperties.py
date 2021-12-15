@@ -328,8 +328,8 @@ class pnlThermoPhysical ( wx.Panel ):
 		self.SetSizerAndFit( mainSizer )
 		self.Layout()
 		
-		self.m_CtrlList = [[self.m_txtT, "T"], [self.m_txtRho, "Rho"], 
-            [self.m_txtCp, "Cp"], [self.m_txtMu, "mu"],
+		self.m_CtrlList = [[self.m_txtT, "T"], [self.m_txtRho, "rho"], 
+            [self.m_txtCp, "cp"], [self.m_txtMu, "mu"],
             [self.m_txtK, "k"], [self.m_txtPr, "Pr"]]
 
 		self.Bind( wx.EVT_INIT_DIALOG, self.OnInitDialog )
