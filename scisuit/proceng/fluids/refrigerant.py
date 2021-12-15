@@ -9,13 +9,17 @@ import scisuit.gui as gui
 
 class Refrigerant(Fluid):
 	"""
-	Base class thermodynamic properties of refrigerants
+	Base class for thermodynamic properties of refrigerants
 	"""
 	s_DataBasePath = gui.exepath() + "/datafiles/refrigerants.db"
 	
 	def __init__(self) -> None: 
 		super().__init__()
 		self.m_Connection = sql.connect(self.s_DataBasePath) 
+
+	
+	def __del__( self ):
+		self.m_Connection.close()
 	
 
 	def Init(self, FluidName:str)->None:
@@ -50,13 +54,14 @@ class Refrigerant(Fluid):
 			self.m_DBTable = rows[0][2]
 
 
-	
+
 	def GetFluidNames(self):
 		QueryString = "SELECT name, alternative FROM MAINTABLE"
 		rowList = self.m_Connection.cursor().execute(QueryString , []).fetchall()
 		
 		return rowList
     
+
 
 
 class SaturatedRefrigerant(Refrigerant):
@@ -68,12 +73,17 @@ class SaturatedRefrigerant(Refrigerant):
 		super().__init__() 
 		super().Init(FluidName)
 		
-		
-
-
-	def __del__( self ):
-		self.m_Connection.close()
-
 
 	def search(self, PropertyName:str, QueryValue:float, Sort = True): 
 		return self.searchOrderedTable(self.m_DBTable, PropertyName, QueryValue, Sort) 
+
+
+
+class SuperHeatedRefrigerant(Refrigerant):
+
+	def __init__(self, FluidName:str) -> None:
+		"""
+		FluidName: Name of the fluid
+		"""
+		super().__init__() 
+		super().Init(FluidName)
