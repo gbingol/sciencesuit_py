@@ -101,11 +101,11 @@ class SuperHeatedRefrigerant(Refrigerant):
 		super().Init(FluidName)
 	
 
-	def BracketPressure(self, P):
+	def BracketPressure(self, P:float):
 		cursor = self.m_Connection.cursor()
 
-		QueryString = "SELECT min(P), max(P) FROM " + self.m_DBTable
-		MinMax = cursor.execute(QueryString , []).fetchall()
+		QueryString = "SELECT min(?), max(?) FROM " + self.m_DBTable
+		MinMax = cursor.execute(QueryString , (P, )).fetchall()
 		Pmin, Pmax = MinMax[0][0], MinMax[0][1]
 
 		if(not (Pmin<P and P<Pmax)):
@@ -121,3 +121,22 @@ class SuperHeatedRefrigerant(Refrigerant):
 		PH =row[0][0]
 		
 		return PL, PH
+	
+
+	def searchPT(self, P:float, T:float):
+		"""
+		search for the values at a given pressure (kPa) and temperature (celcius)
+		"""
+		cursor = self.m_Connection.cursor()
+
+		PL, PH = self.BracketPressure(P)
+
+		#Find properties at lower range of Pressure and lower range of temperature 
+		strQuery="SELECT V, H, S FROM "+ self.m_DBTable + " WHERE P=? AND T<=? ORDER BY T DESC LIMIT 1"
+		row = cursor.execute(strQuery , [PL, T]).fetchall()
+		Vlow, Hlow, Slow =row[0][0], row[0][1], row[0][2]
+
+		#Find properties at lower range of Pressure and Upper range of temperature 
+		strQuery="SELECT V, H, S FROM "+ self.m_DBTable + " WHERE P=? AND T>? LIMIT 1"
+		row = cursor.execute(strQuery , [PL, T]).fetchall()
+		Vup, Hup, Sup =row[0][0], row[0][1], row[0][2]
