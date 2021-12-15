@@ -2,17 +2,6 @@ from .material import Material
 
 
 
-def Interpolation(x1, y1, x2, y2, val):
-	if(x1 == x2): 
-		return y1 
-	
-	m,n=0, 0
-	m = (y2 - y1) / (x2 - x1)
-	n = y2 - m * x2
-
-	return m * val + n
-
-
 class EmpiricalMaterial(Material):
 	"""
 	Base class for all materials whose properties are already in a database
@@ -49,6 +38,17 @@ class EmpiricalMaterial(Material):
 			retList.append(tupleItem[0])
 
 		return retList
+
+
+	def Interpolation(self, x1, y1, x2, y2, val):
+		if(x1 == x2): 
+			return y1 
+		
+		m,n=0, 0
+		m = (y2 - y1) / (x2 - x1)
+		n = y2 - m * x2
+
+		return m * val + n
 	
 
 	def searchOrderedTable(self, TableName:str, PropertyName:str, QueryValue:float, Sort:bool = True):
@@ -131,7 +131,7 @@ class EmpiricalMaterial(Material):
 
 			ValueLow = self._rows[RowIndex - 1][TupleIndex]
 			ValueHigh = self._rows[RowIndex][TupleIndex]
-			Value = Interpolation(PropValLow, ValueLow, PropValHigh, ValueHigh, QueryValue)
+			Value = self.Interpolation(PropValLow, ValueLow, PropValHigh, ValueHigh, QueryValue)
 			retDict[propName] = Value
 			
 		return retDict
