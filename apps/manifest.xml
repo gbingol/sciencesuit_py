@@ -16,7 +16,7 @@
 		</BUTTON>
 		
 		<BUTTON NAME="fluidproperties" TITLE="Properties of Fluids">
-			<FUNCTION>std.app.FluidProperties</FUNCTION>
+			<PATH>apps/frmFluidProperties.py</PATH>
 			<IMAGE>apps/images/fluid.bmp</IMAGE>
 		</BUTTON>
 		
