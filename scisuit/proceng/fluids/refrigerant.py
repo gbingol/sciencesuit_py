@@ -204,13 +204,79 @@ class SuperHeatedRefrigerant(Refrigerant):
 		V = self.Interpolation(PL, Vlow, PH, Vup, P)
 		H = self.Interpolation(PL, Hlow, PH, Hup, P)
 		S = self.Interpolation(PL, Slow, PH, Sup, P)
+		
+		
 
-		return V, H, S
+		return {'V':V, 'H':H, 'S': S}
+		
+		
+	def search_PV(self, P:float, V:float):
+		"""
+		search for the values at a given pressure (kPa) and specific volume (m3/kg)
+		"""
+		cursor = self.m_Connection.cursor()
 
+		PL, PH = self._BracketPressure(P)
 
-if __name__ == "__main__":
-	fl = SuperHeatedRefrigerant("water")
-	V, H, S = fl.search_PT(P=500, T=225)
-	print(V)
-	print(H)
-	print(S)
+		Tlow, Hlow, Slow = self._FindProperties(PL, "V", V)
+		Tup, Hup, Sup = self._FindProperties(PH, "V", V)
+
+		T = self.Interpolation(PL, Tlow, PH, Tup, P)
+		H = self.Interpolation(PL, Hlow, PH, Hup, P)
+		S = self.Interpolation(PL, Slow, PH, Sup, P)
+
+		return {'T':T, 'H':H, 'S':S}
+		
+	
+	def search_PH(self, P:float, H:float):
+		"""
+		search for the values at a given pressure (kPa) and enthalpy (kJ/kg)
+		"""
+		cursor = self.m_Connection.cursor()
+
+		PL, PH = self._BracketPressure(P)
+
+		Tlow, Vlow, Slow = self._FindProperties(PL, "H", H)
+		Tup, Vup, Sup = self._FindProperties(PH, "H", H)
+
+		T = self.Interpolation(PL, Tlow, PH, Tup, P)
+		V = self.Interpolation(PL, Vlow, PH,Vup, P)
+		S = self.Interpolation(PL, Slow, PH, Sup, P)
+
+		return {'T':T, 'V':V, 'S':S}
+	
+	
+	def search_PS(self, P:float, S:float):
+		"""
+		search for the values at a given pressure (kPa) and entropy (kJ/kgK)
+		"""
+		cursor = self.m_Connection.cursor()
+
+		PL, PH = self._BracketPressure(P)
+
+		Tlow, Vlow, Hlow = self._FindProperties(PL, "S",S)
+		Tup, Vup, Hup = self._FindProperties(PH, "S", S)
+
+		T = self.Interpolation(PL, Tlow, PH, Tup, P)
+		V = self.Interpolation(PL, Vlow, PH,Vup, P)
+		H = self.Interpolation(PL, Hlow, PH, Hup, P)
+
+		return {'T':T, 'V':V, 'H':H} 
+		
+	
+	def search(self, P:float, name:str, value:float):
+		CapName = name.capitalize()
+		if(CapName == "T"):
+			return self.search_PT(P, value)
+		
+		elif (CapName =="V"):
+			return self.search_PV(P, value)
+		
+		elif(CapName == "H"):
+			return self.search_PH(P, value)
+		
+		elif(CapName == "S"):
+			return self.search_PS(P, value)
+		
+		else:
+			raise ValueError("name must be T, V, H or S")
