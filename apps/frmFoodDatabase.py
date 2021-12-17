@@ -166,7 +166,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerIngredients.Add( self.m_statWater, 0, wx.ALL, 5 )
 
-		self.m_txtWater = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
+		self.m_txtWater = wx.TextCtrl( self)
 		fgSizerIngredients.Add( self.m_txtWater, 1, wx.ALL, 5 )
 
 		self.m_statCHO = wx.StaticText( self, wx.ID_ANY, u"CHO")
@@ -174,7 +174,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerIngredients.Add( self.m_statCHO, 0, wx.ALL, 5 )
 
-		self.m_txtCHO = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
+		self.m_txtCHO = wx.TextCtrl( self)
 		fgSizerIngredients.Add( self.m_txtCHO, 1, wx.ALL, 5 )
 
 		self.m_statProtein = wx.StaticText( self, wx.ID_ANY, u"Protein")
@@ -182,7 +182,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerIngredients.Add( self.m_statProtein, 0, wx.ALL, 5 )
 
-		self.m_txtProtein = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
+		self.m_txtProtein = wx.TextCtrl( self)
 		fgSizerIngredients.Add( self.m_txtProtein, 1, wx.ALL, 5 )
 
 		self.m_statLipid = wx.StaticText( self, wx.ID_ANY, u"Lipid")
@@ -190,7 +190,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerIngredients.Add( self.m_statLipid, 0, wx.ALL, 5 )
 
-		self.m_txtLipid = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
+		self.m_txtLipid = wx.TextCtrl( self)
 		fgSizerIngredients.Add( self.m_txtLipid, 1, wx.ALL, 5 )
 
 		self.m_statAsh = wx.StaticText( self, wx.ID_ANY, u"Ash")
@@ -198,7 +198,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerIngredients.Add( self.m_statAsh, 0, wx.ALL, 5 )
 
-		self.m_txtAsh = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
+		self.m_txtAsh = wx.TextCtrl( self)
 		fgSizerIngredients.Add( self.m_txtAsh, 1, wx.ALL, 5 )
 
 
@@ -214,7 +214,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerThermPhys.Add( self.m_statRho, 0, wx.ALL, 5 )
 
-		self.m_txtRho = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
+		self.m_txtRho = wx.TextCtrl( self)
 		fgSizerThermPhys.Add( self.m_txtRho, 1, wx.ALL, 5 )
 
 		self.m_statRhoUnit = wx.StaticText( self, wx.ID_ANY, u"kg/m3")
@@ -227,7 +227,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerThermPhys.Add( self.m_statK, 0, wx.ALL, 5 )
 
-		self.m_txtK = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
+		self.m_txtK = wx.TextCtrl( self)
 		fgSizerThermPhys.Add( self.m_txtK, 0, wx.ALL, 5 )
 
 		self.m_statKUnit = wx.StaticText( self, wx.ID_ANY, u"W/mK")
@@ -240,7 +240,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerThermPhys.Add( self.m_statCp, 0, wx.ALL, 5 )
 
-		self.m_txtCp = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
+		self.m_txtCp = wx.TextCtrl( self)
 		fgSizerThermPhys.Add( self.m_txtCp, 0, wx.ALL, 5 )
 
 		self.m_statCpUnit = wx.StaticText( self, wx.ID_ANY, u"kJ/kg°C")
@@ -253,7 +253,7 @@ class pnlProperties ( wx.Panel ):
 
 		fgSizerThermPhys.Add( self.m_statAlpha, 0, wx.ALL, 5 )
 
-		self.m_txtAlpha = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString )
+		self.m_txtAlpha = wx.TextCtrl( self )
 		fgSizerThermPhys.Add( self.m_txtAlpha, 0, wx.ALL, 5 )
 
 		self.m_staticAlphaUnit = wx.StaticText( self, wx.ID_ANY, u"m2/s")
@@ -334,18 +334,14 @@ class frmFoodDatabase ( gui.Frame ):
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		
-		icon = wx.Icon()
-		image = wx.Image()
-		image.LoadFile(gui.exepath()+"apps/images/fooddatabase.jpg")
-		bmp=image.ConvertToBitmap()
-		icon.CopyFromBitmap(bmp)
-		self.SetIcon(icon)
+		self.SetIcon(gui.exepath()+"apps/images/fooddatabase.jpg")
+		
 
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_notebook = wx.Notebook( self, wx.ID_ANY)
-		self.m_pnlSearch = pnlSearch( self.m_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize)
-		self.m_pnlProps =pnlProperties( self.m_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize)
+		self.m_pnlSearch = pnlSearch( self.m_notebook)
+		self.m_pnlProps =pnlProperties( self.m_notebook)
 		self.m_notebook.AddPage( self.m_pnlSearch, u"Search", False )
 		self.m_notebook.AddPage( self.m_pnlProps, u"Thermo-Physical Props", False )
 

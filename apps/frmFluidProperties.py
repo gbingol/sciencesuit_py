@@ -14,6 +14,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		self.m_FluidType = None
 		self.m_SelectedProperty = None
 		self.m_Parent = parent.GetParent()
+		self.SetIcon(gui.makeicon(gui.exepath()+"apps/images/fluid.bmp"))
 		
 		
 		
