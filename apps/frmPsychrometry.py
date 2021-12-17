@@ -22,12 +22,7 @@ class frmPsychrometry ( gui.Frame ):
 
 		self.m_Digits=2
 
-		icon = wx.Icon()
-		image = wx.Image()
-		image.LoadFile(gui.exepath()+"apps/images/psychrometry.bmp")
-		bmp=image.ConvertToBitmap()
-		icon.CopyFromBitmap(bmp)
-		self.SetIcon(icon)
+		self.SetIcon(gui.makeicon(gui.exepath()+"apps/images/psychrometry.bmp"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 0, 242, 242 ) )
@@ -40,82 +35,82 @@ class frmPsychrometry ( gui.Frame ):
 		fgSizer_Left.SetFlexibleDirection( wx.BOTH )
 		fgSizer_Left.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.m_chkP = wx.CheckBox( self, wx.ID_ANY, u"P", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_chkP = wx.CheckBox( self, wx.ID_ANY, u"P")
 		self.m_chkP.SetToolTip( u"Pressure" )
 
 		fgSizer_Left.Add( self.m_chkP, 0, wx.ALL, 5 )
 
-		self.m_txtP = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtP = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
 		self.m_txtP.SetToolTip( u"Pressure" )
 
 		fgSizer_Left.Add( self.m_txtP, 0, wx.ALL, 5 )
 
-		self.m_lblP = wx.StaticText( self, wx.ID_ANY, u"kPa", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblP = wx.StaticText( self, wx.ID_ANY, u"kPa")
 		self.m_lblP.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblP, 0, wx.ALL, 5 )
 
-		self.m_stxtPw = wx.StaticText( self, wx.ID_ANY, u"Pw", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_stxtPw = wx.StaticText( self, wx.ID_ANY, u"Pw")
 		self.m_stxtPw.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_stxtPw, 0, wx.ALL, 5 )
 
-		self.m_txtPw = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		self.m_txtPw = wx.TextCtrl( self, style= wx.TE_READONLY )
 		fgSizer_Left.Add( self.m_txtPw, 0, wx.ALL, 5 )
 
-		self.m_lblPw = wx.StaticText( self, wx.ID_ANY, u"kPa", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblPw = wx.StaticText( self, wx.ID_ANY, u"kPa")
 		self.m_lblPw.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblPw, 0, wx.ALL, 5 )
 
-		self.m_stxtPws = wx.StaticText( self, wx.ID_ANY, u"Pws", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_stxtPws = wx.StaticText( self, wx.ID_ANY, u"Pws")
 		self.m_stxtPws.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_stxtPws, 0, wx.ALL, 5 )
 
-		self.m_txtPws = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		self.m_txtPws = wx.TextCtrl( self, style= wx.TE_READONLY )
 		fgSizer_Left.Add( self.m_txtPws, 0, wx.ALL, 5 )
 
-		self.m_lblPws = wx.StaticText( self, wx.ID_ANY, u"kPa", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblPws = wx.StaticText( self, wx.ID_ANY, u"kPa")
 		self.m_lblPws.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblPws, 0, wx.ALL, 5 )
 
-		self.m_chkTdb = wx.CheckBox( self, wx.ID_ANY, u"Tdb", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_chkTdb = wx.CheckBox( self, wx.ID_ANY, u"Tdb")
 		self.m_chkTdb.SetToolTip( u"dry-bulb temperature" )
 
 		fgSizer_Left.Add( self.m_chkTdb, 0, wx.ALL, 5 )
 
-		self.m_txtTdb = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtTdb = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
 		fgSizer_Left.Add( self.m_txtTdb, 0, wx.ALL, 5 )
 
-		self.m_lblTdb = wx.StaticText( self, wx.ID_ANY, u"°C", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblTdb = wx.StaticText( self, wx.ID_ANY, u"°C")
 		self.m_lblTdb.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblTdb, 0, wx.ALL, 5 )
 
-		self.m_chkTwb = wx.CheckBox( self, wx.ID_ANY, u"Twb", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_chkTwb = wx.CheckBox( self, wx.ID_ANY, u"Twb")
 		self.m_chkTwb.SetToolTip( u"wet-bulb temperature" )
 
 		fgSizer_Left.Add( self.m_chkTwb, 0, wx.ALL, 5 )
 
-		self.m_txtTwb = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtTwb = wx.TextCtrl( self)
 		fgSizer_Left.Add( self.m_txtTwb, 0, wx.ALL, 5 )
 
-		self.m_lblTwb = wx.StaticText( self, wx.ID_ANY, u"°C", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblTwb = wx.StaticText( self, wx.ID_ANY, u"°C")
 		self.m_lblTwb.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblTwb, 0, wx.ALL, 5 )
 
-		self.m_chkTdp = wx.CheckBox( self, wx.ID_ANY, u"Tdp", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_chkTdp = wx.CheckBox( self, wx.ID_ANY, u"Tdp")
 		self.m_chkTdp.SetToolTip( u"dew-point temperature" )
 
 		fgSizer_Left.Add( self.m_chkTdp, 0, wx.ALL, 5 )
 
-		self.m_txtTdp = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtTdp = wx.TextCtrl( self)
 		fgSizer_Left.Add( self.m_txtTdp, 0, wx.ALL, 5 )
 
-		self.m_lblTdp = wx.StaticText( self, wx.ID_ANY, u"°C", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblTdp = wx.StaticText( self, wx.ID_ANY, u"°C")
 		self.m_lblTdp.Wrap( -1 )
 
 		fgSizer_Left.Add( self.m_lblTdp, 0, wx.ALL, 5 )
@@ -127,59 +122,59 @@ class frmPsychrometry ( gui.Frame ):
 		fgSizer_Right.SetFlexibleDirection( wx.BOTH )
 		fgSizer_Right.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.m_chkW = wx.CheckBox( self, wx.ID_ANY, u"W", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_chkW = wx.CheckBox( self, wx.ID_ANY, u"W")
 		fgSizer_Right.Add( self.m_chkW, 0, wx.ALL, 5 )
 
-		self.m_txtW = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtW = wx.TextCtrl( self)
 		fgSizer_Right.Add( self.m_txtW, 0, wx.ALL, 5 )
 
-		self.m_lblW = wx.StaticText( self, wx.ID_ANY, u"kg/kgda", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblW = wx.StaticText( self, wx.ID_ANY, u"kg/kgda")
 		self.m_lblW.Wrap( -1 )
 
 		fgSizer_Right.Add( self.m_lblW, 0, wx.ALL, 5 )
 
-		self.m_stxtWs = wx.StaticText( self, wx.ID_ANY, u"Ws", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_stxtWs = wx.StaticText( self, wx.ID_ANY, u"Ws")
 		self.m_stxtWs.Wrap( -1 )
 
 		fgSizer_Right.Add( self.m_stxtWs, 0, wx.ALL, 5 )
 
-		self.m_txtWs = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		self.m_txtWs = wx.TextCtrl( self,style = wx.TE_READONLY )
 		fgSizer_Right.Add( self.m_txtWs, 0, wx.ALL, 5 )
 
-		self.m_lblWs = wx.StaticText( self, wx.ID_ANY, u"kg/kgda", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblWs = wx.StaticText( self, wx.ID_ANY, u"kg/kgda")
 		self.m_lblWs.Wrap( -1 )
 
 		fgSizer_Right.Add( self.m_lblWs, 0, wx.ALL, 5 )
 
-		self.m_chkH = wx.CheckBox( self, wx.ID_ANY, u"H", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_chkH = wx.CheckBox( self, wx.ID_ANY, u"H")
 		fgSizer_Right.Add( self.m_chkH, 0, wx.ALL, 5 )
 
-		self.m_txtH = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtH = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
 		fgSizer_Right.Add( self.m_txtH, 0, wx.ALL, 5 )
 
-		self.m_lblH = wx.StaticText( self, wx.ID_ANY, u"kJ/kgda", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblH = wx.StaticText( self, wx.ID_ANY, u"kJ/kgda")
 		self.m_lblH.Wrap( -1 )
 
 		fgSizer_Right.Add( self.m_lblH, 0, wx.ALL, 5 )
 
-		self.m_chkRH = wx.CheckBox( self, wx.ID_ANY, u"RH", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_chkRH = wx.CheckBox( self, wx.ID_ANY, u"RH")
 		fgSizer_Right.Add( self.m_chkRH, 0, wx.ALL, 5 )
 
-		self.m_txtRH = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtRH = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
 		fgSizer_Right.Add( self.m_txtRH, 0, wx.ALL, 5 )
 
-		self.m_lblRH = wx.StaticText( self, wx.ID_ANY, u"%", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblRH = wx.StaticText( self, wx.ID_ANY, u"%")
 		self.m_lblRH.Wrap( -1 )
 
 		fgSizer_Right.Add( self.m_lblRH, 0, wx.ALL, 5 )
 
-		self.m_chkV = wx.CheckBox( self, wx.ID_ANY, u"v", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_chkV = wx.CheckBox( self, wx.ID_ANY, u"v")
 		fgSizer_Right.Add( self.m_chkV, 0, wx.ALL, 5 )
 
-		self.m_txtV = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtV = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString)
 		fgSizer_Right.Add( self.m_txtV, 0, wx.ALL, 5 )
 
-		self.m_lblV = wx.StaticText( self, wx.ID_ANY, u"m3/kg", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_lblV = wx.StaticText( self, wx.ID_ANY, u"m3/kg")
 		self.m_lblV.Wrap( -1 )
 
 		fgSizer_Right.Add( self.m_lblV, 0, wx.ALL, 5 )
@@ -193,7 +188,7 @@ class frmPsychrometry ( gui.Frame ):
 
 		mainSizer.Add( ( 0, 20), 0, wx.EXPAND, 5 )
 
-		self.m_btnCalc = wx.Button( self, wx.ID_ANY, u"Calculate", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_btnCalc = wx.Button( self, wx.ID_ANY, u"Calculate")
 		self.m_btnCalc.Enabled=False
 		mainSizer.Add( self.m_btnCalc, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
 		
