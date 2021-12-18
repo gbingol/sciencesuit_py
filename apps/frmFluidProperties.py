@@ -14,9 +14,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		self.m_FluidType = None
 		self.m_SelectedProperty = None
 		self.m_Parent = parent.GetParent()
-		self.SetIcon(gui.makeicon(gui.exepath()+"apps/images/fluid.bmp"))
-		
-		
+			
 		
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
@@ -413,13 +411,35 @@ class pnlRefrigerantSuperheated ( wx.Panel ):
 			wx.MessageBox("Exactly two properties must be selected")
 			return
 		
+		SelectedProp:str = ""
+		InputVal:float = 0.0
+		for lst in self.m_CtrlList:
+			if lst[0].GetValue() == True:
+				SelectedProp = lst[2].upper()
+				InputVal = float(lst[1].GetValue())
+		
 		fl = fluid.SuperHeatedRefrigerant(self.m_FluidType ) 
+		
 		result = dict()
 		try:
-			result = fl.search(float(self.m_txtP.GetValue()), self.m_SelectedProperty, float(self.m_txtBGChanged.GetValue()))
+			result = fl.search(float(self.m_txtP.GetValue()), SelectedProp, InputVal)
 		except Exception as e:
 			wx.MessageBox(str(e))
 			return
+		
+		
+		Digits = self.m_Parent.GetDigits()
+		
+		for Ctrl in  self.m_CtrlList:
+			Value = result.get(Ctrl[2].capitalize())
+			if(Value == None):
+				continue
+				
+			if(Digits != None):
+				Ctrl[1].SetValue(str(round(Value, Digits )))
+			else:
+				Ctrl[1].SetValue(str(Value))
+		
 		event.Skip()
 
 
@@ -635,6 +655,8 @@ class frmPropertiesofFluids ( gui.Frame ):
 		gui.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Properties of Fluids" )
 		
 		self.m_Digits = None
+		
+		self.SetIcon(gui.makeicon("apps/images/fluid.bmp"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
