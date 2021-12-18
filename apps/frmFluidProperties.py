@@ -200,6 +200,10 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		if self.m_FluidType == None:
 			wx.MessageBox("Fluid type must be selected")
 			return
+			
+		if(self.m_SelectedProperty == None):
+			wx.MessageBox("A property must be selected")
+			return
 		
 		fl = fluid.SaturatedRefrigerant(self.m_FluidType ) 
 		result = dict()
@@ -411,18 +415,26 @@ class pnlRefrigerantSuperheated ( wx.Panel ):
 			wx.MessageBox("Exactly two properties must be selected")
 			return
 		
+		if(self.m_txtP.GetValue() == wx.EmptyString):
+			wx.MessageBox("A value must be entered for pressure")
+			return
+		
 		SelectedProp:str = ""
-		InputVal:float = 0.0
+		InputVal = ""
 		for lst in self.m_CtrlList:
 			if lst[0].GetValue() == True:
 				SelectedProp = lst[2].upper()
-				InputVal = float(lst[1].GetValue())
+				InputVal = lst[1].GetValue()
 		
+		if(InputVal == ""):
+			wx.MessageBox("A value must be entered for " + SelectedProp)
+			return
+				
 		fl = fluid.SuperHeatedRefrigerant(self.m_FluidType ) 
 		
 		result = dict()
 		try:
-			result = fl.search(float(self.m_txtP.GetValue()), SelectedProp, InputVal)
+			result = fl.search(float(self.m_txtP.GetValue()), SelectedProp, float(InputVal))
 		except Exception as e:
 			wx.MessageBox(str(e))
 			return
@@ -441,6 +453,28 @@ class pnlRefrigerantSuperheated ( wx.Panel ):
 				Ctrl[1].SetValue(str(Value))
 		
 		event.Skip()
+	
+
+	def Export(self):
+		ws = gui.Worksheet()
+		ws[0,0] = "P"
+		ws[0,1] = self.m_txtP.GetValue()
+
+		for lst in self.m_CtrlList: 
+			if lst[0].GetValue():
+				ws[1, 0] = lst[2]
+				ws[1, 1] = lst[1].GetValue()
+
+				break
+		
+		row = 3
+		for lst in self.m_CtrlList: 
+			if lst[0].GetValue():
+				continue
+			ws[row, 0] = str(lst[2]) #name
+			ws[row,1] = str(lst[1].GetValue())
+			
+			row += 1
 
 
 
@@ -608,6 +642,15 @@ class pnlThermoPhysical ( wx.Panel ):
 	def btnCompute_OnButtonClick( self, event ):
 		if self.m_FluidType == None:
 			wx.MessageBox("Fluid type must be selected")
+			return
+		
+		if self.m_SelectedProperty == None:
+			wx.MessageBox("A property must be selected")
+			return
+		
+		
+		if self.m_txtBGChanged.GetValue() == "":
+			wx.MessageBox("A value must be entered for " + self.m_SelectedProperty)
 			return
 		
 		fl = fluid.ThermoPhysical(self.m_FluidType ) 
