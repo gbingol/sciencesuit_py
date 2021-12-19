@@ -1,6 +1,27 @@
 import wx
-import scisuit.gui as gui
 
+import scisuit.core as scr
+import scisuit.gui as gui
+import scisuit.stats as stat
+
+
+def _count(v):
+	pass
+
+def _SE(v):
+	pass
+
+
+def _min(v):
+	return scr.minmax(v)[0]
+
+def _max(v):
+	return scr.minmax(v)[1]
+
+def _range(v):
+	Min, Max = scr.minmax(v)
+	return Max-Min
+	
 
 class frmDescriptiveStats ( gui.Frame ):
 
@@ -20,7 +41,7 @@ class frmDescriptiveStats ( gui.Frame ):
 
 		inputSizer.Add( self.m_staticTxtInput, 0, wx.ALL, 5 )
 
-		self.m_txtInput = wx.TextCtrl( self)
+		self.m_txtInput = gui.GridTextCtrl( self)
 		inputSizer.Add( self.m_txtInput, 1, wx.ALL, 5 )
 
 
@@ -81,7 +102,7 @@ class frmDescriptiveStats ( gui.Frame ):
 		mainSizer.Add( fgSizer, 0, wx.EXPAND, 5 )
 
 		self.m_pnlOutput = gui.pnlOutputOptions( self )
-		mainSizer.Add( self.m_pnlOutput, 1, wx.EXPAND |wx.ALL, 5 )
+		mainSizer.Add( self.m_pnlOutput, 0, wx.EXPAND |wx.ALL, 5 )
 
 		m_sdbSizer = wx.StdDialogButtonSizer()
 		self.m_sdbSizerOK = wx.Button( self, wx.ID_OK )
@@ -93,16 +114,25 @@ class frmDescriptiveStats ( gui.Frame ):
 		mainSizer.Add( m_sdbSizer, 1, wx.EXPAND, 5 )
 
 
-		self.SetSizer( mainSizer )
+		self.SetSizerAndFit( mainSizer )
 		self.Layout()
 
 		self.Centre( wx.BOTH )
 
 		self.m_Controls =[
-			self.m_chkCount, self.m_chkKurtosis, self.m_chkMax, self.m_chkMean, self.m_chkMedian,
-			self.m_chkMin, self.m_chkMode, self.m_chkRange, self.m_chkSD, self.m_chkSE,
-			self.m_chkSkewness, self.m_chkSum, self.m_chkVar
-		]
+			[self.m_chkCount, _count], 
+			[self.m_chkKurtosis, stat.kurt],
+			[self.m_chkMax,_max], 
+			[self.m_chkMean,stat.mean],
+			[self.m_chkMedian,stat.median],
+			[self.m_chkMin,_min],
+			[self.m_chkMode, stat.mode],
+			[self.m_chkRange,_range],
+			[self.m_chkSD, stat.stdev],
+			[self.m_chkSE, _SE],
+			[self.m_chkSkewness, stat.skew],
+			[self.m_chkSum, scr.sum],
+			[self.m_chkVar, stat.var]]
 
 		
 		self.m_chkAll.Bind( wx.EVT_CHECKBOX, self.chkAll_OnCheck )
@@ -138,7 +168,7 @@ class frmDescriptiveStats ( gui.Frame ):
 		else:
 			#if all checkboxes are checked then check chkAll
 			for chk in self.m_Controls:
-				if(chk.GetValue() == False):
+				if(chk[0].GetValue() == False):
 					return
 			self.m_chkAll.SetValue(True)
 
@@ -149,6 +179,9 @@ class frmDescriptiveStats ( gui.Frame ):
 
 	def OnOKButton( self, event ):
 		event.Skip()
+
+
+
 
 
 if __name__=="__main__":
