@@ -8,3 +8,4 @@ exepath = __gui.exepath
 
 from .Frame import Frame
 from .gridtext import GridTextCtrl
+from .makeicon import makeicon

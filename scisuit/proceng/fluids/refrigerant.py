@@ -130,16 +130,23 @@ class SuperHeatedRefrigerant(Refrigerant):
 
 		cursor = self.m_Connection.cursor()
 		
+		QueryString = "SELECT min("+ Name +"), max(" + Name +") FROM " + self.m_DBTable + " WHERE P=?"
+		MinMax = cursor.execute(QueryString , [P]).fetchall()
+		PropertyMin, PropertyMax = MinMax[0][0], MinMax[0][1]
+
+		if(not (PropertyMin < Value and Value < PropertyMax)):
+			raise ValueError("At P="+ str(P) + " kPa, " + Name + " has range: ["+ str(PropertyMin) + ", " + str(PropertyMax) + "]" )
+		
 		"""
 		Assumption is made that at a given pressure the property values
 		are monotonically increasing (which is the case for T, V, H, S)
 		"""
  
-		strQuery="SELECT "+ Name +" FROM "+ self.m_DBTable + " WHERE P=? AND T<=? ORDER BY T DESC LIMIT 1"
+		strQuery="SELECT "+ Name +" FROM "+ self.m_DBTable + " WHERE P=? AND " + Name + "<=? ORDER BY " + Name + " DESC LIMIT 1"
 		row = cursor.execute(strQuery , [P,Value]).fetchall()
 		LowerRange =row[0][0]
 
-		strQuery="SELECT " + Name +" FROM "+ self.m_DBTable + " WHERE P=? AND T>=? LIMIT 1"
+		strQuery="SELECT " + Name +" FROM "+ self.m_DBTable + " WHERE P=? AND "+ Name +">=? LIMIT 1"
 		row = cursor.execute(strQuery , [P, Value]).fetchall()
 		UpperRange = row[0][0]
 
@@ -265,7 +272,7 @@ class SuperHeatedRefrigerant(Refrigerant):
 		
 	
 	def search(self, P:float, name:str, value:float):
-		CapName = name.capitalize()
+		CapName = name.upper()
 		if(CapName == "T"):
 			return self.search_PT(P, value)
 		

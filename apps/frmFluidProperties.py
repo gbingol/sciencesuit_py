@@ -14,8 +14,7 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 		self.m_FluidType = None
 		self.m_SelectedProperty = None
 		self.m_Parent = parent.GetParent()
-		
-		
+			
 		
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
@@ -200,6 +199,10 @@ class pnlRefrigerantSaturated ( wx.Panel ):
 	def btnCompute_OnButtonClick( self, event ):
 		if self.m_FluidType == None:
 			wx.MessageBox("Fluid type must be selected")
+			return
+			
+		if(self.m_SelectedProperty == None):
+			wx.MessageBox("A property must be selected")
 			return
 		
 		fl = fluid.SaturatedRefrigerant(self.m_FluidType ) 
@@ -412,14 +415,66 @@ class pnlRefrigerantSuperheated ( wx.Panel ):
 			wx.MessageBox("Exactly two properties must be selected")
 			return
 		
+		if(self.m_txtP.GetValue() == wx.EmptyString):
+			wx.MessageBox("A value must be entered for pressure")
+			return
+		
+		SelectedProp:str = ""
+		InputVal = ""
+		for lst in self.m_CtrlList:
+			if lst[0].GetValue() == True:
+				SelectedProp = lst[2].upper()
+				InputVal = lst[1].GetValue()
+		
+		if(InputVal == ""):
+			wx.MessageBox("A value must be entered for " + SelectedProp)
+			return
+				
 		fl = fluid.SuperHeatedRefrigerant(self.m_FluidType ) 
+		
 		result = dict()
 		try:
-			result = fl.search(float(self.m_txtP.GetValue()), self.m_SelectedProperty, float(self.m_txtBGChanged.GetValue()))
+			result = fl.search(float(self.m_txtP.GetValue()), SelectedProp, float(InputVal))
 		except Exception as e:
 			wx.MessageBox(str(e))
 			return
+		
+		
+		Digits = self.m_Parent.GetDigits()
+		
+		for Ctrl in  self.m_CtrlList:
+			Value = result.get(Ctrl[2].capitalize())
+			if(Value == None):
+				continue
+				
+			if(Digits != None):
+				Ctrl[1].SetValue(str(round(Value, Digits )))
+			else:
+				Ctrl[1].SetValue(str(Value))
+		
 		event.Skip()
+	
+
+	def Export(self):
+		ws = gui.Worksheet()
+		ws[0,0] = "P"
+		ws[0,1] = self.m_txtP.GetValue()
+
+		for lst in self.m_CtrlList: 
+			if lst[0].GetValue():
+				ws[1, 0] = lst[2]
+				ws[1, 1] = lst[1].GetValue()
+
+				break
+		
+		row = 3
+		for lst in self.m_CtrlList: 
+			if lst[0].GetValue():
+				continue
+			ws[row, 0] = str(lst[2]) #name
+			ws[row,1] = str(lst[1].GetValue())
+			
+			row += 1
 
 
 
@@ -589,6 +644,15 @@ class pnlThermoPhysical ( wx.Panel ):
 			wx.MessageBox("Fluid type must be selected")
 			return
 		
+		if self.m_SelectedProperty == None:
+			wx.MessageBox("A property must be selected")
+			return
+		
+		
+		if self.m_txtBGChanged.GetValue() == "":
+			wx.MessageBox("A value must be entered for " + self.m_SelectedProperty)
+			return
+		
 		fl = fluid.ThermoPhysical(self.m_FluidType ) 
 		result = dict()
 		try:
@@ -634,6 +698,8 @@ class frmPropertiesofFluids ( gui.Frame ):
 		gui.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Properties of Fluids" )
 		
 		self.m_Digits = None
+		
+		self.SetIcon(gui.makeicon("apps/images/fluid.bmp"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 

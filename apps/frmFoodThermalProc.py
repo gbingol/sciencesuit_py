@@ -25,12 +25,7 @@ class frmFoodThermalProc ( gui.Frame ):
 		
 		self.SetBackgroundColour( wx.Colour( 255, 199, 142 ) )
 		
-		icon = wx.Icon()
-		image = wx.Image()
-		image.LoadFile(gui.exepath()+"apps/images/thermalprocessing.jpg")
-		bmp=image.ConvertToBitmap()
-		icon.CopyFromBitmap(bmp)
-		self.SetIcon(icon)
+		self.SetIcon(gui.makeicon(gui.exepath()+"apps/images/thermalprocessing.jpg"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -41,31 +36,31 @@ class frmFoodThermalProc ( gui.Frame ):
 		fgSizer.SetFlexibleDirection( wx.HORIZONTAL )
 		fgSizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.m_staticDTime = wx.StaticText( self, wx.ID_ANY, u"D (time):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticDTime = wx.StaticText( self, wx.ID_ANY, u"D (time):")
 		self.m_staticDTime.Wrap( -1 )
 
 		fgSizer.Add( self.m_staticDTime, 0, wx.ALL, 5 )
 
-		self.m_txtDTime = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtDTime = wx.TextCtrl( self)
 		fgSizer.Add( self.m_txtDTime, 1, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticText18 = wx.StaticText( self, wx.ID_ANY, u"D (temperature):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText18 = wx.StaticText( self, wx.ID_ANY, u"D (temperature):")
 		self.m_staticText18.Wrap( -1 )
 
 		fgSizer.Add( self.m_staticText18, 0, wx.ALL, 5 )
 
-		self.m_txtDTemperature = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtDTemperature = wx.TextCtrl( self)
 		fgSizer.Add( self.m_txtDTemperature, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticText19 = wx.StaticText( self, wx.ID_ANY, u"z-value:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText19 = wx.StaticText( self, wx.ID_ANY, u"z-value:")
 		self.m_staticText19.Wrap( -1 )
 
 		fgSizer.Add( self.m_staticText19, 0, wx.ALL, 5 )
 
-		self.m_txtZ = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtZ = wx.TextCtrl( self)
 		fgSizer.Add( self.m_txtZ, 1, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticText20 = wx.StaticText( self, wx.ID_ANY, u"Time:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText20 = wx.StaticText( self, wx.ID_ANY, u"Time:")
 		self.m_staticText20.Wrap( -1 )
 
 		fgSizer.Add( self.m_staticText20, 0, wx.ALL, 5 )
@@ -73,7 +68,7 @@ class frmFoodThermalProc ( gui.Frame ):
 		self.m_txtTime = gui.GridTextCtrl( self )
 		fgSizer.Add( self.m_txtTime, 1, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticText21 = wx.StaticText( self, wx.ID_ANY, u"Temperature(s):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText21 = wx.StaticText( self, wx.ID_ANY, u"Temperature(s):")
 		self.m_staticText21.Wrap( -1 )
 
 		fgSizer.Add( self.m_staticText21, 0, wx.ALL, 5 )
@@ -81,18 +76,18 @@ class frmFoodThermalProc ( gui.Frame ):
 		self.m_txtTemperature = gui.GridTextCtrl( self )
 		fgSizer.Add( self.m_txtTemperature, 1, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticText23 = wx.StaticText( self, wx.ID_ANY, u"Ref Temperature:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText23 = wx.StaticText( self, wx.ID_ANY, u"Ref Temperature:")
 		self.m_staticText23.Wrap( -1 )
 
 		fgSizer.Add( self.m_staticText23, 0, wx.ALL, 5 )
 
-		self.m_txtRefTemperature = wx.TextCtrl( self, wx.ID_ANY,"121", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtRefTemperature = wx.TextCtrl( self, wx.ID_ANY,"121")
 		fgSizer.Add( self.m_txtRefTemperature, 0, wx.ALL|wx.EXPAND, 5 )
 
 
 		mainSizer.Add( fgSizer, 1, wx.EXPAND, 5 )
 
-		self.m_btnCalc = wx.Button( self, wx.ID_ANY, u"Calculate", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_btnCalc = wx.Button( self, wx.ID_ANY, u"Calculate")
 		mainSizer.Add( self.m_btnCalc, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
 
 
