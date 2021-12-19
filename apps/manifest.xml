@@ -29,11 +29,6 @@
 		</PANEL>
 		
 		
-	
-		<BUTTON NAME="sort" TITLE="Sort">
-			<FUNCTION>std.app.RangeSorter</FUNCTION>
-			<IMAGE>apps/images/sort.jpg</IMAGE>
-		</BUTTON>
 
 		<BUTTON NAME="descriptivestat" TITLE="Descriptive Statistics">
 			<FUNCTION>std.app.DescriptiveStat</FUNCTION>
@@ -112,7 +107,6 @@
 		</DROPBUTTON>
 		
 		<PANEL TITLE="Statistics">
-			<ADD>sort</ADD>
 			<ADD>exploration</ADD>
 			<ADD>ttest</ADD>
 			<ADD>test_f</ADD>
