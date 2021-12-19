@@ -1,84 +1,87 @@
 import wx
+import scisuit.gui as gui
 
-app = wx.App()
 
-class frmDescriptiveStats ( wx.Frame ):
+class frmDescriptiveStats ( gui.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Descriptive Statistics", pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		gui.Frame.__init__ ( self, parent, title = u"Descriptive Statistics", )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 255, 192, 130 ) )
 
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
+		#input range section
 		inputSizer = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_staticTxtInput = wx.StaticText( self, wx.ID_ANY, u"Input:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticTxtInput = wx.StaticText( self, wx.ID_ANY, u"Input:")
 		self.m_staticTxtInput.Wrap( -1 )
 
 		inputSizer.Add( self.m_staticTxtInput, 0, wx.ALL, 5 )
 
-		self.m_txtInput = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_txtInput = wx.TextCtrl( self)
 		inputSizer.Add( self.m_txtInput, 1, wx.ALL, 5 )
 
 
 		mainSizer.Add( inputSizer, 0, wx.EXPAND, 5 )
 
-		self.m_chkTreatCols = wx.CheckBox( self, wx.ID_ANY, u"Treat columns separately", wx.DefaultPosition, wx.DefaultSize, 0 )
+
+		#whether to treat columns separately or as whole
+		self.m_chkTreatCols = wx.CheckBox( self, wx.ID_ANY, u"Treat columns separately" )
 		mainSizer.Add( self.m_chkTreatCols, 0, wx.ALL, 5 )
 
-		fgSizer1 = wx.FlexGridSizer( 0, 3, 0, 0 )
-		fgSizer1.SetFlexibleDirection( wx.BOTH )
-		fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		fgSizer = wx.FlexGridSizer( 0, 3, 0, 0 )
+		fgSizer.SetFlexibleDirection( wx.BOTH )
+		fgSizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.m_chkAll = wx.CheckBox( self, wx.ID_ANY, u"All", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkAll, 0, wx.ALL, 5 )
+		self.m_chkAll = wx.CheckBox( self, wx.ID_ANY, u"All")
+		fgSizer.Add( self.m_chkAll, 0, wx.ALL, 5 )
 
-		self.m_chkCount = wx.CheckBox( self, wx.ID_ANY, u"count", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkCount, 1, wx.ALL, 5 )
+		self.m_chkCount = wx.CheckBox( self, wx.ID_ANY, u"count")
+		fgSizer.Add( self.m_chkCount, 1, wx.ALL, 5 )
 
-		self.m_chkKurtosis = wx.CheckBox( self, wx.ID_ANY, u"kurtosis", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkKurtosis, 0, wx.ALL, 5 )
+		self.m_chkKurtosis = wx.CheckBox( self, wx.ID_ANY, u"kurtosis")
+		fgSizer.Add( self.m_chkKurtosis, 0, wx.ALL, 5 )
 
-		self.m_chkMin = wx.CheckBox( self, wx.ID_ANY, u"min", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkMin, 0, wx.ALL, 5 )
+		self.m_chkMin = wx.CheckBox( self, wx.ID_ANY, u"min")
+		fgSizer.Add( self.m_chkMin, 0, wx.ALL, 5 )
 
-		self.m_chkMean = wx.CheckBox( self, wx.ID_ANY, u"mean", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkMean, 0, wx.ALL, 5 )
+		self.m_chkMean = wx.CheckBox( self, wx.ID_ANY, u"mean")
+		fgSizer.Add( self.m_chkMean, 0, wx.ALL, 5 )
 
-		self.m_chkMedian = wx.CheckBox( self, wx.ID_ANY, u"median", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkMedian, 0, wx.ALL, 5 )
+		self.m_chkMedian = wx.CheckBox( self, wx.ID_ANY, u"median")
+		fgSizer.Add( self.m_chkMedian, 0, wx.ALL, 5 )
 
-		self.m_chkMax = wx.CheckBox( self, wx.ID_ANY, u"max", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkMax, 0, wx.ALL, 5 )
+		self.m_chkMax = wx.CheckBox( self, wx.ID_ANY, u"max")
+		fgSizer.Add( self.m_chkMax, 0, wx.ALL, 5 )
 
-		self.m_chkMode = wx.CheckBox( self, wx.ID_ANY, u"mode", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkMode, 0, wx.ALL, 5 )
+		self.m_chkMode = wx.CheckBox( self, wx.ID_ANY, u"mode")
+		fgSizer.Add( self.m_chkMode, 0, wx.ALL, 5 )
 
-		self.m_chkRange = wx.CheckBox( self, wx.ID_ANY, u"range", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkRange, 0, wx.ALL, 5 )
+		self.m_chkRange = wx.CheckBox( self, wx.ID_ANY, u"range")
+		fgSizer.Add( self.m_chkRange, 0, wx.ALL, 5 )
 
-		self.m_chkVar = wx.CheckBox( self, wx.ID_ANY, u"variance", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkVar, 0, wx.ALL, 5 )
+		self.m_chkVar = wx.CheckBox( self, wx.ID_ANY, u"variance")
+		fgSizer.Add( self.m_chkVar, 0, wx.ALL, 5 )
 
-		self.m_chkSD = wx.CheckBox( self, wx.ID_ANY, u"standard dev", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkSD, 0, wx.ALL, 5 )
+		self.m_chkSD = wx.CheckBox( self, wx.ID_ANY, u"standard dev")
+		fgSizer.Add( self.m_chkSD, 0, wx.ALL, 5 )
 
-		self.m_chkSE = wx.CheckBox( self, wx.ID_ANY, u"standard error", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkSE, 0, wx.ALL, 5 )
+		self.m_chkSE = wx.CheckBox( self, wx.ID_ANY, u"standard error")
+		fgSizer.Add( self.m_chkSE, 0, wx.ALL, 5 )
 
-		self.m_chkSum = wx.CheckBox( self, wx.ID_ANY, u"sum", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkSum, 0, wx.ALL, 5 )
+		self.m_chkSum = wx.CheckBox( self, wx.ID_ANY, u"sum")
+		fgSizer.Add( self.m_chkSum, 0, wx.ALL, 5 )
 
-		self.m_chkSkewness = wx.CheckBox( self, wx.ID_ANY, u"skewness", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_chkSkewness, 0, wx.ALL, 5 )
+		self.m_chkSkewness = wx.CheckBox( self, wx.ID_ANY, u"skewness")
+		fgSizer.Add( self.m_chkSkewness, 0, wx.ALL, 5 )
 
 
-		mainSizer.Add( fgSizer1, 0, wx.EXPAND, 5 )
+		mainSizer.Add( fgSizer, 0, wx.EXPAND, 5 )
 
-		self.m_panel1 = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		mainSizer.Add( self.m_panel1, 1, wx.EXPAND |wx.ALL, 5 )
+		self.m_pnlOutput = gui.pnlOutputOptions( self )
+		mainSizer.Add( self.m_pnlOutput, 1, wx.EXPAND |wx.ALL, 5 )
 
 		m_sdbSizer = wx.StdDialogButtonSizer()
 		self.m_sdbSizerOK = wx.Button( self, wx.ID_OK )
@@ -101,7 +104,7 @@ class frmDescriptiveStats ( wx.Frame ):
 			self.m_chkSkewness, self.m_chkSum, self.m_chkVar
 		]
 
-		# Connect Events
+		
 		self.m_chkAll.Bind( wx.EVT_CHECKBOX, self.chkAll_OnCheck )
 		self.m_chkCount.Bind( wx.EVT_CHECKBOX, self.OnCheckBox )
 		self.m_chkKurtosis.Bind( wx.EVT_CHECKBOX, self.OnCheckBox )
@@ -118,6 +121,7 @@ class frmDescriptiveStats ( wx.Frame ):
 		self.m_chkSkewness.Bind( wx.EVT_CHECKBOX, self.OnCheckBox )
 		self.m_sdbSizerCancel.Bind( wx.EVT_BUTTON, self.OnCancelButton )
 		self.m_sdbSizerOK.Bind( wx.EVT_BUTTON, self.OnOKButton )
+
 
 	def __del__( self ):
 		pass
@@ -150,4 +154,3 @@ class frmDescriptiveStats ( wx.Frame ):
 if __name__=="__main__":
 	frm = frmDescriptiveStats(None)
 	frm.Show()
-	app.MainLoop()
