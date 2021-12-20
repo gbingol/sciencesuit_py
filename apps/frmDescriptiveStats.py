@@ -23,6 +23,8 @@ def _range(v):
 	return Max-Min
 	
 
+
+
 class frmDescriptiveStats ( gui.Frame ):
 
 	def __init__( self, parent ):
@@ -117,22 +119,22 @@ class frmDescriptiveStats ( gui.Frame ):
 		self.SetSizerAndFit( mainSizer )
 		self.Layout()
 
-		self.Centre( wx.BOTH )
+		self.Centre( wx.BOTH )  
 
-		self.m_Controls =[
-			[self.m_chkCount, _count], 
-			[self.m_chkKurtosis, stat.kurt],
-			[self.m_chkMax,_max], 
-			[self.m_chkMean,stat.mean],
-			[self.m_chkMedian,stat.median],
-			[self.m_chkMin,_min],
-			[self.m_chkMode, stat.mode],
-			[self.m_chkRange,_range],
-			[self.m_chkSD, stat.stdev],
-			[self.m_chkSE, _SE],
-			[self.m_chkSkewness, stat.skew],
-			[self.m_chkSum, scr.sum],
-			[self.m_chkVar, stat.var]]
+		self.m_Controls =[  
+			[self.m_chkCount, _count, "Count"],  
+			[self.m_chkKurtosis, stat.kurt, "Kurtosis"],
+			[self.m_chkMax,_max, "Max"], 
+			[self.m_chkMean,stat.mean, "Mean"],
+			[self.m_chkMedian,stat.median, "Median"],
+			[self.m_chkMin,_min, "Min"],
+			[self.m_chkMode, stat.mode, "Mode"],
+			[self.m_chkRange,_range, "Range"],
+			[self.m_chkSD, stat.stdev, "Standard dev"],
+			[self.m_chkSE, _SE, "Standard Error"],
+			[self.m_chkSkewness, stat.skew, "Skewness"],
+			[self.m_chkSum, scr.sum, "Sum"],
+			[self.m_chkVar, stat.var, "Variance"]]
 
 		
 		self.m_chkAll.Bind( wx.EVT_CHECKBOX, self.chkAll_OnCheck )
@@ -160,6 +162,7 @@ class frmDescriptiveStats ( gui.Frame ):
 	def chkAll_OnCheck( self, event ):
 		for chk in self.m_Controls:
 			chk.SetValue(event.IsChecked())
+
 
 	def OnCheckBox( self, event ):
 		#if any is unchecked then All must be unchecked
