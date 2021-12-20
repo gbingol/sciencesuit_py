@@ -82,10 +82,10 @@ class frmDescriptiveStats ( gui.Frame ):
 		self.m_chkMode = wx.CheckBox( self, wx.ID_ANY, u"mode")
 		fgSizer.Add( self.m_chkMode, 0, wx.ALL, 5 )
 
-		self.m_chkRange = wx.CheckBox( self, wx.ID_ANY, u"range")
+		self.m_chkRange = wx.CheckBox( self, wx.ID_ANY, u"range")  
 		fgSizer.Add( self.m_chkRange, 0, wx.ALL, 5 )
 
-		self.m_chkVar = wx.CheckBox( self, wx.ID_ANY, u"variance")
+		self.m_chkVar = wx.CheckBox( self, wx.ID_ANY, u"variance")  
 		fgSizer.Add( self.m_chkVar, 0, wx.ALL, 5 )
 
 		self.m_chkSD = wx.CheckBox( self, wx.ID_ANY, u"standard dev")
@@ -100,7 +100,7 @@ class frmDescriptiveStats ( gui.Frame ):
 		self.m_chkSkewness = wx.CheckBox( self, wx.ID_ANY, u"skewness")
 		fgSizer.Add( self.m_chkSkewness, 0, wx.ALL, 5 )
 
-
+ 
 		mainSizer.Add( fgSizer, 0, wx.EXPAND, 5 )
 
 		self.m_pnlOutput = gui.pnlOutputOptions( self )
@@ -109,30 +109,30 @@ class frmDescriptiveStats ( gui.Frame ):
 		m_sdbSizer = wx.StdDialogButtonSizer()
 		self.m_sdbSizerOK = wx.Button( self, wx.ID_OK )
 		m_sdbSizer.AddButton( self.m_sdbSizerOK )
-		self.m_sdbSizerCancel = wx.Button( self, wx.ID_CANCEL )
-		m_sdbSizer.AddButton( self.m_sdbSizerCancel )
+		self.m_sdbSizerCancel = wx.Button( self, wx.ID_CANCEL ) 
+		m_sdbSizer.AddButton( self.m_sdbSizerCancel ) 
 		m_sdbSizer.Realize()
 
-		mainSizer.Add( m_sdbSizer, 1, wx.EXPAND, 5 )
+		mainSizer.Add( m_sdbSizer, 1, wx.EXPAND, 5 )   
 
-
+ 
 		self.SetSizerAndFit( mainSizer )
-		self.Layout()
+		self.Layout() 
 
 		self.Centre( wx.BOTH )  
 
-		self.m_Controls =[  
-			[self.m_chkCount, _count, "Count"],  
-			[self.m_chkKurtosis, stat.kurt, "Kurtosis"],
+		self.m_Controls =[   
+			[self.m_chkCount, _count, "Count"] ,
+			[self.m_chkKurtosis, stat.kurt, "Kurtosis"], 
 			[self.m_chkMax,_max, "Max"], 
 			[self.m_chkMean,stat.mean, "Mean"],
-			[self.m_chkMedian,stat.median, "Median"],
-			[self.m_chkMin,_min, "Min"],
-			[self.m_chkMode, stat.mode, "Mode"],
-			[self.m_chkRange,_range, "Range"],
+			[self.m_chkMedian,stat.median, "Median"],  
+			[self.m_chkMin,_min, "Min"], 
+			[self.m_chkMode, stat.mode, "Mode"],  
+			[self.m_chkRange,_range, "Range"], 
 			[self.m_chkSD, stat.stdev, "Standard dev"],
-			[self.m_chkSE, _SE, "Standard Error"],
-			[self.m_chkSkewness, stat.skew, "Skewness"],
+			[self.m_chkSE, _SE, "Standard Error"], 
+			[self.m_chkSkewness, stat.skew, "Skewness"], 
 			[self.m_chkSum, scr.sum, "Sum"],
 			[self.m_chkVar, stat.var, "Variance"]]
 
@@ -181,6 +181,25 @@ class frmDescriptiveStats ( gui.Frame ):
 		event.Skip()
 
 	def OnOKButton( self, event ):
+		if(self.m_staticTxtInput.GetValue() == wx.EmptyString):
+			wx.MessageBox("A data range must be selected")
+			return
+		
+		InputRng=gui.Range(self.m_staticTxtInput.GetValue())
+		OutputTarget = None
+		
+		if(self.m_pnlOutput.IsNewWorksheet()):
+			OutputTarget = gui.Worksheet()
+		else:
+			OutputTarget = self.m_pnlOutput.GetSelRange()
+		
+		row, col = 0, 0
+		
+		for Ctrl in self.m_Controls:
+			if(Ctrl[0].GetValue() == False): #unchecked
+				continue
+			
+		
 		event.Skip()
 
 
