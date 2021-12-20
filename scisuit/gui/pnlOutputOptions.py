@@ -12,10 +12,10 @@ class pnlOutputOptions ( wx.Panel ):
 
 		#header section
 		sizerHeader = wx.BoxSizer( wx.HORIZONTAL )
-		self.m_staticText1 = wx.StaticText( self, wx.ID_ANY, u"Ouput Options" )
-		self.m_staticText1.Wrap( -1 )
+		self.m_staticText = wx.StaticText( self, wx.ID_ANY, u"Ouput Options" )
+		self.m_staticText.Wrap( -1 )
 
-		sizerHeader.Add( self.m_staticText1, 0, wx.ALL, 5 )
+		sizerHeader.Add( self.m_staticText, 0, wx.ALL, 5 )
 		self.m_staticlineHeader = wx.StaticLine( self )
 		sizerHeader.Add( self.m_staticlineHeader, 1, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 
@@ -77,4 +77,10 @@ class pnlOutputOptions ( wx.Panel ):
 		if(self.m_radioSelection.GetValue() == True and self.GetSelRangeText() != wx.EmptyString):
 			return gui.Range(self.GetSelRangeText())
 
+
+	def IsNewWorksheet(self):
+		return self.m_radioNewWS.GetValue()
+	
+	def IsSelRange(self):
+		return self.m_radioSelection.GetValue()
 
