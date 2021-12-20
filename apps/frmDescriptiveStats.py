@@ -1,27 +1,39 @@
 import wx
 
+import math
+import numbers
+
 import scisuit.core as scr
 import scisuit.gui as gui
 import scisuit.stats as stat
 
 
-def _count(v):
-	pass
 
-def _SE(v):
-	pass
+def _basicstat(v):
+	Min, Max = float('inf'), float('-inf')
+	N = 0
+	Sum = 0
+	for elem in v:
+		if(isinstance(elem, numbers.Real) == False):
+			continue
+		Min = Min if Min<=elem else elem
+		Max = Max if elem<=Max else elem
+		Sum += elem
+		N += 1
+
+	if(N == 0):
+		raise ValueError("No real numbers are present in the selection")
+
+	return {'Min':Min, 'Max':Max, 'Range':Max-Min, 'Sum': Sum, 'Count':N, 'Mean': Sum / N} 
 
 
-def _min(v):
-	return scr.minmax(v)[0]
+def _Moment(v):
+	variance = stats.var(v)
+	sd = math.sqrt(variance)
+	se = sd / math.sqrt(len(v))
 
-def _max(v):
-	return scr.minmax(v)[1]
+	return {'Var':variance, 'SD':sd, 'SE':se}
 
-def _range(v):
-	Min, Max = scr.minmax(v)
-	return Max-Min
-	
 
 
 
@@ -122,21 +134,21 @@ class frmDescriptiveStats ( gui.Frame ):
 		self.Centre( wx.BOTH )  
 
 		self.m_Controls =[   
-			[self.m_chkCount, _count, "Count"] ,
-			[self.m_chkKurtosis, stat.kurt, "Kurtosis"], 
-			[self.m_chkMax,_max, "Max"], 
-			[self.m_chkMean,stat.mean, "Mean"],
+			[self.m_chkCount, _basicstat, "Count"] ,
+			[self.m_chkKurtosis, _Moment, "Kurtosis"], 
+			[self.m_chkMax,_basicstat, "Max"], 
+			[self.m_chkMean,_basicstat, "Mean"],
 			[self.m_chkMedian,stat.median, "Median"],  
-			[self.m_chkMin,_min, "Min"], 
+			[self.m_chkMin,_basicstat, "Min"], 
 			[self.m_chkMode, stat.mode, "Mode"],  
-			[self.m_chkRange,_range, "Range"], 
-			[self.m_chkSD, stat.stdev, "Standard dev"],
-			[self.m_chkSE, _SE, "Standard Error"], 
+			[self.m_chkRange,_basicstat, "Range"], 
+			[self.m_chkSD, _Moment, "SD"],
+			[self.m_chkSE, _Moment, "SE"], 
 			[self.m_chkSkewness, stat.skew, "Skewness"], 
-			[self.m_chkSum, scr.sum, "Sum"],
-			[self.m_chkVar, stat.var, "Variance"]]
+			[self.m_chkSum, _basicstat, "Sum"],
+			[self.m_chkVar, stat.var, "Variance"]] 
 
-		
+
 		self.m_chkAll.Bind( wx.EVT_CHECKBOX, self.chkAll_OnCheck )
 		self.m_chkCount.Bind( wx.EVT_CHECKBOX, self.OnCheckBox )
 		self.m_chkKurtosis.Bind( wx.EVT_CHECKBOX, self.OnCheckBox )
@@ -185,7 +197,7 @@ class frmDescriptiveStats ( gui.Frame ):
 			wx.MessageBox("A data range must be selected")
 			return
 		
-		InputRng=gui.Range(self.m_staticTxtInput.GetValue())
+		InputRng = gui.Range(self.m_staticTxtInput.GetValue())
 		OutputTarget = None
 		
 		if(self.m_pnlOutput.IsNewWorksheet()):
@@ -195,9 +207,12 @@ class frmDescriptiveStats ( gui.Frame ):
 		
 		row, col = 0, 0
 		
+		Dict = dict() #initial empty dict 
 		for Ctrl in self.m_Controls:
 			if(Ctrl[0].GetValue() == False): #unchecked
 				continue
+
+			func, Name = Ctrl[1], Ctrl[2]
 			
 		
 		event.Skip()
