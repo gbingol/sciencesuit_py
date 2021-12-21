@@ -49,7 +49,7 @@ def _SecMoment(AList):
 	sd = math.sqrt(variance)
 	se = sd / math.sqrt(len(AList))
 
-	return {'Var':variance, 'SD':sd, 'SE':se}
+	return {'Variance':variance, 'SD':sd, 'SE':se}
 
 
 
@@ -220,14 +220,16 @@ class frmDescriptiveStats ( gui.Frame ):
 		"""
 		List = ArrayToList(arr)
 
-		Dict = dict() #initial empty dict 
+		LookUpDict = dict() #initial empty lookup dict 
+		NameSet = set()
 		for Ctrl in self.m_Controls:
 			if(Ctrl[0].GetValue() == False): #unchecked
 				continue
 
 			func, Name = Ctrl[1], Ctrl[2]
+			NameSet.add(Name)
 			#is the value already in the dictionary
-			Value = Dict.get(Name)
+			Value = LookUpDict.get(Name)
 			"""
 				if value is not in the dict the function has not been called yet
 				or it has its own function to be called
@@ -236,13 +238,17 @@ class frmDescriptiveStats ( gui.Frame ):
 				try:
 					retVal = func(List)
 					if(isinstance(retVal, dict)):
-						Dict.update(retVal)
+						LookUpDict.update(retVal)
 					elif(isinstance(retVal, numbers.Real)):
-						Dict[Name]=retVal
+						LookUpDict[Name]=retVal
 				except Exception as e:
-					Dict[Name] = str(e)
+					LookUpDict[Name] = str(e)
+		
+		retDict = dict()
+		for entry in NameSet:
+			retDict[entry] = LookUpDict.pop(entry)
 
-		return Dict
+		return retDict
 
 
 	def _printDict(self, Dict:dict, WS:gui.Worksheet, Row:int, Col:int, PrintKeys = True):
