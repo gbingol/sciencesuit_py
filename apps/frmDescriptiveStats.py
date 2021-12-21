@@ -8,15 +8,23 @@ import scisuit.gui as gui
 import scisuit.stats as stat
 
 
+def ArrayToList(arr)->list:
+	arr.keep_realnumbers()
+	lst=[]
+	for val in arr:
+		lst.append(val)
+	
+	return lst
 
-def _basicstat(arr):
+
+def _basicstat(AList):
 	"""
-	arr: Array 
+	AList: Python list 
 	"""
 	Min, Max = float('inf'), float('-inf')
 	N = 0
 	Sum = 0
-	for elem in arr:
+	for elem in AList:
 		if(isinstance(elem, numbers.Real) == False):
 			continue
 		Min = Min if Min<=elem else elem
@@ -31,20 +39,15 @@ def _basicstat(arr):
 
 
 
-def _SecMoment(arr):
+def _SecMoment(AList):
 	"""
 	Second moment related ones
 	
-	arr: Array
+	AList: Python list
 	"""
-	arr.keep_realnumbers()
-	lst=[]
-	for val in arr:
-		lst.append(val)
-
-	variance = stats.var(lst) #sample
+	variance = stat.var(AList) #sample
 	sd = math.sqrt(variance)
-	se = sd / math.sqrt(len(lst))
+	se = sd / math.sqrt(len(AList))
 
 	return {'Var':variance, 'SD':sd, 'SE':se}
 
@@ -57,6 +60,8 @@ class frmDescriptiveStats ( gui.Frame ):
 
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"Descriptive Statistics", )
+		
+		self.SetIcon(gui.makeicon(path="apps/images/descriptivestat.jpg"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 255, 192, 130 ) )
@@ -189,7 +194,7 @@ class frmDescriptiveStats ( gui.Frame ):
 
 	def chkAll_OnCheck( self, event ):
 		for chk in self.m_Controls:
-			chk.SetValue(event.IsChecked())
+			chk[0].SetValue(event.IsChecked())
 
 
 	def OnCheckBox( self, event ):
@@ -213,6 +218,8 @@ class frmDescriptiveStats ( gui.Frame ):
 		"""
 		Given an array (arr) compute requested properties (checked values)
 		"""
+		List = ArrayToList(arr)
+
 		Dict = dict() #initial empty dict 
 		for Ctrl in self.m_Controls:
 			if(Ctrl[0].GetValue() == False): #unchecked
@@ -226,13 +233,14 @@ class frmDescriptiveStats ( gui.Frame ):
 				or it has its own function to be called
 			"""
 			if(Value == None):
-				retVal = func(arr)
-				if(isinstance(retVal, dict())):
-					Dict.update(retVal)
-				elif(isinstance(retVal, numbers.Real)):
-					Dict[Name]=retVal
-				else:
-					raise ValueError("unexpected return type")
+				try:
+					retVal = func(List)
+					if(isinstance(retVal, dict)):
+						Dict.update(retVal)
+					elif(isinstance(retVal, numbers.Real)):
+						Dict[Name]=retVal
+				except Exception as e:
+					Dict[Name] = str(e)
 
 		return Dict
 
@@ -247,23 +255,46 @@ class frmDescriptiveStats ( gui.Frame ):
 				WS[r, c] = Pair[1]
 			
 			r += 1
+		
+		return r, c+1 if PrintKeys else c+2
+
 
 	def OnOKButton( self, event ):
-		if(self.m_staticTxtInput.GetValue() == wx.EmptyString):
+		if(self.m_txtInput.GetValue() == wx.EmptyString):
 			wx.MessageBox("A data range must be selected")
 			return
 		
-		InputRng = gui.Range(self.m_staticTxtInput.GetValue())
-		OutputTarget = None
-		
-		if(self.m_pnlOutput.IsNewWorksheet()):
-			OutputTarget = gui.Worksheet()
-		else:
-			OutputTarget = self.m_pnlOutput.GetSelRange()
-		
+		InputRng = gui.Range(self.m_txtInput.GetValue())
+
+		#output worksheet and top-left row and column
+		WS = None
 		row, col = 0, 0
 		
+		if(self.m_pnlOutput.IsNewWorksheet()):
+			WS = gui.Worksheet()
+		else:
+			SelRange = self.m_pnlOutput.GetSelRange()
+			WS = SelRange.parent()
+			row, col = SelRange.coords()[0] #[0]:top-left
+		
+
 		if(self.m_chkTreatCols.GetValue() == False):
+			Arr = InputRng.toarray()
+			Arr.keep_realnumbers()
+			Dict = self._compute(Arr)
+			self._printDict(Dict, WS, row, col)
+		
+		else:
+			PrintKeys = True
+			for i in range(InputRng.ncols()):
+				Arr = InputRng.col(i)
+				Arr.keep_realnumbers()
+				Dict = self._compute(Arr)
+				self._printDict(Dict, WS, row, col + i, PrintKeys)
+				if(PrintKeys):
+					PrintKeys = False
+					col += 1
+
 		
 		
 		event.Skip()
