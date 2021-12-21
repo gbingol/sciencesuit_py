@@ -9,11 +9,14 @@ import scisuit.stats as stat
 
 
 
-def _basicstat(v):
+def _basicstat(arr):
+	"""
+	arr: Array 
+	"""
 	Min, Max = float('inf'), float('-inf')
 	N = 0
 	Sum = 0
-	for elem in v:
+	for elem in arr:
 		if(isinstance(elem, numbers.Real) == False):
 			continue
 		Min = Min if Min<=elem else elem
@@ -27,12 +30,25 @@ def _basicstat(v):
 	return {'Min':Min, 'Max':Max, 'Range':Max-Min, 'Sum': Sum, 'Count':N, 'Mean': Sum / N} 
 
 
-def _Moment(v):
-	variance = stats.var(v)
+
+def _SecMoment(arr):
+	"""
+	Second moment related ones
+	
+	arr: Array
+	"""
+	arr.keep_realnumbers()
+	lst=[]
+	for val in arr:
+		lst.append(val)
+
+	variance = stats.var(lst) #sample
 	sd = math.sqrt(variance)
-	se = sd / math.sqrt(len(v))
+	se = sd / math.sqrt(len(lst))
 
 	return {'Var':variance, 'SD':sd, 'SE':se}
+
+
 
 
 
@@ -135,18 +151,18 @@ class frmDescriptiveStats ( gui.Frame ):
 
 		self.m_Controls =[   
 			[self.m_chkCount, _basicstat, "Count"] ,
-			[self.m_chkKurtosis, _Moment, "Kurtosis"], 
+			[self.m_chkKurtosis, stat.kurt, "Kurtosis"], 
 			[self.m_chkMax,_basicstat, "Max"], 
 			[self.m_chkMean,_basicstat, "Mean"],
 			[self.m_chkMedian,stat.median, "Median"],  
 			[self.m_chkMin,_basicstat, "Min"], 
 			[self.m_chkMode, stat.mode, "Mode"],  
 			[self.m_chkRange,_basicstat, "Range"], 
-			[self.m_chkSD, _Moment, "SD"],
-			[self.m_chkSE, _Moment, "SE"], 
+			[self.m_chkSD, _SecMoment, "SD"],
+			[self.m_chkSE, _SecMoment, "SE"], 
 			[self.m_chkSkewness, stat.skew, "Skewness"], 
 			[self.m_chkSum, _basicstat, "Sum"],
-			[self.m_chkVar, stat.var, "Variance"]] 
+			[self.m_chkVar, _SecMoment, "Variance"]] 
 
 
 		self.m_chkAll.Bind( wx.EVT_CHECKBOX, self.chkAll_OnCheck )
@@ -191,6 +207,46 @@ class frmDescriptiveStats ( gui.Frame ):
 	def OnCancelButton( self, event ):
 		frm.Close()
 		event.Skip()
+	
+
+	def _compute(self, arr)->dict:
+		"""
+		Given an array (arr) compute requested properties (checked values)
+		"""
+		Dict = dict() #initial empty dict 
+		for Ctrl in self.m_Controls:
+			if(Ctrl[0].GetValue() == False): #unchecked
+				continue
+
+			func, Name = Ctrl[1], Ctrl[2]
+			#is the value already in the dictionary
+			Value = Dict.get(Name)
+			"""
+				if value is not in the dict the function has not been called yet
+				or it has its own function to be called
+			"""
+			if(Value == None):
+				retVal = func(arr)
+				if(isinstance(retVal, dict())):
+					Dict.update(retVal)
+				elif(isinstance(retVal, numbers.Real)):
+					Dict[Name]=retVal
+				else:
+					raise ValueError("unexpected return type")
+
+		return Dict
+
+
+	def _printDict(self, Dict:dict, WS:gui.Worksheet, Row:int, Col:int, PrintKeys = True):
+		r, c= Row, Col
+		for Pair in Dict.items():
+			if(PrintKeys):
+				WS[r, c] = Pair[0]
+				WS[r, c+1] = Pair[1]
+			else:
+				WS[r, c] = Pair[1]
+			
+			r += 1
 
 	def OnOKButton( self, event ):
 		if(self.m_staticTxtInput.GetValue() == wx.EmptyString):
@@ -207,16 +263,10 @@ class frmDescriptiveStats ( gui.Frame ):
 		
 		row, col = 0, 0
 		
-		Dict = dict() #initial empty dict 
-		for Ctrl in self.m_Controls:
-			if(Ctrl[0].GetValue() == False): #unchecked
-				continue
-
-			func, Name = Ctrl[1], Ctrl[2]
-			
+		if(self.m_chkTreatCols.GetValue() == False):
+		
 		
 		event.Skip()
-
 
 
 
