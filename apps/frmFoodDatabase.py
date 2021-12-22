@@ -334,7 +334,7 @@ class frmFoodDatabase ( gui.Frame ):
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		
-		self.SetIcon(gui.exepath()+"apps/images/fooddatabase.jpg")
+		self.SetIcon(gui.makeicon("apps/images/fooddatabase.jpg"))
 		
 
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
