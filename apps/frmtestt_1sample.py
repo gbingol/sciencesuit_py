@@ -7,6 +7,10 @@ class frmtestt_1sample ( gui.Frame ):
 
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"1-sample t-test")
+		
+		self.SetIcon(gui.makeicon("apps/images/t_test1sample.png"))
+		
+		self.SetBackgroundColour( wx.Colour( 255, 192, 130 ) )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -128,6 +132,11 @@ class frmtestt_1sample ( gui.Frame ):
 			["SE Mean", Dict["SE"]],
 			["T",Dict["tcritical"]],
 			["p value", pval]]
+		
+		for elem in vals:
+			WS[row, col] = elem[0]
+			WS[row + 1, col] = elem[1]
+			col += 1
 
 		
 		event.Skip()
