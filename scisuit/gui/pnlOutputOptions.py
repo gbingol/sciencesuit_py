@@ -5,8 +5,16 @@ import scisuit.gui as gui
 
 class pnlOutputOptions ( wx.Panel ):
 
-	def __init__( self, parent):
+	def __init__( self, parent, bgcolor = None):
 		wx.Panel.__init__ ( self, parent)
+
+		#imitate parent's background color to blend well
+		if(bgcolor == None):
+			self.SetBackgroundColour(parent.GetBackgroundColour())
+		else:
+			if(isinstance(bgcolor, wx.Colour) == False):
+				raise TypeError("bgcolor must be of type wx.Colour")
+			self.SetBackgroundColour(bgcolor)
 
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
 
