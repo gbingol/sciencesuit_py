@@ -1,11 +1,12 @@
 import wx
 
-app = wx.App()
+import scisuit.gui as gui
+import scisuit.stats as stat
 
-class frmtestt_1sample ( wx.Frame ):
+class frmtestt_1sample ( gui.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, title = u"1-sample t-test")
+		gui.Frame.__init__ ( self, parent, title = u"1-sample t-test")
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -21,7 +22,7 @@ class frmtestt_1sample ( wx.Frame ):
 
 		fgSizer1.Add( self.m_staticVarRange, 0, wx.ALL, 5 )
 
-		self.m_txtVarRange = wx.TextCtrl( self )
+		self.m_txtVarRange = gui.GridTextCtrl( self )
 		fgSizer1.Add( self.m_txtVarRange, 0, wx.ALL|wx.EXPAND, 5 )
 
 		self.m_staticTestMean = wx.StaticText( self, wx.ID_ANY, u"Test Mean:")
@@ -53,7 +54,7 @@ class frmtestt_1sample ( wx.Frame ):
 
 		mainSizer.Add( fgSizer1, 0, wx.EXPAND, 5 )
 
-		self.m_pnlOutput = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_pnlOutput = gui.pnlOutputOptions( self )
 		mainSizer.Add( self.m_pnlOutput, 0, wx.ALL|wx.EXPAND, 5 )
 
 		m_sdbSizer = wx.StdDialogButtonSizer()
@@ -97,8 +98,12 @@ class frmtestt_1sample ( wx.Frame ):
 		conflevel=float(self.m_txtConfLevel.GetValue())/100
 		Mu = float(self.m_txtTestMean.GetValue())
 
-		InputRng = gui.Range(self.m_txtVarRange.GetValue())
+		AlterOpt = ["less", "two.sided", "greater"]
+		Alternative = AlterOpt[self.m_choiceAlternative.GetSelection()]
+		
 
+		InputData:list = gui.Range(self.m_txtVarRange.GetValue()).tolist()
+		
 		#output worksheet and top-left row and column
 		WS = None
 		row, col = 0, 0
@@ -110,6 +115,20 @@ class frmtestt_1sample ( wx.Frame ):
 			WS = SelRange.parent()
 			row, col = SelRange.coords()[0] #[0]:top-left
 
+		try:
+			pval, Dict = stat.test_t(x=InputData, mu=Mu, alternative = Alternative, conflevel = conflevel)
+		except Exception as e:
+			wx.MessageBox(str(e))
+			return
+		
+		vals=[
+			["N",Dict["N"]],
+			["Average", Dict["mean"]],
+			["stdev",Dict["stdev"]],
+			["SE Mean", Dict["SE"]],
+			["T",Dict["tcritical"]],
+			["p value", pval]]
+
 		
 		event.Skip()
 
@@ -117,4 +136,3 @@ class frmtestt_1sample ( wx.Frame ):
 if __name__ == "__main__":
 	frm =frmtestt_1sample(None)
 	frm.Show()
-	app.MainLoop()
