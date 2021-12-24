@@ -31,12 +31,12 @@
 		
 
 		<BUTTON NAME="descriptivestat" TITLE="Descriptive Statistics">
-			<FUNCTION>std.app.DescriptiveStat</FUNCTION>
+			<PATH>apps/frmDescriptiveStats.py</PATH>
 			<IMAGE>apps/images/descriptivestat.jpg</IMAGE>
 		</BUTTON>
 		
 		<BUTTON NAME="ttest1sample" TITLE="1 sample t-test">
-			<FUNCTION>std.app.TTest1Sample</FUNCTION>
+			<PATH>apps/frmtestt_1sample.py</PATH>
 			<IMAGE>apps/images/t_test1sample.png</IMAGE>
 		</BUTTON>
 		
