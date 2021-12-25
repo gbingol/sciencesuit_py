@@ -3,6 +3,7 @@ import wx
 import scisuit.gui as gui
 
 
+
 def _GetVariable(txt):
 	ws = gui.activeworksheet()
 	rng = ws.selection()
@@ -17,10 +18,10 @@ class _frmGridSelection (wx.Frame):
 
 		mainSizer = wx.BoxSizer(wx.HORIZONTAL)
 
-		self.m_textCtrl = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0)
+		self.m_textCtrl = wx.TextCtrl(self)
 		mainSizer.Add( self.m_textCtrl, 3, wx.ALL, 5 )
 
-		self.m_btnOK = wx.Button(self, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0)
+		self.m_btnOK = wx.Button(self, wx.ID_ANY, u"OK")
 		mainSizer.Add( self.m_btnOK, 1, wx.ALL, 5 )
 
 		self.SetSizerAndFit(mainSizer)
@@ -70,12 +71,10 @@ class GridTextCtrl(wx.TextCtrl):
 		wx.TextCtrl.__init__(self, parent)
 
 		self.m_Worksheet = None
-		self.m_TopLevelWindow = parent
+		self.m_TopLevelWindow = gui.FindTopLevelWindow(self)
 
 		self.SetBackgroundColour(wx.Colour(128, 255, 255))
 
-		while(self.m_TopLevelWindow.IsTopLevel() == False):
-			self.m_TopLevelWindow = self.m_TopLevelWindow.GetParent()
 
 		self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
       
