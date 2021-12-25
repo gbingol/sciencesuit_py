@@ -15,7 +15,7 @@ class _frmGridSelection (wx.Frame):
 		wx.Frame.__init__(self, parent, size=wx.DefaultSize, style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.STAY_ON_TOP )
 
 		self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
-
+		
 		mainSizer = wx.BoxSizer(wx.HORIZONTAL)
 
 		self.m_textCtrl = wx.TextCtrl(self)
@@ -77,14 +77,20 @@ class GridTextCtrl(wx.TextCtrl):
 
 
 		self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
-      
+
 
 	def OnLeftDown(self, event): 
 		frm = _frmGridSelection(None)
 		frm.SetTitle(self.m_TopLevelWindow .GetTitle())
 		frm.SetOwnerTopLevelWindow(self.m_TopLevelWindow)
+		
+		icon = wx.Icon(self.m_TopLevelWindow.GetIcon())
+		if(icon.IsOk()):
+			frm.SetIcon(icon)
+			
 		frm.SetOwnerTextCtrl(self)
 		frm.Show()
+
 		self.m_TopLevelWindow.Hide()
 		event.Skip()
 
