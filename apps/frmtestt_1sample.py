@@ -133,10 +133,19 @@ class frmtestt_1sample ( gui.Frame ):
 			["T",Dict["tcritical"]],
 			["p value", pval]]
 		
+		InitialCol = col
 		for elem in vals:
 			WS[row, col] = elem[0]
 			WS[row + 1, col] = elem[1]
 			col += 1
+		
+		row += 3
+		col = InitialCol
+
+		WS[row, col] = self.m_txtConfLevel.GetValue() + \
+			"% Confidence Interval for " + \
+			Alternative + \
+			"(" + str(round(Dict["CI_lower"], 4)) + ", " + str(round(Dict["CI_upper"], 4)) + ")"
 
 		
 		event.Skip()
