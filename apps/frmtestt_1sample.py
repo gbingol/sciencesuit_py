@@ -10,8 +10,6 @@ class frmtestt_1sample ( gui.Frame ):
 		
 		self.SetIcon(gui.makeicon("apps/images/t_test1sample.png"))
 		
-		self.SetBackgroundColour( wx.Colour( 255, 192, 130 ) )
-
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
 		mainSizer = wx.BoxSizer( wx.VERTICAL )
