@@ -40,10 +40,11 @@ class pnlOutputOptions ( wx.Panel ):
 		fgSizer.Add( self.m_radioSelection, 0, wx.ALL, 5 )
 
 		self.m_txtSelRange = gui.GridTextCtrl( self)
-		self.m_txtSelRange.Enable(False) #no radiobox selected, so disable it
+		self.m_txtSelRange.Enable(False) #radiobox is selected, so disable it
 		fgSizer.Add( self.m_txtSelRange, 0, wx.ALL|wx.EXPAND, 5 )
 
 		self.m_radioNewWS = wx.RadioButton( self, wx.ID_ANY, u"New Sheet")
+		self.m_radioNewWS.SetValue( True ) #by default new worksheet
 		fgSizer.Add( self.m_radioNewWS, 0, wx.ALL, 5 )
 
 		mainSizer.Add( fgSizer, 0, wx.EXPAND, 5 )
