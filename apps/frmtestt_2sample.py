@@ -1,4 +1,3 @@
-from typing import Tuple
 import wx
 
 import scisuit.gui as gui
@@ -183,17 +182,22 @@ class frmtestt_2sample ( gui.Frame ):
 			ydata = var2
 		else:
 			unique_subscripts = set(var2)
+			
 			if(len(unique_subscripts) > 2):
 				raise RuntimeError("More than 2 types of samples exists")
 			
 			#convert to list for [] access
-			unique_subscripts = list(unique_subscripts)
+			unique_list = list(unique_subscripts)
+			
+			j = 0
 			for elem in var1:
-				if(elem == unique_subscripts[0]):
+				subscript = var2[j]
+				if(subscript == unique_list[0]):
 					xdata.append(elem)
 				else:
 					ydata.append(elem)
-		
+				j += 1
+			
 		EqualVariances = self.m_chkEqualVar.GetValue()
 
 		#output worksheet and top-left row and column
