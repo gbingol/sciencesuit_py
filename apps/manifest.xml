@@ -41,7 +41,7 @@
 		</BUTTON>
 		
 		<BUTTON NAME="ttest2sample" TITLE="2 sample t-test">
-			<FUNCTION>std.app.TTest2Sample</FUNCTION>
+			<PATH>apps/frmtestt_2sample.py</PATH>
 			<IMAGE>apps/images/t_test2sample.png</IMAGE>
 		</BUTTON>
 		
