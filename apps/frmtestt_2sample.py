@@ -118,26 +118,43 @@ class frmtestt_2sample ( gui.Frame ):
 		event.Skip()
 
 	
-	def PrintValues(self, Dict:dict, WS:gui.Worksheet, Row:int, Col:int)->int:
+	def PrintValues(self, Vals:list, WS:gui.Worksheet, Row:int, Col:int):
+		pval=Vals[0]
+		Dict = Vals[1]
+		Alternative = Vals[2]
 		
 		ListVals = [
 			["Observation", Dict["n1"], Dict["n2"]],
 			["Mean", Dict["xaver"], Dict["yaver"]],
 			["Std Deviation", Dict["s1"], Dict["s2"]],
-			["t-critical", Dict["tcritical"], None]]
+			[None, None, None],
+			["t-critical", Dict["tcritical"], None],
+			["p-value", pval, None]]
 		
 		if(self.m_chkEqualVar.GetValue()):
 			ListVals.insert(3, ["Pooled variance", Dict["sp"], None])
 			
 		for List in ListVals:
+			if(List[0] == None):
+				Row += 1
+				continue
+				
 			WS[Row, Col] = List[0] 
 			WS[Row, Col+1]=List[1]
+			
 			if(List[2] != None):
 				WS[Row, Col+2] = List[2]
 			
 			Row += 1
 		
-		return Row
+
+		WS[Row + 1, Col] = self.m_txtConfLevel.GetValue() + \
+			"% Confidence Interval for " + \
+			Alternative + \
+			"(" + str(round(Dict["CI_lower"], 4)) + ", " + str(round(Dict["CI_upper"], 4)) + ")"
+		
+		return
+		
 
 
 	def OnOKButtonClick( self, event ):
@@ -189,7 +206,8 @@ class frmtestt_2sample ( gui.Frame ):
 			SelRange = self.m_pnlOutput.GetSelRange()
 			WS = SelRange.parent()
 			row, col = SelRange.coords()[0] #[0]:top-left
-
+		
+		Vals=[]
 		try:
 			pval, Dict = stat.test_t(x=xdata, 
 				y=ydata,
@@ -197,21 +215,18 @@ class frmtestt_2sample ( gui.Frame ):
 				varequal = EqualVariances, 
 				alternative = Alternative, 
 				conflevel = conflevel)
+				
+			Vals = [pval, Dict]
 		except Exception as e:
 			wx.MessageBox(str(e))
 			return
-
-				
-		row = self.PrintValues(Dict, WS, row, col)
-
-		row += 2
-
-		WS[row, col] = self.m_txtConfLevel.GetValue() + \
-			"% Confidence Interval for " + \
-			Alternative + \
-			"(" + str(round(Dict["CI_lower"], 4)) + ", " + str(round(Dict["CI_upper"], 4)) + ")"
+		
+		Vals.append(Alternative)
+		self.PrintValues(Vals, WS, row, col)
 
 		event.Skip()
+		
+		return
 
 
 if __name__ == "__main__":
