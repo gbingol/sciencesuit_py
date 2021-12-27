@@ -12,7 +12,7 @@ def _GetVariable(txt):
 
 class _frmGridSelection (wx.Frame):
 	def __init__(self, parent):
-		wx.Frame.__init__(self, parent, size=wx.DefaultSize, style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.STAY_ON_TOP )
+		wx.Frame.__init__(self, parent, style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.STAY_ON_TOP )
 
 		self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 		
@@ -75,7 +75,6 @@ class GridTextCtrl(wx.TextCtrl):
 
 		self.SetBackgroundColour(wx.Colour(128, 255, 255))
 
-
 		self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
 
 
@@ -93,8 +92,3 @@ class GridTextCtrl(wx.TextCtrl):
 
 		self.m_TopLevelWindow.Hide()
 		event.Skip()
-
-
-
-
-            
