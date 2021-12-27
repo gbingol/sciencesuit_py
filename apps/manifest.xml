@@ -56,7 +56,7 @@
 		</BUTTON>
 		
 		<BUTTON NAME="test_f" TITLE="F-test">
-			<FUNCTION>std.app.test_f</FUNCTION>
+			<PATH>apps/frmtest_f.py</PATH>
 			<IMAGE>apps/images/test_f.png</IMAGE>
 		</BUTTON>
 		

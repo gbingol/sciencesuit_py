@@ -8,6 +8,8 @@ class frmtest_f ( gui.Frame ):
 
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"F Test")
+		
+		self.SetIcon(gui.makeicon("apps/images/test_f.png"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
@@ -64,7 +66,7 @@ class frmtest_f ( gui.Frame ):
 
 		mainSizer.Add( fgSizer1, 0, wx.EXPAND, 5 )
 
-		self.m_pnlOutput = wx.Panel( self)
+		self.m_pnlOutput = gui.pnlOutputOptions( self)
 		mainSizer.Add( self.m_pnlOutput, 0, wx.ALL|wx.EXPAND, 5 )
 
 		m_sdbSizer = wx.StdDialogButtonSizer()
@@ -96,18 +98,17 @@ class frmtest_f ( gui.Frame ):
 		Dict = Vals[1]
 		Alternative = Vals[2]
 		
-		Header=["N", "Mean", "Std Dev", "SE Mean"]
+		Header=["df", "variance"]
 		for j in range(len(Header)):
 			WS[Row, Col + 1 + j] = Header[j] #+1 is for indentation
 			
 		Row += 1
 		
 		ListVals = [
-			["Sample 1", Dict["N"], Dict["xaver"], Dict["s1"], Dict["s1"]/Dict["N"]],
-			["Sample 2", Dict["N"], Dict["yaver"], Dict["s2"], Dict["s2"]/Dict["N"]],
-			["Difference"," ", Dict["mean"], Dict["stdev"]],
+			["Sample 1", Dict["df1"], Dict["var1"]],
+			["Sample 2", Dict["df2"], Dict["var2"]],
 			[None, None, None],
-			["t-critical", Dict["tcritical"], None],
+			["F-critical", Dict["Fcritical"], None],
 			["p-value", pval, None]]
 		
 			
@@ -192,3 +193,6 @@ class frmtest_f ( gui.Frame ):
 		event.Skip()
 
 
+if __name__ == "__main__":
+	frm = frmtest_f(None)
+	frm.Show()
