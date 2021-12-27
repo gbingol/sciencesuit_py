@@ -92,4 +92,18 @@ class pnlOutputOptions ( wx.Panel ):
 	
 	def IsSelRange(self):
 		return self.m_radioSelection.GetValue()
+	
+
+	def Get(self)->tuple:
+		WS = None
+		row, col = 0, 0
+		
+		if(self.IsNewWorksheet()):
+			WS = gui.Worksheet()
+		else:
+			SelRange = self.GetSelRange()
+			WS = SelRange.parent()
+			row, col = SelRange.coords()[0] #[0]:top-left
+		
+		return WS, row, col
 
