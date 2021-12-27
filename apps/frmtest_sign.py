@@ -118,6 +118,48 @@ class frmtest_sign ( gui.Frame ):
 		self.Close()
 		event.Skip()
 
+
+
+	def PrintValues(self, Vals:list, WS:gui.Worksheet, Row:int, Col:int):
+		pval=Vals[0]
+		Dict = Vals[1]
+		ComputedMedian = Vals[2]
+		Alternative = Vals[3]
+		AlternativeSign = Vals[4]
+		
+		ListVals = [
+			["Observation", Dict["n1"], Dict["n2"]],
+			["Mean", Dict["xaver"], Dict["yaver"]],
+			["Std Deviation", Dict["s1"], Dict["s2"]],
+			[None, None, None],
+			["t-critical", Dict["tcritical"], None],
+			["p-value", pval, None]]
+		
+		if(self.m_chkEqualVar.GetValue()):
+			ListVals.insert(3, ["Pooled variance", Dict["sp"], None])
+			
+		for List in ListVals:
+			if(List[0] == None):
+				Row += 1
+				continue
+				
+			WS[Row, Col] = List[0] 
+			WS[Row, Col+1]=List[1]
+			
+			if(List[2] != None):
+				WS[Row, Col+2] = List[2]
+			
+			Row += 1
+		
+
+		WS[Row + 1, Col] = self.m_txtConfLevel.GetValue() + \
+			"% Confidence Interval for " + \
+			Alternative + \
+			"(" + str(round(Dict["CI_lower"], 4)) + ", " + str(round(Dict["CI_upper"], 4)) + ")"
+		
+		return
+
+
 	def OnOKButtonClick( self, event ):
 		if(self.m_txtVarRange.GetValue() == wx.EmptyString):
 			wx.MessageBox("A range must be selected for variable 1.")
@@ -153,10 +195,26 @@ class frmtest_sign ( gui.Frame ):
 		
 		WS, row, col = self.m_pnlOutput.Get()
 
-		Median = None
 		pvalue, Dict = None, None
+		try:
+			if(self.m_chkPaired.GetValue()):
+				pvalue, Dict = stat.test_sign(x=var1, 
+					md=AssumedMedian, 
+					alternative=Alternative, 
+					conflevel=conflevel)	
+			else:
+				pvalue, Dict = stat.test_sign(x=var1, 
+					y=var2, 
+					md=AssumedMedian, 
+					alternative=Alternative, 
+					conflevel=conflevel)
+		except Exception as e:
+			wx.MessageBox(str(e))
+			return
+		
+		lst = [pvalue, Dict, ComputedMedian, Alternative, AlternativeSign]
 
-
+		self.PrintValues(lst, WS, row, col)
 
 		event.Skip()
 
