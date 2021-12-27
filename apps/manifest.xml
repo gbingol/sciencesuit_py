@@ -46,7 +46,7 @@
 		</BUTTON>
 		
 		<BUTTON NAME="ttestpaired" TITLE="Paired t-test">
-			<FUNCTION>std.app.TTestPaired</FUNCTION>
+			<PATH>apps/frmtestt_paired.py</PATH>
 			<IMAGE>apps/images/t_testpaired.png</IMAGE>
 		</BUTTON>
 		
