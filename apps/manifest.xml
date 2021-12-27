@@ -51,7 +51,7 @@
 		</BUTTON>
 		
 		<BUTTON NAME="test_z" TITLE="Z-test">
-			<FUNCTION>std.app.test_z</FUNCTION>
+			<PATH>apps/frmtest_z.py</PATH>
 			<IMAGE>apps/images/test_z.png</IMAGE>
 		</BUTTON>
 		
