@@ -127,35 +127,34 @@ class frmtest_sign ( gui.Frame ):
 		Alternative = Vals[3]
 		AlternativeSign = Vals[4]
 		
-		ListVals = [
-			["Observation", Dict["n1"], Dict["n2"]],
-			["Mean", Dict["xaver"], Dict["yaver"]],
-			["Std Deviation", Dict["s1"], Dict["s2"]],
-			[None, None, None],
-			["t-critical", Dict["tcritical"], None],
-			["p-value", pval, None]]
+		AssumedMedian = float(self.m_txtMedian.GetValue())
 		
-		if(self.m_chkEqualVar.GetValue()):
-			ListVals.insert(3, ["Pooled variance", Dict["sp"], None])
-			
+		
+		ListVals = [
+			["N", Dict["N"]],
+			["N>" + str(AssumedMedian), Dict["NG"]],
+			["N=" + str(AssumedMedian), Dict["NE"]],
+			[None],
+			["Median", ComputedMedian],
+			[None],
+			["Median ="+ str(AssumedMedian) + " vs Median" + str(AlternativeSign) + str(AssumedMedian)],
+			["p-value", pval],
+			[None],
+			["CONFIDENCE INTERVALS"],
+			["Lower Achieved", Dict["lower"]["prob"], Dict["lower"]["CILow"],Dict["lower"]["CIHigh"]],
+			["Interpolated", Dict["interpolated"]["prob"], Dict["interpolated"]["CILow"],Dict["interpolated"]["CIHigh"]],
+			["Interpolated", Dict["upper"]["prob"], Dict["upper"]["CILow"],Dict["upper"]["CIHigh"]]]
+		
+		
 		for List in ListVals:
 			if(List[0] == None):
 				Row += 1
 				continue
 				
-			WS[Row, Col] = List[0] 
-			WS[Row, Col+1]=List[1]
-			
-			if(List[2] != None):
-				WS[Row, Col+2] = List[2]
+			for i in range(len(List)):	
+				WS[Row, Col+i] = List[i] 
 			
 			Row += 1
-		
-
-		WS[Row + 1, Col] = self.m_txtConfLevel.GetValue() + \
-			"% Confidence Interval for " + \
-			Alternative + \
-			"(" + str(round(Dict["CI_lower"], 4)) + ", " + str(round(Dict["CI_upper"], 4)) + ")"
 		
 		return
 
@@ -179,25 +178,26 @@ class frmtest_sign ( gui.Frame ):
 		AlternativeSign = (["<", "!=", ">"])[SelIndex]
 		
 		
-		var1:list = gui.Range(self.m_txtVar1Range.GetValue()).tolist()
+		var1:list = gui.Range(self.m_txtVarRange.GetValue()).tolist()
 		ComputedMedian = stat.median(var1)
-		var2 = []
+		
+		diffList, var2 = [], []
 		if(self.m_chkPaired.GetValue()):
-			var2 = gui.Range(self.m_txtVar2Range.GetValue()).tolist()
+			var2 = gui.Range(self.m_txtSecondSample.GetValue()).tolist()
 			if(len(var1) != len(var2)):
 				wx.MessageBox("If paired test is selected, then both variables must be of same size.")
 				return
 			
-			diffList = []
 			for i in range(len(var1)):
 				diffList.append(var1[i]-var2[i])
 			ComputedMedian = stat.median(diffList)
+		
 		
 		WS, row, col = self.m_pnlOutput.Get()
 
 		pvalue, Dict = None, None
 		try:
-			if(self.m_chkPaired.GetValue()):
+			if(self.m_chkPaired.GetValue() == False):
 				pvalue, Dict = stat.test_sign(x=var1, 
 					md=AssumedMedian, 
 					alternative=Alternative, 
@@ -212,10 +212,28 @@ class frmtest_sign ( gui.Frame ):
 			wx.MessageBox(str(e))
 			return
 		
+		Dict["N"]=len(var1) #in case of var2, len(var2)=len(var1)
+		
+		if(len(diffList)>0):
+			Greater = [i for i in diffList if i > AssumedMedian]
+			Equal = [i for i in diffList if i == AssumedMedian]
+			Dict["NG"] = len(Greater)
+			Dict["NE"] = len(Equal)
+		else:
+			Greater = [i for i in var1 if i > AssumedMedian]
+			Equal = [i for i in var1 if i == AssumedMedian]
+			Dict["NG"] = len(Greater)
+			Dict["NE"] = len(Equal)
+		
 		lst = [pvalue, Dict, ComputedMedian, Alternative, AlternativeSign]
 
 		self.PrintValues(lst, WS, row, col)
 
 		event.Skip()
+
+
+if __name__ == "__main__":
+	frm = frmtest_sign(None)
+	frm.Show()
 
 
