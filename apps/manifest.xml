@@ -60,26 +60,26 @@
 			<IMAGE>apps/images/test_f.png</IMAGE>
 		</BUTTON>
 		
+		<BUTTON NAME="test_sign" TITLE="Sign Test">
+			<PATH>apps/frmtest_sign.py</PATH>
+			<IMAGE>apps/images/test_sign.png</IMAGE>
+		</BUTTON>
+		
 		<BUTTON NAME="anova_singlefactor" TITLE="Single factor">
-			<FUNCTION>std.app.ANOVASingleFactor</FUNCTION>
+			<PATH>std.app.ANOVASingleFactor</PATH>
 			<IMAGE>apps/images/anovasinglefactor.png</IMAGE>
 		</BUTTON>
 		
 		<BUTTON NAME="anova_twofactor" TITLE="Two factor">
-			<FUNCTION>std.app.ANOVATwoFactor</FUNCTION>
+			<PATH>std.app.ANOVATwoFactor</PATH>
 			<IMAGE>apps/images/anova2factor.png</IMAGE>
 		</BUTTON>
 		
 		<BUTTON NAME="regression_linear" TITLE="Linear Regression">
-			<FUNCTION>std.app.LinearRegression</FUNCTION>
-			<IMAGE>apps/images/regression.png</IMAGE>
+			<PATH>std.app.LinearRegression</PATH>
+			<PATH>apps/images/regression.png</PATH>
 		</BUTTON>
-		
-		<BUTTON NAME="test_sign" TITLE="Sign Test">
-			<FUNCTION>std.app.SignTest</FUNCTION>
-			<IMAGE>apps/images/test_sign.png</IMAGE>
-		</BUTTON>
-		
+			
 		
 		
 		
