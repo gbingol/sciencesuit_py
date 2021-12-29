@@ -139,10 +139,17 @@ class frmanova_singlefactor ( gui.Frame ):
 		Row += 1
 		
 		if(Tukey != None):
+			Headers = ["Pairwise Diff", "Difference (i-j)", "Tukey Interval"]
+			for i  in range(len(Headers)):
+				WS[Row, Col+i] = Headers[i] 
+				
+			Row += 1
+			
 			for CompCls in Tukey:
-				WS[Row, Col] = str(CompCls.m_a) + "-" + str(CompCls.m_b)
+				WS[Row, Col] = str(CompCls.m_a + 1) + "-" + str(CompCls.m_b + 1)
 				WS[Row, Col + 1] = str(round(CompCls.m_MeanValueDiff, 2))
-				WS[Row, Col + 2] = str(round(CompCls.m_CILow, 2)) + "," + str(round(CompCls.m_CIHigh, 2))
+				WS[Row, Col + 2] = str(round(CompCls.m_CILow, 2)) + ", " + str(round(CompCls.m_CIHigh, 2))
+				
 				Row += 1
 		
 		return
