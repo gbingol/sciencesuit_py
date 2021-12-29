@@ -95,13 +95,25 @@ class frmanova_singlefactor ( gui.Frame ):
 
 	
 	def chkStacked_OnCheckBox( self, event ):
+		"""
+		If stacked, dont perform Tukey test since 
+		Pairwise Diff and Difference columns in Tukey test refer to random 
+		values in the stacked factors (utterly confusing)
+		
+		A remedy would be to sort the values in the UniqueList variable but
+		the clearer one is to let user to unstack
+		"""
 		if(event.IsChecked() == True):
 			self.m_lblResponses.SetLabel("Response Variable Range:")
+			self.m_chkTukeyTest.SetValue(False)
 		else:
 			self.m_lblResponses.SetLabel("Response Variables Range:")
 		
 		self.m_lblFactors.Enable(event.IsChecked())
 		self.m_txtFactors.Enable(event.IsChecked())
+		
+		self.m_chkTukeyTest.Enable(not event.IsChecked())
+		
 		event.Skip()
 
 
@@ -155,6 +167,7 @@ class frmanova_singlefactor ( gui.Frame ):
 		return
 
 
+
 	def OnOKBtnClick( self, event ):
 		IsStacked: bool = self.m_chkStacked.GetValue()
 		
@@ -193,12 +206,15 @@ class frmanova_singlefactor ( gui.Frame ):
 			ListFactors = rngFactors.tolist()
 			FactorsSet = set(ListFactors)
 			UniqueFactors = list(FactorsSet)
-
-			Responses = [[]]*len(UniqueFactors)
+			
+			for i in range(len(UniqueFactors)):
+				Responses.append([])
+			
 			for i in range(len(ListFactors)):
 				for j in range(len(UniqueFactors)):
 					if(ListFactors[i] == UniqueFactors[j]):
 						Responses[j].append(ResponseList[i])
+						break
 
 
 		pvalue, dic, TukeyList = None, None, None
