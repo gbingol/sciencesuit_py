@@ -4,10 +4,13 @@ import scisuit.gui as gui
 import scisuit.stats as stat
 
 
-class frmanova_singlefactor ( wx.Frame ):
+class frmanova_singlefactor ( gui.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, title = u"One-Way ANOVA")
+		gui.Frame.__init__ ( self, parent, title = u"One-Way ANOVA")
+		
+		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
+		self.SetIcon(gui.makeicon("apps/images/anovasinglefactor.png"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -23,7 +26,7 @@ class frmanova_singlefactor ( wx.Frame ):
 
 		fgSizer.Add( self.m_lblResponses, 0, wx.ALL, 5 )
 
-		self.m_txtResponses = wx.TextCtrl( self)
+		self.m_txtResponses = gui.GridTextCtrl( self)
 		fgSizer.Add( self.m_txtResponses, 0, wx.ALL|wx.EXPAND, 5 )
 
 		self.m_lblFactors = wx.StaticText( self, label = u"Factors:")
@@ -33,7 +36,7 @@ class frmanova_singlefactor ( wx.Frame ):
 
 		fgSizer.Add( self.m_lblFactors, 0, wx.ALL, 5 )
 
-		self.m_txtFactors = wx.TextCtrl( self)
+		self.m_txtFactors = gui.GridTextCtrl( self)
 		self.m_txtFactors.Enable( False )
 
 		fgSizer.Add( self.m_txtFactors, 0, wx.ALL|wx.EXPAND, 5 )
@@ -62,7 +65,7 @@ class frmanova_singlefactor ( wx.Frame ):
 
 		mainSizer.Add( fgSizer, 0, wx.EXPAND, 5 )
 
-		self.m_pnlOutput = gui.Panel( self)
+		self.m_pnlOutput = gui.pnlOutputOptions( self)
 		mainSizer.Add( self.m_pnlOutput, 0, wx.EXPAND |wx.ALL, 5 )
 
 		m_sdbSizer = wx.StdDialogButtonSizer()
@@ -110,32 +113,37 @@ class frmanova_singlefactor ( wx.Frame ):
 	def PrintValues(self, Vals:list, WS:gui.Worksheet, Row:int, Col:int):
 		pval=Vals[0]
 		Dict = Vals[1]
+		Tukey = Vals[2]
+
+		Headers = [ "Source", "df","SS", "MS","F", "P"]
+		for i in range(len(Headers)):
+			WS[Row, Col + i] = Headers[i]
 		
+		Row += 1
+
+		Treatment = Dict["Treatment"]
+		Error = Dict["Error"]
+		Total = Dict["Total"]
+
 		ListVals = [
-			["N", Dict["N"]],
-			["N>" + str(AssumedMedian), Dict["NG"]],
-			["N=" + str(AssumedMedian), Dict["NE"]],
-			[None],
-			["Median", ComputedMedian],
-			[None],
-			["Median ="+ str(AssumedMedian) + " vs Median" + str(AlternativeSign) + str(AssumedMedian)],
-			["p-value", pval],
-			[None],
-			["CONFIDENCE INTERVALS"],
-			["Lower Achieved", Dict["lower"]["prob"], Dict["lower"]["CILow"],Dict["lower"]["CIHigh"]],
-			["Interpolated", Dict["interpolated"]["prob"], Dict["interpolated"]["CILow"],Dict["interpolated"]["CIHigh"]],
-			["Interpolated", Dict["upper"]["prob"], Dict["upper"]["CILow"],Dict["upper"]["CIHigh"]]]
+			["Treatment", Treatment["DF"], Treatment["SS"] , Treatment["MS"], Dict["Fvalue"], pval],
+			["Error", Error["DF"], Error["SS"] , Error["MS"]],
+			["Total", Total["DF"], Total["SS"] , Total["MS"]]]
 		
 		
 		for List in ListVals:
-			if(List[0] == None):
-				Row += 1
-				continue
-				
-			for i in range(len(List)):	
+			for i in range(len(List)):
 				WS[Row, Col+i] = List[i] 
-			
 			Row += 1
+		
+		Row += 1
+		
+		if(Tukey != None):
+			for CompCls in Tukey:
+				WS[Row, Col] = str(CompCls.m_a) + "-" + str(CompCls.m_b)
+				WS[Row, Col + 1] = str(round(CompCls.m_MeanValueDiff, 2))
+				WS[Row, Col + 2] = str(round(CompCls.m_CILow, 2)) + "," + str(round(CompCls.m_CIHigh, 2))
+				Row += 1
 		
 		return
 
@@ -155,7 +163,7 @@ class frmanova_singlefactor ( wx.Frame ):
 			wx.MessageBox("A range must be selected for response.")
 			return
 
-		conflevel=float(self.m_txtConfLevel.GetValue())/100
+		conflevel=float(self.m_txtConfidence.GetValue())/100
 		Alpha = 1 - conflevel
 
 		if(not(0<Alpha and Alpha<1)):
@@ -186,16 +194,20 @@ class frmanova_singlefactor ( wx.Frame ):
 						Responses[j].append(ResponseList[i])
 
 
-		pvalue, dic = None, None
+		pvalue, dic, TukeyList = None, None, None
 		try:
-			pvalue, dic = stat.aov(*Responses)
+			cls = stat.aov(*Responses)
+			pvalue, dic = cls.compute()
+			if(self.m_chkTukeyTest.GetValue()):
+				TukeyList = cls.tukey(Alpha)
+
 		except Exception as e:
 			wx.MessageBox(str(e))
 			return
 		
 		WS, row, col = self.m_pnlOutput.Get()
 
-		self.PrintValues([pvalue, dic], WS, row, col)
+		self.PrintValues([pvalue, dic, TukeyList], WS, row, col)
 
 		event.Skip()
 
