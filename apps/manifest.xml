@@ -66,7 +66,7 @@
 		</BUTTON>
 		
 		<BUTTON NAME="anova_singlefactor" TITLE="Single factor">
-			<PATH>std.app.ANOVASingleFactor</PATH>
+			<PATH>apps/frmanova_singlefactor.py</PATH>
 			<IMAGE>apps/images/anovasinglefactor.png</IMAGE>
 		</BUTTON>
 		
