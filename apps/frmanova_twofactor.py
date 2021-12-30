@@ -47,15 +47,6 @@ class frmanova_twofactor ( gui.Frame ):
 		self.m_txtFactor2 = gui.GridTextCtrl( self)
 		fgSizer.Add( self.m_txtFactor2, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_lblConfidence = wx.StaticText( self, label = u"Confidence Level:")
-		self.m_lblConfidence.Wrap( -1 )
-
-		fgSizer.Add( self.m_lblConfidence, 0, wx.ALL, 5 )
-
-		self.m_txtConfidence = wx.TextCtrl( self, value = u"95")
-		fgSizer.Add( self.m_txtConfidence, 0, wx.ALL|wx.EXPAND, 5 )
-
-
 		mainSizer.Add( fgSizer, 0, wx.EXPAND, 5 )
 
 		self.m_pnlOutput = gui.pnlOutputOptions( self)
@@ -70,13 +61,12 @@ class frmanova_twofactor ( gui.Frame ):
 
 		mainSizer.Add( m_sdbSizer, 0, wx.EXPAND, 5 )
 
-
 		self.SetSizerAndFit( mainSizer )
 		self.Layout()
 
 		self.Centre( wx.BOTH )
 
-		# Connect Events
+	
 		self.m_sdbSizerCancel.Bind( wx.EVT_BUTTON, self.OnCancelBtnClick )
 		self.m_sdbSizerOK.Bind( wx.EVT_BUTTON, self.OnOKBtnClick )
 
@@ -104,36 +94,33 @@ class frmanova_twofactor ( gui.Frame ):
 		
 		Row += 1
 
-		Treatment = Dict["Treatment"]
-		Error = Dict["Error"]
-		Total = Dict["Total"]
+		Error = Dict["error"]
+		Fact1 = Dict["fact1"]
+		Fact2 = Dict["fact2"]
+		Interact = Dict["interact"]
+		
+		Total_DF = Fact1["DF"]+Fact2["DF"]+Interact["DF"]+Error["DF"]
+		Total_SS = Fact1["SS"]+Fact2["SS"]+Interact["SS"]+Error["SS"]
 
 		ListVals = [
-			["Treatment", Treatment["DF"], Treatment["SS"] , Treatment["MS"], Dict["Fvalue"], pval],
+			["Factor #1", Fact1["DF"], Fact1["SS"] , Fact1["MS"], Fact1["F"], pval[0]],
+			["Factor #2", Fact2["DF"], Fact2["SS"] , Fact2["MS"], Fact2["F"], pval[1]],
+			["Interaction", Interact["DF"], Interact["SS"] , Interact["MS"], Interact["F"], pval[2]],
+			[None],
 			["Error", Error["DF"], Error["SS"] , Error["MS"]],
-			["Total", Total["DF"], Total["SS"] , Total["MS"]]]
+			[None],
+			["Total", Total_DF , Total_SS]]
 		
 		
 		for List in ListVals:
+			if(List[0] == None):
+				Row += 1
+				continue
+				
 			for i in range(len(List)):
 				WS[Row, Col+i] = List[i] 
-			Row += 1
-		
-		Row += 1
-		
-		if(Tukey != None):
-			Headers = ["Pairwise Diff", "Difference (i-j)", "Tukey Interval"]
-			for i  in range(len(Headers)):
-				WS[Row, Col+i] = Headers[i] 
 				
 			Row += 1
-			
-			for CompCls in Tukey:
-				WS[Row, Col] = str(CompCls.m_a + 1) + "-" + str(CompCls.m_b + 1)
-				WS[Row, Col + 1] = str(round(CompCls.m_MeanValueDiff, 2))
-				WS[Row, Col + 2] = str(round(CompCls.m_CILow, 2)) + ", " + str(round(CompCls.m_CIHigh, 2))
-				
-				Row += 1
 		
 		return
 
@@ -148,17 +135,22 @@ class frmanova_twofactor ( gui.Frame ):
 			wx.MessageBox("Factors range cannot be empty, a selection must be made")
 			return
 		
-		if(self.m_txtConfidence.GetValue() == wx.EmptyString):
-			wx.MessageBox("A range must be selected for response.")
+		Response = gui.Range(self.m_txtResponse.GetValue()).tolist()
+		Fact1 = gui.Range(self.m_txtFactor1.GetValue()).tolist() 
+		Fact2 = gui.Range(self.m_txtFactor2.GetValue()).tolist() 
+		
+		pvalue, Dict = None, None
+		try:
+			pvalue, Dict = stat.aov2(y=Response, x1 = Fact1, x2= Fact2)
+		except Exception as e:
+			wx.MessageBox(str(e))
 			return
 		
-		conflevel=float(self.m_txtConfidence.GetValue())/100
-		Alpha = 1 - conflevel
-
-		if(not(0<Alpha and Alpha<1)):
-			wx.MessageBox("Confidence level must be between (0, 100)")
-			return
-
+		WS, Row, Col = self.m_pnlOutput.Get()
+		
+		self.PrintValues([pvalue, Dict], WS, Row, Col)
+		
+		
 		event.Skip()
 
 

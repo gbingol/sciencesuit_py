@@ -71,12 +71,12 @@
 		</BUTTON>
 		
 		<BUTTON NAME="anova_twofactor" TITLE="Two factor">
-			<PATH>std.app.ANOVATwoFactor</PATH>
+			<PATH>apps/frmanova_twofactor.py</PATH>
 			<IMAGE>apps/images/anova2factor.png</IMAGE>
 		</BUTTON>
 		
 		<BUTTON NAME="regression_linear" TITLE="Linear Regression">
-			<PATH>std.app.LinearRegression</PATH>
+			<PATH>apps/frm_regressionlinear.py</PATH>
 			<PATH>apps/images/regression.png</PATH>
 		</BUTTON>
 			
