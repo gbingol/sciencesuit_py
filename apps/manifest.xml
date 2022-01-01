@@ -76,8 +76,8 @@
 		</BUTTON>
 		
 		<BUTTON NAME="regression_linear" TITLE="Linear Regression">
-			<PATH>apps/frm_regressionlinear.py</PATH>
-			<PATH>apps/images/regression.png</PATH>
+			<PATH>apps/frmregression_linear.py</PATH>
+			<IMAGE>apps/images/regression.png</IMAGE>
 		</BUTTON>
 			
 		

@@ -126,26 +126,29 @@ class frmregression_linear ( gui.Frame ):
 				WS[Row, Col+i] = List[i] 
 				
 			Row += 1
+		#ENDFOR
 		
 		Row += 2
 
-		CoeffStat:list = Stats.coeffsta
+		CoeffStat:list = Stats.coeffstat
 
 		CoeffHeaders = [ "", "Coefficient","Std Err", "T Value", "p-value", "CI"]
 		for i in range(len(CoeffHeaders)):
 			WS[Row, Col + i] = CoeffHeaders[i]
 		
 		Row += 1
+		
+		HasIntercept:bool = not self.m_chkZeroIntercept.GetValue()
 
 		j = 0
 		for i in range(len(CoeffStat)):
 			Dic = CoeffStat[i]
 
 			j = i
-			if(self.m_chkZeroIntercept.GetValue() == False):
+			if(HasIntercept == False):
 				j = i + 1
 
-			if(i == 0 and self.m_chkZeroIntercept.GetValue()):
+			if(i == 0 and HasIntercept):
 				WS[Row, Col] = "Intercept"
 			else:
 				WS[Row, Col] = "Variable " + str(j)
@@ -154,16 +157,13 @@ class frmregression_linear ( gui.Frame ):
 			WS[Row, Col + 2] = Dic["SE"] 
 			WS[Row, Col + 3] = Dic["tvalue"]
 			WS[Row, Col + 4] = Dic["pvalue"]
-			WS[Row, Col + 5] = str(Dic["CILow"]) + ", " + str(Dic["CIHigh"])
+			WS[Row, Col + 5] = str(round(Dic["CILow"], 3)) + ", " + str(round(Dic["CIHigh"], 3))
 
 			Row += 1
-			
-
-			
-
-
+		#ENDFOR
 		
 		return
+
 
 
 	def OnOKBtnClick( self, event ):
@@ -199,12 +199,12 @@ class frmregression_linear ( gui.Frame ):
 				Rng = FactorsRng.subrange(row=0, col=i, nrows=-1, ncols= 1)
 				Factors.append(Rng.tolist())
 		
-		ZeroIntercept:bool = self.m_chkZeroIntercept.GetValue()
+		HasIntercept:bool = not self.m_chkZeroIntercept.GetValue()
 
 		Coeffs, StatSummary = None, None
 		Regression = None
 		try:
-			Regression = stat.linregress(Response, Factors, ZeroIntercept, Alpha)
+			Regression = stat.linregress(Response, Factors, HasIntercept, Alpha)
 			Coeffs = Regression.compute()
 
 			if(self.m_chkStats.GetValue()):
