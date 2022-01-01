@@ -134,7 +134,7 @@ class simple_linregress:
 			Polynom=scr.polyfit(self.m_factor, self.m_yobs, 1)  # an*x^n+...+a0
 			self.m_coeffs = Polynom.coeffs()
 		else:
-			self.m_coeffs = scr.Vector(2,0)
+			self.m_coeffs = scr.Vector(2)
 			self.m_coeffs[0] = FitZeroIntercept(self.m_yobs, self.m_factor)
 		
 		return self.m_coeffs.tolist()
