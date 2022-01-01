@@ -8,6 +8,8 @@ class frmregression_linear ( gui.Frame ):
 
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"Linear Regression")
+		
+		self.SetIcon(gui.makeicon("apps/images/regression.png"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 208, 232, 232 ) )
@@ -75,7 +77,6 @@ class frmregression_linear ( gui.Frame ):
 		self.Centre( wx.BOTH )
 
 
-		self.m_chkZeroIntercept.Bind( wx.EVT_CHECKBOX, self.chkStacked_OnCheckBox )
 		self.m_sdbSizerCancel.Bind( wx.EVT_BUTTON, self.OnCancelBtnClick )
 		self.m_sdbSizerOK.Bind( wx.EVT_BUTTON, self.OnOKBtnClick )
 
@@ -85,12 +86,48 @@ class frmregression_linear ( gui.Frame ):
 		pass
 
 
-	
-	def chkStacked_OnCheckBox( self, event ):
-		event.Skip()
 
 	def OnCancelBtnClick( self, event ):
+		self.Close()
 		event.Skip()
+
+	
+
+	def PrintValues(self, Vals:list, WS:gui.Worksheet, Row:int, Col:int):
+		Coeffs=Vals[0]
+		Stats = Vals[1]
+
+
+		Headers = [ "Source", "df","SS", "MS","F-value", "p-value"]
+		for i in range(len(Headers)):
+			WS[Row, Col + i] = Headers[i]
+		
+		Row += 1
+
+		
+
+		ListVals = [
+			["Factor #1", Fact1["DF"], Fact1["SS"] , Fact1["MS"], Fact1["F"], pval[0]],
+			["Factor #2", Fact2["DF"], Fact2["SS"] , Fact2["MS"], Fact2["F"], pval[1]],
+			["Interaction", Interact["DF"], Interact["SS"] , Interact["MS"], Interact["F"], pval[2]],
+			[None],
+			["Error", Error["DF"], Error["SS"] , Error["MS"]],
+			[None],
+			["Total", Total_DF , Total_SS]]
+		
+		
+		for List in ListVals:
+			if(List[0] == None):
+				Row += 1
+				continue
+				
+			for i in range(len(List)):
+				WS[Row, Col+i] = List[i] 
+				
+			Row += 1
+		
+		return
+
 
 	def OnOKBtnClick( self, event ):
 		if(self.m_txtResponse.GetValue() == wx.EmptyString):
@@ -106,6 +143,7 @@ class frmregression_linear ( gui.Frame ):
 			return
 
 		conflevel = float(self.m_txtConfidence.GetValue())/100
+		Alpha = 1 - conflevel
 
 		if(not (0<conflevel and conflevel<1)):
 			wx.MessageBox("Confidence level must be in range (0, 100)")
@@ -113,17 +151,40 @@ class frmregression_linear ( gui.Frame ):
 		
 		Response = gui.Range(self.m_txtResponse.GetValue()).tolist()
 		FactorsRng = gui.Range(self.m_txtFactors.GetValue())
+
+		NFactors = FactorsRng.ncols()
+		Factors = []
+
+		if(NFactors == 1):
+			Factors = FactorsRng.tolist()
+		else:
+			for i in range(NFactors):
+				Rng = FactorsRng.subrange(row=0, col=i, nrows=-1, ncols= 1)
+				Factors.append(Rng.tolist())
 		
-		pvalue, Dict = None, None
+		ZeroIntercept:bool = self.m_chkZeroIntercept.GetValue()
+
+		Coeffs, StatSummary = None, None
+		Regression = None
 		try:
-			pvalue, Dict = stat.aov2(y=Response, x1 = Fact1, x2= Fact2)
+			Regression = stat.linregress(Response, Factors, ZeroIntercept, Alpha)
+			Coeffs = Regression.compute()
+
+			if(self.m_chkStats.GetValue()):
+				StatSummary = Regression.summary()
 		except Exception as e:
 			wx.MessageBox(str(e))
 			return
 		
 		WS, Row, Col = self.m_pnlOutput.Get()
 		
-		self.PrintValues([pvalue, Dict], WS, Row, Col)
+		#if no stats required just print the equation
+		if(self.m_chkStats.GetValue()):
+			WS[Row, Col] = str(Regression)
+			return
+		
+		#detailed stats required
+		self.PrintValues([Coeffs, StatSummary], WS, Row, Col)
 		event.Skip()
 
 
