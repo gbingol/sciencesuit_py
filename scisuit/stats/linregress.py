@@ -124,21 +124,20 @@ class simple_linregress:
 
 
 
-	def compute(self):
+	def compute(self)->list:
 		"""
-		returns slope, [intercept] and must be called before summary()
+		returns a list containing 
+		slope, [intercept] and must be called before summary()
 		"""
 		self.m_coeffs=None
 		if(self.m_intercept):
 			Polynom=scr.polyfit(self.m_factor, self.m_yobs, 1)  # an*x^n+...+a0
 			self.m_coeffs = Polynom.coeffs()
-
-			return self.m_coeffs[0], self.m_coeffs[1]
 		else:
 			self.m_coeffs = scr.Vector(2,0)
 			self.m_coeffs[0] = FitZeroIntercept(self.m_yobs, self.m_factor)
 		
-		return self.m_coeffs[0]
+		return self.m_coeffs.tolist()
 
       
 
@@ -292,7 +291,7 @@ class multiple_linregress:
 
 
 
-	def compute(self):
+	def compute(self)->list:
 		self.m_modifiedMatrix = self.m_factor.copy()
 
 		ones = scr.Vector(self.m_factor.nrows()*[1])
