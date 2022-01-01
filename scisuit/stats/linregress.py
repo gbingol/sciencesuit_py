@@ -22,9 +22,12 @@ def FitZeroIntercept(yobs, factor):
 	"""
 	sum_x2=0
 	sum_xy=0
+
+	if(len(yobs)!=len(factor)):
+		raise RuntimeError("yobs and factor have different lengths")
 	
-	for i in yobs:
-		sum_x2 += factor[i]**2
+	for i in range(len(yobs)):
+		sum_x2 += factor[i]**2.0
 		sum_xy += factor[i]*yobs[i]
 		
 	return sum_xy/sum_x2
@@ -139,10 +142,13 @@ class simple_linregress:
 		
 		return self.m_coeffs.tolist()
 
-      
 
-      
+
+
 	def __str__(self) -> str:
+		if(len(self.m_coeffs) == 0):
+			raise RuntimeError("compute must be called first")
+
 		retStr=""
 		if(self.m_intercept):
 			retStr += str(self.m_coeffs[0])+"*x + " + str(self.m_coeffs[1])
@@ -150,7 +156,7 @@ class simple_linregress:
 			retStr += str(self.m_coeffs[0])+"*x" 
 		
 		return retStr
-      
+
 
 
 
@@ -158,7 +164,7 @@ class simple_linregress:
 		if(len(self.m_coeffs) == 0):
 			raise RuntimeError("compute must be called first")
 		
-		N=len(self.m_yobs)
+		N = len(self.m_yobs)
 
 		if(N < 2):
 			raise ValueError("At least 3 entries must be provided")
