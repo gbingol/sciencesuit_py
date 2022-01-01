@@ -293,15 +293,16 @@ class multiple_linregress:
 			raise TypeError("factor must be of type Matrix")
 		
 		if(factor.nrows() != len(yobs)):
-				raise ValueError("Number of rows of matrix must be equal to the dimension of the Vector.")
+			raise ValueError("Number of rows of matrix must be equal to the dimension of the Vector.")
 
 
 
 	def compute(self)->list:
 		self.m_modifiedMatrix = self.m_factor.copy()
 
-		ones = scr.Vector(self.m_factor.nrows()*[1])
-		self.m_modifiedMatrix.insert(ones, pos=0, axis=1)
+		if(self.m_intercept):
+			ones = scr.Vector(self.m_factor.nrows()*[1])
+			self.m_modifiedMatrix.insert(ones, pos=0, axis=1)
 
 		self.m_coeffs = scr.solve(a=self.m_modifiedMatrix, b=self.m_yobs)
 
@@ -312,6 +313,9 @@ class multiple_linregress:
 		"""
 		returns as a0 + a1*X1 + a2*X2 + ...
 		"""
+		if(len(self.m_coeffs) == 0):
+			raise RuntimeError("compute must be called first")
+
 		retStr=""
 		N = len(self.m_coeffs)
 		
@@ -321,10 +325,10 @@ class multiple_linregress:
 			for i in range(1, N-1):
 				retStr += str(self.m_coeffs[i]) + "*x" + str(i) + " + "
 			
-			retStr += str(self.m_coeffs[N-1]) + "*x" + str(N)
+			retStr += str(self.m_coeffs[N-1]) + "*x" + str(N-1)
 		else:
 			for i in range(0, N-1):
-				retStr += str(self.m_coeffs[i]) + "*x" +str(i) + " + "
+				retStr += str(self.m_coeffs[i]) + "*x" +str(i+1) + " + "
 			
 			retStr += str(self.m_coeffs[N-1]) + "*x" +str(N)
 		
