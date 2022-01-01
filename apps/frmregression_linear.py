@@ -97,26 +97,27 @@ class frmregression_linear ( gui.Frame ):
 		Coeffs=Vals[0]
 		Stats = Vals[1]
 
+		WS[Row, Col] = "Linear Regression Table"
+		WS[Row+1, Col] = str(round(Stats.R2, 3))
 
-		Headers = [ "Source", "df","SS", "MS","F-value", "p-value"]
+		Row += 3
+
+
+		Headers = [ "", "df","SS", "MS","F", "p-value"]
 		for i in range(len(Headers)):
 			WS[Row, Col + i] = Headers[i]
 		
 		Row += 1
 
-		
+		ANOVA = Stats.ANOVA
+		DF_Total = ANOVA["DF_Regression"] + ANOVA["DF_Residual"]
 
-		ListVals = [
-			["Factor #1", Fact1["DF"], Fact1["SS"] , Fact1["MS"], Fact1["F"], pval[0]],
-			["Factor #2", Fact2["DF"], Fact2["SS"] , Fact2["MS"], Fact2["F"], pval[1]],
-			["Interaction", Interact["DF"], Interact["SS"] , Interact["MS"], Interact["F"], pval[2]],
-			[None],
-			["Error", Error["DF"], Error["SS"] , Error["MS"]],
-			[None],
-			["Total", Total_DF , Total_SS]]
+		ANOVA_Vals = [
+			["Regression", ANOVA["DF_Regression"], ANOVA["SS_Regression"] , ANOVA["MS_Regression"], ANOVA["Fvalue"], ANOVA["pvalue"]],
+			["Residual", ANOVA["DF_Residual"], ANOVA["SS_Residual"] , ANOVA["MS_Residual"]],
+			["Total", DF_Total, ANOVA["SS_Total"]]]
 		
-		
-		for List in ListVals:
+		for List in ANOVA_Vals:
 			if(List[0] == None):
 				Row += 1
 				continue
@@ -125,6 +126,42 @@ class frmregression_linear ( gui.Frame ):
 				WS[Row, Col+i] = List[i] 
 				
 			Row += 1
+		
+		Row += 2
+
+		CoeffStat:list = Stats.coeffsta
+
+		CoeffHeaders = [ "", "Coefficient","Std Err", "T Value", "p-value", "CI"]
+		for i in range(len(CoeffHeaders)):
+			WS[Row, Col + i] = CoeffHeaders[i]
+		
+		Row += 1
+
+		j = 0
+		for i in range(len(CoeffStat)):
+			Dic = CoeffStat[i]
+
+			j = i
+			if(self.m_chkZeroIntercept.GetValue() == False):
+				j = i + 1
+
+			if(i == 0 and self.m_chkZeroIntercept.GetValue()):
+				WS[Row, Col] = "Intercept"
+			else:
+				WS[Row, Col] = "Variable " + str(j)
+			
+			WS[Row, Col + 1] = Dic["coeff"]
+			WS[Row, Col + 2] = Dic["SE"] 
+			WS[Row, Col + 3] = Dic["tvalue"]
+			WS[Row, Col + 4] = Dic["pvalue"]
+			WS[Row, Col + 5] = str(Dic["CILow"]) + ", " + str(Dic["CIHigh"])
+
+			Row += 1
+			
+
+			
+
+
 		
 		return
 
@@ -179,7 +216,7 @@ class frmregression_linear ( gui.Frame ):
 		WS, Row, Col = self.m_pnlOutput.Get()
 		
 		#if no stats required just print the equation
-		if(self.m_chkStats.GetValue()):
+		if(self.m_chkStats.GetValue() == False):
 			WS[Row, Col] = str(Regression)
 			return
 		
