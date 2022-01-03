@@ -10,6 +10,13 @@ def _GetVariable(txt):
 	txt.SetValue(str(rng))
 
 
+def OnPageChanged(self):
+	self.m_Worksheet.unbind("selecting", _GetVariable)
+		
+	self.m_Worksheet = gui.activeworksheet()
+	self.m_Worksheet.bind("selecting", _GetVariable, self.m_textCtrl)
+
+
 class _frmGridSelection (wx.Frame):
 	def __init__(self, parent):
 		wx.Frame.__init__(self, parent, style=wx.CAPTION | wx.CLOSE_BOX | wx.RESIZE_BORDER | wx.STAY_ON_TOP )
@@ -29,12 +36,20 @@ class _frmGridSelection (wx.Frame):
 
 		self.m_btnOK.Bind(wx.EVT_BUTTON, self.btnOK_OnButtonClick)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
+		
 		self.m_Worksheet = gui.activeworksheet()
 		self.m_Worksheet.bind("selecting", _GetVariable, self.m_textCtrl)
-		
+
+		self.m_Workbook = gui.Workbook()
+		self.m_Workbook.bind("pagechanged", OnPageChanged, self)
 	
+
+	
+	
+
 	def close(self):
 		self.m_Worksheet.unbind("selecting", _GetVariable)
+		self.m_Workbook.unbind("pagechanged", OnPageChanged)
 		self.Hide()
 		self.Destroy()
 		self.m_OwnerTopLevelWnd.Show()
