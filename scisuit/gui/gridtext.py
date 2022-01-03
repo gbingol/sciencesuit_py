@@ -30,14 +30,18 @@ class _frmGridSelection (wx.Frame):
 		self.m_btnOK.Bind(wx.EVT_BUTTON, self.btnOK_OnButtonClick)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.m_Worksheet = gui.activeworksheet()
-		self.m_Worksheet.bind(_GetVariable, self.m_textCtrl)
-
-
-	def OnClose(self, event): 
-		self.m_Worksheet.unbind(_GetVariable)
+		self.m_Worksheet.bind("selecting", _GetVariable, self.m_textCtrl)
+		
+	
+	def close(self):
+		self.m_Worksheet.unbind("selecting", _GetVariable)
 		self.Hide()
 		self.Destroy()
 		self.m_OwnerTopLevelWnd.Show()
+
+
+	def OnClose(self, event): 
+		self.close()
 		event.Skip()
 
 
@@ -54,10 +58,7 @@ class _frmGridSelection (wx.Frame):
 
 
 	def btnOK_OnButtonClick(self, event):
-		self.m_Worksheet.unbind(_GetVariable)
-		self.Hide()
-		self.Destroy()
-		self.m_OwnerTopLevelWnd.Show()
+		self.close()
 		self.m_OwnerTextCtrl.SetValue(self.m_textCtrl.GetValue())
 
 		event.Skip()
