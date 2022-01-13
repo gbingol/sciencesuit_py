@@ -4,4 +4,5 @@ hwnd = __plt.hwnd
 layout = __plt.layout
 
 argand = __plt.argand
+bar = __plt.bar
 scatter = __plt.scatter
