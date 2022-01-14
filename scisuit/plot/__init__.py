@@ -5,4 +5,5 @@ layout = __plt.layout
 
 argand = __plt.argand
 bar = __plt.bar
+boxplot = __plt.boxplot
 scatter = __plt.scatter
