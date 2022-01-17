@@ -9,4 +9,5 @@ boxplot = __plt.boxplot
 histogram = __plt.histogram
 pie = __plt.pie
 piepie = __plt.piepie
+qqnorm = __plt.qqnorm
 scatter = __plt.scatter
