@@ -10,4 +10,5 @@ histogram = __plt.histogram
 pie = __plt.pie
 piepie = __plt.piepie
 qqnorm = __plt.qqnorm
+qqplot = __plt.qqplot
 scatter = __plt.scatter
