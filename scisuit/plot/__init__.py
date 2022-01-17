@@ -8,4 +8,5 @@ bar = __plt.bar
 boxplot = __plt.boxplot
 histogram = __plt.histogram
 pie = __plt.pie
+piepie = __plt.piepie
 scatter = __plt.scatter
