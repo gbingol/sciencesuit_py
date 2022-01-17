@@ -7,4 +7,5 @@ argand = __plt.argand
 bar = __plt.bar
 boxplot = __plt.boxplot
 histogram = __plt.histogram
+pie = __plt.pie
 scatter = __plt.scatter
