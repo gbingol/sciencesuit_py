@@ -387,11 +387,12 @@ class frmPsychrometry ( gui.Frame ):
 
 	def btnCalc_OnButtonClick( self, event ):
 		PsyParams=dict()
+		
 		for Entry in self.m_Controls:
 			if(Entry[0] and Entry[0].GetValue()):
 				if(Entry[1].GetValue()==""): 
-					wx.MessageBox("A numeric value must be entered for " + Entry[2] + ".") 
-					break
+					wx.MessageBox("A numeric value must be entered for " + Entry[3] + ".") 
+					return
 				else:
 					PsyParams[Entry[3]] = float(Entry[1].GetValue())
 		
