@@ -1,6 +1,7 @@
+from __SCISUIT import INTEGRATE as __int
 
-from .cumtrapz import cumtrapz, cumtrapz_d
-
-from .trapz import trapz, trapz_d
-
-from .simpson import simpson
+cumtrapz = __int.cumtrapz
+cumtrapz_d = __int.cumtrapz_d
+simpson = __int.simpson
+trapz = __int.trapz
+trapz_d = __int.trapz_d
