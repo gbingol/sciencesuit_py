@@ -5,6 +5,7 @@ layout = __plt.layout
 
 argand = __plt.argand
 bar = __plt.bar
+barh = __plt.barh
 boxplot = __plt.boxplot
 histogram = __plt.histogram
 pie = __plt.pie
