@@ -1,4 +1,4 @@
-from .bisect import bisect
+from __SCISUIT import bisect
 
 from .brentq import brentq
 
