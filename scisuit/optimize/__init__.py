@@ -1,11 +1,11 @@
 from __SCISUIT import bisect
 
-from .brentq import brentq
+from __SCISUIT import brentq
 
 from .fsolve import fsolve
 
 from .muller import muller
 
-from .newton import newton
+from __SCISUIT import newton
 
 from .ridder import ridder
