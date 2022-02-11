@@ -8,4 +8,4 @@ from __SCISUIT import muller
 
 from __SCISUIT import newton
 
-from .ridder import ridder
+from __SCISUIT import ridder
