@@ -3,14 +3,12 @@ import wx
 import scisuit.gui as gui
 import scisuit.stats as stat
 
-
-
-class frmtestt_paired ( gui.Frame ):
+class frmtestt_2sample ( gui.Frame ):
 
 	def __init__( self, parent ):
-		gui.Frame.__init__ ( self, parent, title = u"Paired t-test")
-		
-		self.SetIcon(gui.makeicon("apps/images/t_testpaired.png"))
+		gui.Frame.__init__ ( self, parent, title = u"Two-sample t-test")
+
+		self.SetIcon(gui.makeicon("applications/statistics/images/t_test2sample.png"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
@@ -22,7 +20,7 @@ class frmtestt_paired ( gui.Frame ):
 		fgSizer1.SetFlexibleDirection( wx.BOTH )
 		fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.m_staticVar1Range = wx.StaticText( self, wx.ID_ANY, u"First sample range:")
+		self.m_staticVar1Range = wx.StaticText( self, wx.ID_ANY, u"Variable 1 Range:")
 		self.m_staticVar1Range.Wrap( -1 )
 
 		fgSizer1.Add( self.m_staticVar1Range, 0, wx.ALL, 5 )
@@ -30,7 +28,7 @@ class frmtestt_paired ( gui.Frame ):
 		self.m_txtVar1Range = gui.GridTextCtrl( self)
 		fgSizer1.Add( self.m_txtVar1Range, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticVar2Range = wx.StaticText( self, wx.ID_ANY, u"Second sample range:")
+		self.m_staticVar2Range = wx.StaticText( self, wx.ID_ANY, u"Variable 2 Range:")
 		self.m_staticVar2Range.Wrap( -1 )
 
 		fgSizer1.Add( self.m_staticVar2Range, 0, wx.ALL, 5 )
@@ -43,7 +41,7 @@ class frmtestt_paired ( gui.Frame ):
 
 		fgSizer1.Add( self.m_staticMeanDiff, 0, wx.ALL, 5 )
 
-		self.m_txtMeanDiff = wx.TextCtrl( self,  wx.ID_ANY, u"0.0")
+		self.m_txtMeanDiff = wx.TextCtrl( self, wx.ID_ANY, u"0.0")
 		fgSizer1.Add( self.m_txtMeanDiff, 0, wx.ALL|wx.EXPAND, 5 )
 
 		self.m_staticConfLevel = wx.StaticText( self, wx.ID_ANY, u"Confidence Level:")
@@ -59,10 +57,16 @@ class frmtestt_paired ( gui.Frame ):
 
 		fgSizer1.Add( self.m_staticAlternative, 0, wx.ALL, 5 )
 
-		m_AlterChoices = [ u"less than", u"not equal", u"greater than" ]
-		self.m_choiceAlternative = wx.Choice( self, choices = m_AlterChoices)
+		m_choiceAlternativeChoices = [ u"less than", u"not equal", u"greater than" ]
+		self.m_choiceAlternative = wx.Choice( self, choices = m_choiceAlternativeChoices)
 		self.m_choiceAlternative.SetSelection( 1 )
 		fgSizer1.Add( self.m_choiceAlternative, 0, wx.ALL, 5 )
+
+		self.m_chkSampleOneCol = wx.CheckBox( self, wx.ID_ANY, u"Sample in one column")
+		fgSizer1.Add( self.m_chkSampleOneCol, 0, wx.ALL, 5 )
+
+		self.m_chkEqualVar = wx.CheckBox( self, wx.ID_ANY, u"Assume equal variances")
+		fgSizer1.Add( self.m_chkEqualVar, 0, wx.ALL, 5 )
 
 
 		mainSizer.Add( fgSizer1, 0, wx.EXPAND, 5 )
@@ -85,44 +89,60 @@ class frmtestt_paired ( gui.Frame ):
 
 		self.Centre( wx.BOTH )
 
-	
+		
+		self.m_chkSampleOneCol.Bind( wx.EVT_CHECKBOX, self.chkSampleOneCol_OnCheckBox )
 		self.m_sdbSizerCancel.Bind( wx.EVT_BUTTON, self.OnCancelButtonClick )
 		self.m_sdbSizerOK.Bind( wx.EVT_BUTTON, self.OnOKButtonClick )
+
 
 
 	def __del__( self ):
 		pass
 
 
+	
+	def chkSampleOneCol_OnCheckBox( self, event ):
+		if(event.IsChecked() == True):
+			self.m_staticVar1Range.SetLabel("Samples range:")
+			self.m_staticVar2Range.SetLabel("Subscripts range:")
+		else:
+			self.m_staticVar1Range.SetLabel("Variable 1 Range:")
+			self.m_staticVar2Range.SetLabel("Variable 2 Range:")
+
+		event.Skip()
+
+
+	def OnCancelButtonClick( self, event ):
+		self.Close()
+		event.Skip()
+
+	
 	def PrintValues(self, Vals:list, WS:gui.Worksheet, Row:int, Col:int):
-		pval = Vals[0]
+		pval=Vals[0]
 		Dict = Vals[1]
 		Alternative = Vals[2]
 		
-		Header=["N", "Mean", "Std Dev", "SE Mean"]
-		for j in range(len(Header)):
-			WS[Row, Col + 1 + j] = Header[j] #+1 is for indentation
-			
-		Row += 1
-		
 		ListVals = [
-			["Sample 1", Dict["N"], Dict["xaver"], Dict["s1"], Dict["s1"]/Dict["N"]],
-			["Sample 2", Dict["N"], Dict["yaver"], Dict["s2"], Dict["s2"]/Dict["N"]],
-			["Difference"," ", Dict["mean"], Dict["stdev"]],
+			["Observation", Dict["n1"], Dict["n2"]],
+			["Mean", Dict["xaver"], Dict["yaver"]],
+			["Std Deviation", Dict["s1"], Dict["s2"]],
 			[None, None, None],
 			["t-critical", Dict["tcritical"], None],
 			["p-value", pval, None]]
 		
+		if(self.m_chkEqualVar.GetValue()):
+			ListVals.insert(3, ["Pooled variance", Dict["sp"], None])
 			
 		for List in ListVals:
 			if(List[0] == None):
 				Row += 1
 				continue
 				
-			for i in range(len(List)):
-				if(List[i] == None):
-					continue
-				WS[Row, Col + i] = List[i] 
+			WS[Row, Col] = List[0] 
+			WS[Row, Col+1]=List[1]
+			
+			if(List[2] != None):
+				WS[Row, Col+2] = List[2]
 			
 			Row += 1
 		
@@ -133,11 +153,8 @@ class frmtestt_paired ( gui.Frame ):
 			"(" + str(round(Dict["CI_lower"], 4)) + ", " + str(round(Dict["CI_upper"], 4)) + ")"
 		
 		return
+		
 
-
-	def OnCancelButtonClick( self, event ):
-		self.Close()
-		event.Skip()
 
 	def OnOKButtonClick( self, event ):
 		if(self.m_txtVar1Range.GetValue() == wx.EmptyString or
@@ -156,9 +173,32 @@ class frmtestt_paired ( gui.Frame ):
 		AlterOpt = ["less", "two.sided", "greater"]
 		Alternative = AlterOpt[self.m_choiceAlternative.GetSelection()]
 
-		xdata:list = gui.Range(self.m_txtVar1Range.GetValue()).tolist()
-		ydata:list = gui.Range(self.m_txtVar2Range.GetValue()).tolist()
-		
+		var1:list = gui.Range(self.m_txtVar1Range.GetValue()).tolist()
+		var2:list = gui.Range(self.m_txtVar2Range.GetValue()).tolist()
+
+		xdata, ydata = [], []
+		if(self.m_chkSampleOneCol.GetValue() == False):
+			xdata = var1
+			ydata = var2
+		else:
+			unique_subscripts = set(var2)
+			
+			if(len(unique_subscripts) > 2):
+				raise RuntimeError("More than 2 types of samples exists")
+			
+			#convert to list for [] access
+			unique_list = list(unique_subscripts)
+			
+			j = 0
+			for elem in var1:
+				subscript = var2[j]
+				if(subscript == unique_list[0]):
+					xdata.append(elem)
+				else:
+					ydata.append(elem)
+				j += 1
+			
+		EqualVariances = self.m_chkEqualVar.GetValue()
 
 		#output worksheet and top-left row and column
 		WS = None
@@ -176,7 +216,7 @@ class frmtestt_paired ( gui.Frame ):
 			pval, Dict = stat.test_t(x=xdata, 
 				y=ydata,
 				mu=MeanDiff, 
-				paired = True, 
+				varequal = EqualVariances, 
 				alternative = Alternative, 
 				conflevel = conflevel)
 				
@@ -184,14 +224,15 @@ class frmtestt_paired ( gui.Frame ):
 		except Exception as e:
 			wx.MessageBox(str(e))
 			return
-			
-				
+		
 		Vals.append(Alternative)
 		self.PrintValues(Vals, WS, row, col)
 
 		event.Skip()
+		
+		return
 
 
 if __name__ == "__main__":
-	frm = frmtestt_paired(None)
+	frm = frmtestt_2sample(None)
 	frm.Show()

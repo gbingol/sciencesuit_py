@@ -8,7 +8,7 @@ class frmtestt_1sample ( gui.Frame ):
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"1-sample t-test")
 		
-		self.SetIcon(gui.makeicon("apps/images/t_test1sample.png"))
+		self.SetIcon(gui.makeicon("applications/statistics/images/t_test1sample.png"))
 
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
 		

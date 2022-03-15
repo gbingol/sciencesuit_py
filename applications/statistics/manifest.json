@@ -1,0 +1,34 @@
+[
+	{
+		"title":"Statistics",
+		"items":[
+		{
+		"title":"Exploration", "img":"statistics/images/exploration.jpg", "items":[
+		{"title":"Descriptive Statistics", "py":"statistics/frmDescriptiveStats.py", "img":"statistics/images/descriptivestat.jpg"}]
+		},
+		
+		{"title":"Z-test", "py":"statistics/frmtest_z.py", "img":"statistics/images/test_z.png"},
+		
+		{"title":"F-test", "py":"statistics/frmtest_f.py", "img":"statistics/images/test_f.png"},
+		
+		{"title":"Sign Test", "py":"statistics/frmtest_sign.py", "img":"statistics/images/test_sign.png"},
+		
+		{
+			"title":"ttest", "img":"statistics/images/t_test.png", "items":[
+			{"title":"1 sample t-test", "py":"statistics/frmtestt_1sample.py", "img":"statistics/images/t_test1sample.png"},
+			{"title":"2 sample t-test", "py":"statistics/frmtestt_2sample.py", "img":"statistics/images/t_test2sample.png"},
+			{"title":"Paired t-test", "py":"statistics/frmtestt_paired.py", "img":"statistics/images/t_testpaired.png"}]
+		},
+		
+		{
+			"title":"ANOVA", "img":"statistics/images/anova.png", "items":[
+			{"title":"Single factor", "py":"statistics/frmanova_singlefactor.py", "img":"statistics/images/anovasinglefactor.png"},
+			{"title":"Two factor", "py":"statistics/frmanova_twofactor.py", "img":"statistics/images/anova2factor.png"}]
+		},
+		
+		{
+			"title":"Regression", "img":"statistics/images/regression.png", "items":[
+			{"title":"Linear Regression", "py":"statistics/frmregression_linear.py", "img":"statistics/images/regression.png"}]
+		}]
+	}
+]

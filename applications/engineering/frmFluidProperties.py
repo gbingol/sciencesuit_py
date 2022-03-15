@@ -699,7 +699,7 @@ class frmPropertiesofFluids ( gui.Frame ):
 		
 		self.m_Digits = None
 		
-		self.SetIcon(gui.makeicon("apps/images/fluid.bmp"))
+		self.SetIcon(gui.makeicon("applications/engineering/images/fluid.bmp"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 

@@ -4,12 +4,12 @@ import scisuit.gui as gui
 import scisuit.stats as stat
 
 
-class frmtest_f ( gui.Frame ):
+class frmtest_z ( gui.Frame ):
 
 	def __init__( self, parent ):
-		gui.Frame.__init__ ( self, parent, title = u"F Test")
+		gui.Frame.__init__ ( self, parent, title = u"Z Test")
 		
-		self.SetIcon(gui.makeicon("apps/images/test_f.png"))
+		self.SetIcon(gui.makeicon("applications/statistics/images/test_z.png"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
@@ -21,31 +21,31 @@ class frmtest_f ( gui.Frame ):
 		fgSizer1.SetFlexibleDirection( wx.BOTH )
 		fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.m_staticVar1Range = wx.StaticText( self, wx.ID_ANY, u"Sample 1:")
-		self.m_staticVar1Range.Wrap( -1 )
+		self.m_staticVarRange = wx.StaticText( self, label = u"Variable Range:")
+		self.m_staticVarRange.Wrap( -1 )
 
-		fgSizer1.Add( self.m_staticVar1Range, 0, wx.ALL, 5 )
+		fgSizer1.Add( self.m_staticVarRange, 0, wx.ALL, 5 )
 
-		self.m_txtVar1Range = gui.GridTextCtrl( self)
-		fgSizer1.Add( self.m_txtVar1Range, 0, wx.ALL|wx.EXPAND, 5 )
+		self.m_txtVarRange = gui.GridTextCtrl( self)
+		fgSizer1.Add( self.m_txtVarRange, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticVar2Range = wx.StaticText( self, wx.ID_ANY, u"Sample 2:")
-		self.m_staticVar2Range.Wrap( -1 )
+		self.m_staticTestMean = wx.StaticText( self, label = u"Test Mean:")
+		self.m_staticTestMean.Wrap( -1 )
 
-		fgSizer1.Add( self.m_staticVar2Range, 0, wx.ALL, 5 )
+		fgSizer1.Add( self.m_staticTestMean, 0, wx.ALL, 5 )
 
-		self.m_txtVar2Range = gui.GridTextCtrl( self)
-		fgSizer1.Add( self.m_txtVar2Range, 0, wx.ALL|wx.EXPAND, 5 )
+		self.m_txtTestMean = wx.TextCtrl( self)
+		fgSizer1.Add( self.m_txtTestMean, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticMeanDiff = wx.StaticText( self, wx.ID_ANY, u"Assumed ratio:")
-		self.m_staticMeanDiff.Wrap( -1 )
+		self.m_staticSigma = wx.StaticText( self, label = u"Sigma:")
+		self.m_staticSigma.Wrap( -1 )
 
-		fgSizer1.Add( self.m_staticMeanDiff, 0, wx.ALL, 5 )
+		fgSizer1.Add( self.m_staticSigma, 0, wx.ALL, 5 )
 
-		self.m_txtRatio = wx.TextCtrl( self, wx.ID_ANY, u"1.0")
-		fgSizer1.Add( self.m_txtRatio, 0, wx.ALL|wx.EXPAND, 5 )
+		self.m_txtSigma = wx.TextCtrl( self)
+		fgSizer1.Add( self.m_txtSigma, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_staticConfLevel = wx.StaticText( self, wx.ID_ANY, u"Confidence Level:")
+		self.m_staticConfLevel = wx.StaticText( self, label = u"Confidence Level:")
 		self.m_staticConfLevel.Wrap( -1 )
 
 		fgSizer1.Add( self.m_staticConfLevel, 0, wx.ALL, 5 )
@@ -88,41 +88,21 @@ class frmtest_f ( gui.Frame ):
 		self.m_sdbSizerCancel.Bind( wx.EVT_BUTTON, self.OnCancelBtnClick )
 		self.m_sdbSizerOK.Bind( wx.EVT_BUTTON, self.OnOKBtnClick )
 
-
 	def __del__( self ):
 		pass
 
-	
 	def PrintValues(self, Vals:list, WS:gui.Worksheet, Row:int, Col:int):
 		pval = Vals[0]
 		Dict = Vals[1]
 		Alternative = Vals[2]
 		
-		Header=["df", "variance"]
+		Header=["N", "Average", "stdev", "SE Mean", "z", "p-value"]
+		Vals =[Dict["N"], Dict["mean"], Dict["stdev"], Dict["SE"], Dict["zcritical"], pval] 
 		for j in range(len(Header)):
-			WS[Row, Col + 1 + j] = Header[j] #+1 is for indentation
+			WS[Row, Col + j] = Header[j] 
+			WS[Row + 1, Col + j] = Vals[j]
 			
-		Row += 1
-		
-		ListVals = [
-			["Sample 1", Dict["df1"], Dict["var1"]],
-			["Sample 2", Dict["df2"], Dict["var2"]],
-			[None, None, None],
-			["F-critical", Dict["Fcritical"], None],
-			["p-value", pval, None]]
-		
-			
-		for List in ListVals:
-			if(List[0] == None):
-				Row += 1
-				continue
-				
-			for i in range(len(List)):
-				if(List[i] == None):
-					continue
-				WS[Row, Col + i] = List[i] 
-			
-			Row += 1
+		Row += 2
 		
 
 		WS[Row + 1, Col] = self.m_txtConfLevel.GetValue() + \
@@ -132,6 +112,25 @@ class frmtest_f ( gui.Frame ):
 		
 		return
 
+	
+	def CheckInput(self):
+		if(self.m_txtVarRange.GetValue() == wx.EmptyString):
+			wx.MessageBox("Variable range cannot be blank.")
+			return
+		
+		
+		if(self.m_txtTestMean.GetValue() == wx.EmptyString):
+			wx.MessageBox("A value must be entered for the test mean.")
+			return
+		
+		if(self.m_txtSigma.GetValue() == wx.EmptyString):
+			wx.MessageBox("A value must be entered for sigma.")
+			return
+
+		if(self.m_txtConfLevel.GetValue() == wx.EmptyString):
+			wx.MessageBox("A value must be entered for the confidence level.")
+			return
+
 
 	
 	def OnCancelBtnClick( self, event ):
@@ -140,46 +139,25 @@ class frmtest_f ( gui.Frame ):
 
 
 	def OnOKBtnClick( self, event ):
-		if(self.m_txtVar1Range.GetValue() == wx.EmptyString or
-			self.m_txtVar2Range.GetValue() == wx.EmptyString):
-			wx.MessageBox("Both ranges must be selected (variable 1 & 2).")
-			return
-		
-		
-		if(self.m_txtRatio.GetValue() == wx.EmptyString):
-			wx.MessageBox("A value must be entered for the assumed ratio.")
-			return
-
-		if(self.m_txtConfLevel.GetValue() == wx.EmptyString):
-			wx.MessageBox("A value must be entered for the confidence level.")
-			return
+		self.CheckInput()
 		
 		conflevel=float(self.m_txtConfLevel.GetValue())/100
-		Ratio = float(self.m_txtRatio.GetValue())
+		Mu = float(self.m_txtTestMean.GetValue())
+		Sigma = float(self.m_txtSigma.GetValue()) #sd of population
 
 		AlterOpt = ["less", "two.sided", "greater"]
 		Alternative = AlterOpt[self.m_choiceAlternative.GetSelection()]
 
-		xdata:list = gui.Range(self.m_txtVar1Range.GetValue()).tolist()
-		ydata:list = gui.Range(self.m_txtVar2Range.GetValue()).tolist()
+		xdata:list = gui.Range(self.m_txtVarRange.GetValue()).tolist()
 		
-
 		#output worksheet and top-left row and column
-		WS = None
-		row, col = 0, 0
-		
-		if(self.m_pnlOutput.IsNewWorksheet()):
-			WS = gui.Worksheet()
-		else:
-			SelRange = self.m_pnlOutput.GetSelRange()
-			WS = SelRange.parent()
-			row, col = SelRange.coords()[0] #[0]:top-left
+		WS, row, col = self.m_pnlOutput.Get()
 		
 		Vals=[]
 		try:
-			pval, Dict = stat.test_f(x=xdata, 
-				y=ydata,
-				ratio = Ratio,
+			pval, Dict = stat.test_z(x=xdata, 
+				mu = Mu,
+				sd = Sigma,
 				alternative = Alternative, 
 				conflevel = conflevel)
 				
@@ -194,5 +172,7 @@ class frmtest_f ( gui.Frame ):
 
 
 if __name__ == "__main__":
-	frm = frmtest_f(None)
+	frm = frmtest_z(None)
 	frm.Show()
+
+

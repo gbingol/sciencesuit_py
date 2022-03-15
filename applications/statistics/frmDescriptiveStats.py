@@ -61,7 +61,7 @@ class frmDescriptiveStats ( gui.Frame ):
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"Descriptive Statistics", )
 		
-		self.SetIcon(gui.makeicon(path="apps/images/descriptivestat.jpg"))
+		self.SetIcon(gui.makeicon(path="applications/statistics/images/descriptivestat.jpg"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 255, 192, 130 ) )

@@ -1,0 +1,10 @@
+[
+	{	
+		"title":"Process Engineering",
+		"items":[
+		{"title":"Psychrometry", "py":"engineering/frmPsychrometry.py", "img":"engineering/images/psychrometry.bmp"},
+		{"title":"Food Database", "py":"engineering/frmFoodDatabase.py", "img":"engineering/images/fooddatabase.jpg"},
+		{"title":"Thermal Processing", "py":"engineering/frmFoodThermalProc.py", "img":"engineering/images/thermalprocessing.jpg"},
+		{"title":"Properties of Fluids", "py":"engineering/frmFluidProperties.py", "img":"engineering/images/fluid.bmp"}]
+	}
+]

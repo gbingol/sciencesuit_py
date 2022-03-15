@@ -25,7 +25,7 @@ class frmFoodThermalProc ( gui.Frame ):
 		
 		self.SetBackgroundColour( wx.Colour( 255, 199, 142 ) )
 		
-		self.SetIcon(gui.makeicon("apps/images/thermalprocessing.jpg"))
+		self.SetIcon(gui.makeicon("applications/engineering/images/thermalprocessing.jpg"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 

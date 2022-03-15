@@ -5,7 +5,11 @@ import wx
 import scisuit.proceng as eng
 import scisuit.gui as gui
 
+import os
+
 #app=wx.App()
+
+
 
 class frmPsychrometry ( gui.Frame ):
 
@@ -22,7 +26,9 @@ class frmPsychrometry ( gui.Frame ):
 
 		self.m_Digits=2
 
-		self.SetIcon(gui.makeicon("apps/images/psychrometry.bmp"))
+		self.SetIcon(gui.makeicon("applications/engineering/images/psychrometry.bmp"))
+		
+		
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 0, 242, 242 ) )

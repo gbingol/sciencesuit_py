@@ -9,7 +9,7 @@ class frmregression_linear ( gui.Frame ):
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"Linear Regression")
 		
-		self.SetIcon(gui.makeicon("apps/images/regression.png"))
+		self.SetIcon(gui.makeicon("applications/statistics/images/regression.png"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 208, 232, 232 ) )

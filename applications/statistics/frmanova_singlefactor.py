@@ -10,7 +10,7 @@ class frmanova_singlefactor ( gui.Frame ):
 		gui.Frame.__init__ ( self, parent, title = u"One-Way ANOVA")
 		
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
-		self.SetIcon(gui.makeicon("apps/images/anovasinglefactor.png"))
+		self.SetIcon(gui.makeicon("applications/statistics/images/anovasinglefactor.png"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 

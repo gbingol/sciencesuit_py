@@ -9,7 +9,7 @@ class frmtest_sign ( gui.Frame ):
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"Sign Test")
 
-		self.SetIcon(gui.makeicon("apps/images/test_sign.png"))
+		self.SetIcon(gui.makeicon("applications/statistics/images/test_sign.png"))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
