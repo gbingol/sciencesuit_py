@@ -1,7 +1,7 @@
 import os
 import wx
 
-from scisuit.gui import exepath
+from scisuit.util import exepath
 
 def makeicon(path):
 	"""
@@ -12,15 +12,13 @@ def makeicon(path):
 	if(isinstance(path, str) == False):
 		raise TypeError("path must be of type string")
 	
-	FullPath = None
+	FullPath = path
 
 	if(os.path.relpath(path)):
 		FullPath = exepath() + path
-	else:
-		FullPath = path
 	
 	if(os.path.exists(FullPath) == False):
-		raise ValueError("Invalid path:" + path)
+		raise ValueError("Invalid path: " + path)
 
 	icon = wx.Icon()
 	image = wx.Image()

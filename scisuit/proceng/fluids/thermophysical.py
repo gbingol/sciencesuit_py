@@ -2,15 +2,14 @@ import sqlite3 as sql
 
 from scisuit.proceng.fluids.fluid import Fluid
 
-import scisuit.gui as gui
-
+import scisuit.util as util
 
 
 class ThermoPhysical(Fluid):  
 	"""
 	Thermo-physical properties (T, rho, cp, viscosity, k, Pr) of fluids
 	"""
-	s_DataBasePath = gui.exepath() + "datafiles/fluid_heat.db" 
+	s_DataBasePath = util.exepath() + "datafiles/fluid_heat.db" 
 	
 	def __init__(self, FluidName:str ) -> None:
 		"""

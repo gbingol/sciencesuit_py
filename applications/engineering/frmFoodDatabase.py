@@ -3,7 +3,7 @@ import sqlite3 as sql
 
 import scisuit.gui as gui
 import scisuit.proceng as eng
-
+import scisuit.util as util
 
 class pnlSearch ( wx.Panel ):
 
@@ -19,7 +19,7 @@ class pnlSearch ( wx.Panel ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
 		self.m_FirstLDown = True
-		self.m_Connection = sql.connect(gui.exepath() + "datafiles/USDANALSR28.db")
+		self.m_Connection = sql.connect(util.exepath() + "datafiles/USDANALSR28.db")
 		self.m_Food = None
 
 		sizerSearch = wx.BoxSizer( wx.VERTICAL )

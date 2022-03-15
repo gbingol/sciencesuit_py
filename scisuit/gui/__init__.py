@@ -5,7 +5,6 @@ Worksheet = __gui.Worksheet
 Workbook = __gui.Workbook
 
 activeworksheet = __gui.activeworksheet
-exepath = __gui.exepath
 
 from .Frame import Frame
 from .gridtext import GridTextCtrl

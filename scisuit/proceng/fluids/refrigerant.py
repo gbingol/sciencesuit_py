@@ -2,8 +2,7 @@ import sqlite3 as sql
 
 from scisuit.proceng.fluids.fluid import Fluid
 
-import scisuit.gui as gui
-
+import scisuit.util as util
 
 
 
@@ -11,7 +10,7 @@ class Refrigerant(Fluid):
 	"""
 	Base class for thermodynamic properties of refrigerants
 	"""
-	s_DataBasePath = gui.exepath() + "/datafiles/refrigerants.db"
+	s_DataBasePath = util.exepath() + "/datafiles/refrigerants.db"
 	
 	def __init__(self) -> None: 
 		super().__init__()
