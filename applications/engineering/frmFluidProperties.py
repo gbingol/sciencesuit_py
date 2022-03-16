@@ -2,7 +2,7 @@ import wx
 
 import scisuit.gui as gui
 import scisuit.proceng.fluids as fluid
-
+import scisuit.util as util
 
 
 class pnlRefrigerantSaturated ( wx.Panel ):
@@ -699,7 +699,10 @@ class frmPropertiesofFluids ( gui.Frame ):
 		
 		self.m_Digits = None
 		
-		self.SetIcon(gui.makeicon("applications/engineering/images/fluid.bmp"))
+		ParentPath = util.parent_path(__file__)
+		IconPath = ParentPath + os.sep + "images" + os.sep + "fluid.bmp"
+		
+		self.SetIcon(gui.makeicon(IconPath))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 

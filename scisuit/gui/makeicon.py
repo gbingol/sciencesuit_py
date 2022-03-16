@@ -13,9 +13,12 @@ def makeicon(path):
 		raise TypeError("path must be of type string")
 	
 	FullPath = path
+	
 
-	if(os.path.relpath(path)):
+	if(os.path.isabs(FullPath) == False):
 		FullPath = exepath() + path
+		
+	
 	
 	if(os.path.exists(FullPath) == False):
 		raise ValueError("Invalid path: " + path)

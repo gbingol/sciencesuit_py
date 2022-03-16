@@ -3,7 +3,7 @@ import wx
 import scisuit.core as scr
 import scisuit.gui as gui
 import scisuit.integrate as integ
-
+import scisuit.util as util
 
 
 def FindAvg(vec):
@@ -25,7 +25,10 @@ class frmFoodThermalProc ( gui.Frame ):
 		
 		self.SetBackgroundColour( wx.Colour( 255, 199, 142 ) )
 		
-		self.SetIcon(gui.makeicon("applications/engineering/images/thermalprocessing.jpg"))
+		ParentPath = util.parent_path(__file__)
+		IconPath = ParentPath + os.sep + "images" + os.sep + "thermalprocessing.jpg"
+		
+		self.SetIcon(gui.makeicon(IconPath))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 

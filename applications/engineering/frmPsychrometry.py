@@ -4,6 +4,7 @@ import wx
 
 import scisuit.proceng as eng
 import scisuit.gui as gui
+import scisuit.util as util
 
 import os
 
@@ -25,8 +26,11 @@ class frmPsychrometry ( gui.Frame ):
 
 
 		self.m_Digits=2
-
-		self.SetIcon(gui.makeicon("applications/engineering/images/psychrometry.bmp"))
+		
+		
+		ParentPath = util.parent_path(__file__)
+		IconPath = ParentPath + os.sep + "images" + os.sep + "psychrometry.bmp"
+		self.SetIcon(gui.makeicon(IconPath))
 		
 		
 
