@@ -1,5 +1,6 @@
 import wx
 import sqlite3 as sql
+import os
 
 import scisuit.gui as gui
 import scisuit.proceng as eng

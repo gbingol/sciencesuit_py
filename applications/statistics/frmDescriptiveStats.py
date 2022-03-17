@@ -1,11 +1,13 @@
-import wx
-
 import math
 import numbers
+import os
+import wx
+
 
 import scisuit.core as scr
 import scisuit.gui as gui
 import scisuit.stats as stat
+import scisuit.util as util
 
 
 def ArrayToList(arr)->list:
@@ -61,7 +63,9 @@ class frmDescriptiveStats ( gui.Frame ):
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"Descriptive Statistics", )
 		
-		self.SetIcon(gui.makeicon(path="applications/statistics/images/descriptivestat.jpg"))
+		ParentPath = util.parent_path(__file__)
+		IconPath = ParentPath + os.sep + "images" + os.sep + "descriptivestat.jpg"
+		self.SetIcon(gui.makeicon(IconPath))
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 255, 192, 130 ) )

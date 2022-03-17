@@ -1,14 +1,21 @@
+import os
 import wx
 
 import scisuit.gui as gui
 import scisuit.stats as stat
+import scisuit.util as util
+
 
 class frmtestt_1sample ( gui.Frame ):
 
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"1-sample t-test")
 		
-		self.SetIcon(gui.makeicon("applications/statistics/images/t_test1sample.png"))
+		
+		ParentPath = util.parent_path(__file__)
+		IconPath = ParentPath + os.sep + "images" + os.sep + "t_test1sample.png"
+		self.SetIcon(gui.makeicon(IconPath))
+		
 
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
 		

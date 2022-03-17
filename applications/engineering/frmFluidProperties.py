@@ -1,4 +1,5 @@
 import wx
+import os
 
 import scisuit.gui as gui
 import scisuit.proceng.fluids as fluid

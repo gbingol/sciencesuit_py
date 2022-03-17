@@ -1,7 +1,9 @@
+import os
 import wx
 
 import scisuit.gui as gui
 import scisuit.stats as stat
+import scisuit.util as util
 
 
 class frmtest_sign ( gui.Frame ):
@@ -9,7 +11,10 @@ class frmtest_sign ( gui.Frame ):
 	def __init__( self, parent ):
 		gui.Frame.__init__ ( self, parent, title = u"Sign Test")
 
-		self.SetIcon(gui.makeicon("applications/statistics/images/test_sign.png"))
+		ParentPath = util.parent_path(__file__)
+		IconPath = ParentPath + os.sep + "images" + os.sep + "test_sign.png"
+		self.SetIcon(gui.makeicon(IconPath))
+	
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )

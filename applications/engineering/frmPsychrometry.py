@@ -1,12 +1,13 @@
-
+import os
 import time
 import wx
+
 
 import scisuit.proceng as eng
 import scisuit.gui as gui
 import scisuit.util as util
 
-import os
+
 
 #app=wx.App()
 

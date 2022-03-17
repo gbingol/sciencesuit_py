@@ -1,4 +1,5 @@
 import wx
+import os
 
 import scisuit.core as scr
 import scisuit.gui as gui

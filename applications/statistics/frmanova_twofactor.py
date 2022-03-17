@@ -1,8 +1,9 @@
+import os
 import wx
 
 import scisuit.gui as gui
 import scisuit.stats as stat
-
+import scisuit.util as util
 
 
 class frmanova_twofactor ( gui.Frame ):
@@ -11,7 +12,10 @@ class frmanova_twofactor ( gui.Frame ):
 		gui.Frame.__init__ ( self, parent, title = u"Two-factor ANOVA")
 		
 		self.SetBackgroundColour( wx.Colour( 185, 185, 117 ) )
-		self.SetIcon(gui.makeicon("applications/statistics/images/anova2factor.png"))
+		
+		ParentPath = util.parent_path(__file__)
+		IconPath = ParentPath + os.sep + "images" + os.sep + "anova2factor.png"
+		self.SetIcon(gui.makeicon(IconPath))
 
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
