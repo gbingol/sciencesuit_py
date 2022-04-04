@@ -550,7 +550,7 @@ class Food:
 		if mdiff < 0:
 			raise ValueError("Weight can not be smaller than or equal to zero")
 
-		if math.isclose(Ta, Tb, rel_tol=1E-5):
+		if math.isclose(Ta, Tb, rel_tol=1E-5) == False:
 			raise ValueError("In subtraction Foods cannot have different temperatures.")
 
 		fA, fB=self.getIngredients(), foodB.getIngredients()
@@ -575,7 +575,7 @@ class Food:
 				diff_val=ma*v-mb*fB[k]
 				assert diff_val>=0, "Weight of " + k + " can not be smaller than zero"
 				
-				if(math.math.isclose(diff_val, 0.0, abs_tol=1E-5)):
+				if(math.isclose(diff_val, 0.0, abs_tol=1E-5)):
 					diff_val=0
 			
 			newFood[k]=diff_val
