@@ -232,8 +232,10 @@ class frmDescriptiveStats ( gui.Frame ):
 
 			func, Name = Ctrl[1], Ctrl[2]
 			NameSet.add(Name)
+			
 			#is the value already in the dictionary
 			Value = LookUpDict.get(Name)
+
 			"""
 				if value is not in the dict the function has not been called yet
 				or it has its own function to be called
@@ -245,6 +247,8 @@ class frmDescriptiveStats ( gui.Frame ):
 						LookUpDict.update(retVal)
 					elif(isinstance(retVal, numbers.Real)):
 						LookUpDict[Name]=retVal
+					elif(isinstance(retVal, tuple)):
+						LookUpDict[Name]=retVal[0]
 				except Exception as e:
 					LookUpDict[Name] = str(e)
 		
